@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konekte - KòmandeM 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0A0A1A;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:20px}
+        .card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:2.5rem;width:100%;max-width:420px;box-shadow:0 25px 80px rgba(0,0,0,0.5);color:white}
+        .icon{width:60px;height:60px;background:#FF6B35;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem}
+        h1{text-align:center;font-size:1.3rem;font-weight:800;margin-bottom:0.25rem}h1 span{color:#FF6B35}
+        .sub{text-align:center;color:#94A3B8;font-size:0.85rem;margin-bottom:1.5rem}
+        
+        .fg{margin-bottom:1rem}.fg label{display:block;font-weight:600;font-size:0.85rem;color:#E2E8F0;margin-bottom:0.4rem}
+        .inp{width:100%;padding:0.8rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:0.95rem;outline:none;font-family:inherit;color:white;box-sizing:border-box}
+        .inp:focus{border-color:#FF6B35}.inp::placeholder{color:#64748B}
+        
+        .err{background:rgba(239,68,68,0.1);color:#EF4444;padding:0.75rem;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;display:none}
+        .err.show{display:block}
+        
+        .btn{width:100%;padding:0.9rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
+        .btn:hover{background:#E55A2B}
+        
+        .links{text-align:center;margin-top:1.5rem;font-size:0.9rem;color:#94A3B8}
+        .links a{color:#FF6B35;text-decoration:none;font-weight:600}
+        .back{text-align:center;margin-top:0.75rem}
+        .back a{color:#64748B;text-decoration:none;font-size:0.85rem}
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="icon">🍔</div>
+    <h1>Kòmande<span>M</span></h1>
+    <p class="sub">Konekte nan kont ou</p>
+    
+    <div class="err" id="errBox"></div>
+    
+    <form onsubmit="return handleLogin(event)">
+        <div class="fg"><label>Imèl oswa Telefòn</label><input type="text" id="email" class="inp" placeholder="Antre imèl oswa telefòn ou" required autocomplete="off"></div>
+        <div class="fg"><label>Mòdepas</label><input type="password" id="pass" class="inp" placeholder="••••••••" required></div>
+        <button type="submit" class="btn">🔓 Konekte</button>
+    </form>
+    
+    <p class="links">Ou poko gen kont? <a href="register.html">Enskri</a></p>
+    <p class="back"><a href="index.html">← Retounen nan Akèy</a></p>
+</div>
+
+<script>
+function handleLogin(e){
+    e.preventDefault();
+    var email=document.getElementById('email').value.trim();
+    var pass=document.getElementById('pass').value;
+    var err=document.getElementById('errBox');
+    err.classList.remove('show');
+    
+    if(!email||!pass){err.textContent='Ranpli tout chan yo';err.classList.add('show');return false}
+    
+    var users=JSON.parse(localStorage.getItem('komandem-users')||'[]');
+    var user=users.find(function(u){return(u.email===email||u.telefòn===email)&&u.password===pass});
+    
+    if(!user){err.textContent='❌ Imèl oswa mòdepas pa kòrèk!';err.classList.add('show');return false}
+    
+    localStorage.setItem('komandem-kliyan-session',JSON.stringify({user:user,loginTime:new Date().toISOString()}));
+    alert('✅ Byenveni '+(user.non||'Kliyan')+'!');
+    window.location.href='index.html';
+    return false;
+}
+</script>
+</body>
+</html>

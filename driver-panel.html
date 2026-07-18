@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panèl Livrè - KòmandeM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--text-muted:#94A3B8;--success:#22C55E;--danger:#EF4444;--radius:14px;--radius-lg:24px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:var(--dark);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
+        
+        .topbar{background:var(--card);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:1rem}
+        .topbar h1{font-size:1.2rem;font-weight:800;color:white}.topbar h1 span{color:var(--brand)}
+        
+        .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:var(--radius);font-weight:600;font-size:0.85rem;cursor:pointer;border:none;font-family:inherit}
+        .btn-primary{background:var(--brand);color:white}.btn-success{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:var(--success)}
+        .btn-danger{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--danger)}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
+        .btn-sm{padding:0.35rem 0.75rem;font-size:0.8rem}
+        
+        .container{padding:1.5rem;max-width:800px;margin:0 auto}
+        
+        .status-banner{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem}
+        .pulse{width:14px;height:14px;background:var(--success);border-radius:50%;display:inline-block;animation:pulse 1.5s infinite;margin-right:0.5rem}
+        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}70%{box-shadow:0 0 0 15px rgba(34,197,94,0)}}
+        
+        .toggle-box{display:flex;align-items:center;gap:1rem;justify-content:center;margin-top:1rem}
+        .toggle{position:relative;width:52px;height:28px;display:inline-block}
+        .toggle input{opacity:0;width:0;height:0}
+        .toggle .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.1);transition:0.3s;border-radius:28px}
+        .toggle .slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:white;transition:0.3s;border-radius:50%}
+        .toggle input:checked+.slider{background:var(--success)}
+        .toggle input:checked+.slider:before{transform:translateX(24px)}
+        
+        .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1rem}
+        .card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700;color:white;display:flex;align-items:center;gap:0.5rem}
+        .card-body{padding:1.25rem}
+        
+        .map-box{height:250px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.1);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;text-align:center;margin-bottom:1rem}
+        .map-box.active{border-color:var(--success);border-style:solid}
+        .loc-dot{width:16px;height:16px;background:var(--brand);border:3px solid white;border-radius:50%;display:inline-block;animation:pulse 2s infinite;margin-bottom:0.5rem}
+        
+        .loc-info{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem}
+        .loc-info div{background:rgba(255,255,255,0.02);border-radius:var(--radius);padding:0.75rem;text-align:center}
+        .loc-info div strong{display:block;color:white;font-size:1.1rem}
+        .loc-info div small{color:var(--text-muted);font-size:0.75rem}
+        
+        .order-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:1rem;margin-bottom:0.75rem}
+        .order-item h4{color:white;margin-bottom:0.25rem}
+        .order-item p{color:var(--text-muted);font-size:0.85rem;margin-bottom:0.25rem}
+        .order-item .actions{margin-top:0.75rem;display:flex;gap:0.5rem}
+        
+        .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
+        .badge-brand{background:rgba(255,107,53,0.1);color:var(--brand)}
+        .badge-success{background:rgba(34,197,94,0.1);color:var(--success)}
+        
+        .empty{text-align:center;padding:3rem;color:var(--text-muted)}
+        .empty i{font-size:3rem;display:block;margin-bottom:1rem;opacity:0.3}
+        
+        @media(max-width:600px){.container{padding:1rem}.topbar{padding:1rem}}
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>🏍️ <span id="dName">Livrè</span></h1>
+    <div style="display:flex;gap:0.5rem;align-items:center">
+        <span id="statusDot" style="color:var(--success)">🟢</span>
+        <span id="statusText" style="font-size:0.85rem">Disponib</span>
+        <button class="btn btn-danger btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Dekonekte</button>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="status-banner">
+        <h2 style="color:white;margin-bottom:0.5rem"><span class="pulse"></span> Estat Livrè</h2>
+        <p style="color:var(--text-muted)">Aktive w pou resevwa kòmand</p>
+        <div class="toggle-box">
+            <span style="color:var(--danger)">🛑 Offline</span>
+            <label class="toggle"><input type="checkbox" id="activeToggle" onchange="toggleActive()" checked><span class="slider"></span></label>
+            <span style="color:var(--success)">🟢 Online</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header"><i class="fas fa-map-marker-alt" style="color:var(--brand)"></i> Lokalisasyon An Tan Reyèl</div>
+        <div class="card-body">
+            <div class="map-box" id="mapBox"><div><div class="loc-dot"></div><p style="color:var(--text-muted)">Chèche pozisyon...</p></div></div>
+            <div class="loc-info" id="locInfo" style="display:none">
+                <div><small>Latitid</small><strong id="latVal">--</strong></div>
+                <div><small>Lonjitid</small><strong id="lngVal">--</strong></div>
+                <div><small>Presizyon</small><strong id="accVal">--</strong></div>
+                <div><small>Dènye Update</small><strong id="timeVal">--</strong></div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.75rem"><i class="fas fa-location-dot"></i> Aktive Lokalisasyon</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header"><i class="fas fa-box" style="color:var(--brand)"></i> Livrezon Jodi a</div>
+        <div class="card-body" id="deliveryList"><div class="empty"><i class="fas fa-inbox"></i><p>Pa gen livrezon pou kounye a</p></div></div>
+    </div>
+
+</div>
+
+<script>
+var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
+if(!session||session.expires<Date.now()||(session.user.role!=='driver'&&session.user.role!=='livrè'&&session.user.role!=='superadmin')){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
+
+var driverId=session.user.driverId||session.user.id;
+var driverName=session.user.non||'Livrè';
+document.getElementById('dName').textContent=driverName;
+
+function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
+function go(){return JSON.parse(localStorage.getItem('komandem-orders')||'[]')}
+function so(d){localStorage.setItem('komandem-orders',JSON.stringify(d))}
+function gd(){return JSON.parse(localStorage.getItem('komandem-drivers')||'[]')}
+function sd(d){localStorage.setItem('komandem-drivers',JSON.stringify(d))}
+
+function toggleActive(){
+    var isActive=document.getElementById('activeToggle').checked;
+    document.getElementById('statusDot').textContent=isActive?'🟢':'🔴';
+    document.getElementById('statusDot').style.color=isActive?'var(--success)':'var(--danger)';
+    document.getElementById('statusText').textContent=isActive?'Disponib':'Nan Repo';
+    var drivers=gd();var driver=drivers.find(function(d){return d.id===driverId});
+    if(driver){driver.estat=isActive?'disponib':'nan_repo';sd(drivers)}
+}
+
+function getLocation(){
+    if(!navigator.geolocation){alert('GPS pa sipòte');return}
+    document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--brand)">Ap chèche satelit...</p></div>';
+    navigator.geolocation.getCurrentPosition(function(pos){
+        document.getElementById('mapBox').classList.add('active');
+        document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--success);font-weight:600">✅ Pozisyon Aktive!</p><p style="color:var(--text-muted);font-size:0.8rem">W ap parèt sou kat</p></div>';
+        document.getElementById('locInfo').style.display='grid';
+        document.getElementById('latVal').textContent=pos.coords.latitude.toFixed(6);
+        document.getElementById('lngVal').textContent=pos.coords.longitude.toFixed(6);
+        document.getElementById('accVal').textContent=Math.round(pos.coords.accuracy)+'m';
+        document.getElementById('timeVal').textContent=new Date().toLocaleTimeString('ht-HT');
+        localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify({lat:pos.coords.latitude,lng:pos.coords.longitude,timestamp:new Date().toISOString(),driverId:driverId,driverName:driverName}));
+    },function(err){
+        document.getElementById('mapBox').innerHTML='<div><p style="color:var(--danger)">❌ Pa ka jwenn pozisyon</p><button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.5rem">Eseye Ankò</button></div>';
+    },{enableHighAccuracy:true,timeout:15000});
+}
+
+function loadDeliveries(){
+    var orders=go();var today=new Date().toDateString();
+    var myOrders=orders.filter(function(o){return o.livrè_id===driverId&&o.dat&&new Date(o.dat).toDateString()===today});
+    if(myOrders.length===0){myOrders=orders.filter(function(o){return(o.estat==='prè'||o.estat==='an_wout')&&!o.livrè_id})}
+    if(myOrders.length===0){document.getElementById('deliveryList').innerHTML='<div class="empty"><i class="fas fa-inbox"></i><p>Pa gen livrezon</p></div>';return}
+    document.getElementById('deliveryList').innerHTML=myOrders.map(function(o){
+        return'<div class="order-item"><h4>🚚 '+(o.id||'KMD-XXX')+'</h4><p><i class="fas fa-user"></i> Kliyan: '+(o.kliyan||'N/A')+'</p><p><i class="fas fa-phone"></i> Tel: '+(o.kliyan_tel||'N/A')+'</p><p><i class="fas fa-map-marker-alt"></i> Adrès: '+(o.adrès_livrezon?.ri||o.adrès||'Gonayiv')+'</p><p><i class="fas fa-box"></i> '+((o.atik||[]).map(function(a){return a.kantite+'x '+a.non}).join(', ')||'-')+'</p><p><i class="fas fa-money-bill"></i> Total: '+fm(o.total)+'</p><div class="actions"><button class="btn btn-success btn-sm" onclick="acceptDelivery(\''+o.id+'\')"><i class="fas fa-check"></i> Aksepte</button><button class="btn btn-outline btn-sm" onclick="markDelivered(\''+o.id+'\')"><i class="fas fa-flag-checkered"></i> Livre</button><button class="btn btn-outline btn-sm" onclick="openMap(\''+(o.adrès_livrezon?.ri||'Gonayiv')+'\')"><i class="fas fa-map"></i> Kat</button></div></div>';
+    }).join('');
+}
+
+function acceptDelivery(orderId){
+    if(confirm('Aksepte livrezon sa a?')){var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});if(idx>=0){orders[idx].estat='an_wout';orders[idx].livrè_id=driverId;orders[idx].livrè=driverName;so(orders);loadDeliveries();alert('✅ Ou aksepte kòmand #'+orderId)}}
+}
+
+function markDelivered(orderId){
+    if(confirm('Konfime kòmand sa a livre?')){var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});if(idx>=0){orders[idx].estat='livre';orders[idx].dat_livrezon=new Date().toISOString();so(orders);loadDeliveries();alert('✅ Kòmand #'+orderId+' livre!')}}
+}
+
+function openMap(address){window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(address+' Gonayiv Ayiti'),'_blank')}
+function logout(){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
+
+getLocation();loadDeliveries();setInterval(loadDeliveries,30000);
+</script>
+</body>
+</html>

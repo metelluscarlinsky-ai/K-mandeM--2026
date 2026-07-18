@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KòmandeM 2026</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0A0A1A;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:20px}
+        .card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:2rem;width:100%;max-width:420px;box-shadow:0 25px 80px rgba(0,0,0,0.5);color:white}
+        .icon{width:60px;height:60px;background:#FF6B35;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem}
+        h1{text-align:center;font-size:1.3rem;font-weight:800;margin-bottom:0.25rem}h1 span{color:#FF6B35}
+        .sub{text-align:center;color:#94A3B8;font-size:0.85rem;margin-bottom:1.5rem}
+        
+        .roles{display:flex;gap:0.5rem;margin-bottom:1.5rem}
+        .role-btn{flex:1;padding:0.5rem 0.2rem;border:2px solid rgba(255,255,255,0.1);border-radius:12px;background:transparent;cursor:pointer;font-weight:600;font-size:0.7rem;text-align:center;font-family:inherit;color:#94A3B8}
+        .role-btn i{display:block;font-size:1rem;margin-bottom:0.2rem}
+        .role-btn.active{border-color:#FF6B35;background:rgba(255,107,53,0.1);color:#FF6B35}
+        
+        .fg{margin-bottom:1rem}.fg label{display:block;font-weight:600;font-size:0.85rem;color:#E2E8F0;margin-bottom:0.4rem}
+        .inp{width:100%;padding:0.8rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:0.95rem;outline:none;font-family:inherit;color:white;box-sizing:border-box}
+        .inp:focus{border-color:#FF6B35}
+        
+        .code-box{background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.15);border-radius:12px;padding:0.8rem;margin-bottom:1.5rem}
+        .code-box label{display:block;font-size:0.8rem;font-weight:700;color:#FF6B35;margin-bottom:0.5rem}
+        .code-inputs{display:flex;gap:0.4rem;justify-content:center}
+        .code-inputs input{width:40px;height:46px;text-align:center;font-size:1.2rem;font-weight:700;border:1px solid rgba(255,255,255,0.1);border-radius:10px;outline:none;background:rgba(255,255,255,0.03);color:white}
+        .code-inputs input:focus{border-color:#FF6B35}
+        
+        .err{background:rgba(239,68,68,0.1);color:#EF4444;padding:0.75rem;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;display:none}
+        .err.show{display:block}
+        
+        .btn{width:100%;padding:0.9rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
+        .btn:disabled{background:#475569}
+        .back{text-align:center;margin-top:1rem}.back a{color:#64748B;text-decoration:none;font-size:0.85rem}
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="icon">🛡️</div>
+    <h1>Kòmande<span>M</span></h1>
+    <p class="sub">Aksè Sekirize</p>
+    
+    <div class="roles">
+        <button class="role-btn active" onclick="setRole('superadmin',this)"><i class="fas fa-crown"></i>Super Admin</button>
+        <button class="role-btn" onclick="setRole('machann',this)"><i class="fas fa-store"></i>Machann</button>
+        <button class="role-btn" onclick="setRole('livrè',this)"><i class="fas fa-motorcycle"></i>Livrè</button>
+    </div>
+    
+    <div class="err" id="errBox"></div>
+    
+    <form onsubmit="return handleLogin(event)">
+        <div class="fg"><label>Imèl oswa Telefòn</label><input type="text" id="loginEmail" class="inp" placeholder="Antre imèl oswa telefòn ou" required autocomplete="off"></div>
+        <div class="fg"><label>Mòdepas</label><input type="password" id="loginPass" class="inp" placeholder="••••••••" required autocomplete="off"></div>
+        
+        <div class="code-box">
+            <label>🔐 Kòd Sekirite</label>
+            <div class="code-inputs">
+                <input type="text" id="c1" maxlength="1" oninput="document.getElementById('c2').focus()">
+                <input type="text" id="c2" maxlength="1" oninput="document.getElementById('c3').focus()">
+                <input type="text" id="c3" maxlength="1" oninput="document.getElementById('c4').focus()">
+                <input type="text" id="c4" maxlength="1" oninput="document.getElementById('c5').focus()">
+                <input type="text" id="c5" maxlength="1" oninput="document.getElementById('c6').focus()">
+                <input type="text" id="c6" maxlength="1">
+            </div>
+        </div>
+        
+        <button type="submit" class="btn" id="loginBtn">🔒 Akse Panèl</button>
+    </form>
+    <p class="back"><a href="index.html">← Retounen</a></p>
+</div>
+
+<script>
+var role='superadmin';
+
+function setRole(r,btn){
+    role=r;
+    document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+}
+
+function getCode(){
+    var c='';
+    for(var i=1;i<=6;i++)c+=document.getElementById('c'+i).value;
+    return c;
+}
+
+function handleLogin(e){
+    e.preventDefault();
+    var email=document.getElementById('loginEmail').value.trim();
+    var pass=document.getElementById('loginPass').value;
+    var code=getCode();
+    var err=document.getElementById('errBox');
+    err.classList.remove('show');
+    
+    if(!email||!pass){err.textContent='Ranpli tout chan yo';err.classList.add('show');return false}
+    if(code.length!==6){err.textContent='Antre kòd sekirite 6 chif la';err.classList.add('show');return false}
+    
+    document.getElementById('loginBtn').disabled=true;
+    document.getElementById('loginBtn').textContent='Verifikasyon...';
+    
+    setTimeout(function(){
+        var user=null;
+        
+        // Super Admin - verifye ak kòd sekirite
+        if(role==='superadmin'){
+            if(email==='metelluscarlinsky@gmail.com' && pass==='OGPLUG45' && code==='739184'){
+                user={id:'sa001',non:'Metellus Carlinsky',email:'metelluscarlinsky@gmail.com',role:'superadmin'};
+            }
+        }
+        // Admin
+        else if(role==='admin'){
+            if(email==='admin@komandem.ht' && pass==='Admin2024!@#' && code==='739184'){
+                user={id:'a001',non:'Administratè',email:'admin@komandem.ht',role:'admin'};
+            }
+        }
+        // Machann
+        else if(role==='machann'){
+            if(code!=='739184'){err.textContent='Kòd sekirite pa kòrèk!';err.classList.add('show');document.getElementById('loginBtn').disabled=false;document.getElementById('loginBtn').textContent='🔒 Akse Panèl';return}
+            var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
+            user=merchants.find(function(m){return(m.email===email||m.telefòn===email)&&m.password===pass});
+            if(user)user={id:user.id,non:user.non_biznis,role:'merchant',merchantId:user.id};
+        }
+        // Livrè
+        else if(role==='livrè'){
+            if(code!=='739184'){err.textContent='Kòd sekirite pa kòrèk!';err.classList.add('show');document.getElementById('loginBtn').disabled=false;document.getElementById('loginBtn').textContent='🔒 Akse Panèl';return}
+            var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');
+            user=drivers.find(function(d){return(d.email===email||d.telefòn===email)&&d.password===pass});
+            if(user)user={id:user.id,non:user.non,role:'driver',driverId:user.id};
+        }
+        
+        if(!user){
+            err.textContent='Imèl oswa mòdepas pa kòrèk!';
+            err.classList.add('show');
+            document.getElementById('loginBtn').disabled=false;
+            document.getElementById('loginBtn').textContent='🔒 Akse Panèl';
+            return;
+        }
+        
+        localStorage.setItem('komandem-admin-session',JSON.stringify({
+            user:user,
+            token:'adm_'+Date.now().toString(36)+'_'+Math.random().toString(36).substr(2,9),
+            expires:Date.now()+(12*60*60*1000),
+            loginTime:new Date().toISOString()
+        }));
+        
+        if(user.role==='merchant')window.location.href='merchant-panel.html';
+        else if(user.role==='driver')window.location.href='driver-panel.html';
+        else window.location.href='dashboard.html';
+    },600);
+    return false;
+}
+</script>
+</body>
+</html>
+
