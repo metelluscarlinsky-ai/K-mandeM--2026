@@ -1,66 +1,9 @@
-<!DOCTYPE html>
-<html lang="ht">
+	<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enskri - KòmandeM 2026</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0A0A1A;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:20px}
-        .card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:2rem;width:100%;max-width:480px;box-shadow:0 25px 80px rgba(0,0,0,0.5);color:white}
-        .icon{width:60px;height:60px;background:#FF6B35;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem}
-        h1{text-align:center;font-size:1.3rem;font-weight:800;margin-bottom:0.25rem}h1 span{color:#FF6B35}
-        .sub{text-align:center;color:#94A3B8;font-size:0.85rem;margin-bottom:1.5rem}
-        .row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-        .fg{margin-bottom:0.8rem}.fg label{display:block;font-weight:600;font-size:0.8rem;color:#E2E8F0;margin-bottom:0.3rem}
-        .inp{width:100%;padding:0.7rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-size:0.9rem;outline:none;font-family:inherit;color:white;box-sizing:border-box}
-        .inp:focus{border-color:#FF6B35}
-        .btn{width:100%;padding:0.85rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit;margin-top:0.5rem}
-        .back{text-align:center;margin-top:1rem}.back a{color:#64748B;text-decoration:none;font-size:0.85rem}
-    </style>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux version 5.9.14">
+<title></title>
 </head>
 <body>
-<div class="card">
-    <div class="icon">🍔</div>
-    <h1>Kòmande<span>M</span></h1>
-    <p class="sub">Kreye kont ou</p>
-    <form onsubmit="return handleRegister(event)">
-        <div class="row">
-            <div class="fg"><label>Non *</label><input type="text" id="non" class="inp" required></div>
-            <div class="fg"><label>Siyati</label><input type="text" id="siyati" class="inp"></div>
-        </div>
-        <div class="fg"><label>Imèl *</label><input type="email" id="email" class="inp" required></div>
-        <div class="fg"><label>Telefòn *</label><input type="tel" id="tel" class="inp" required></div>
-        <div class="fg"><label>Adrès</label><input type="text" id="adr" class="inp" placeholder="Ri, Katye, Gonayiv"></div>
-        <div class="row">
-            <div class="fg"><label>Mòdepas *</label><input type="password" id="pass" class="inp" required></div>
-            <div class="fg"><label>Konfime *</label><input type="password" id="pass2" class="inp" required></div>
-        </div>
-        <button type="submit" class="btn">✨ Kreye Kont</button>
-    </form>
-    <p class="sub" style="margin-top:1rem">Deja gen kont? <a href="login.html" style="color:#FF6B35;font-weight:600">Konekte</a></p>
-    <p class="back"><a href="index.html">← Retounen</a></p>
-</div>
-
-<script>
-function handleRegister(e){
-    e.preventDefault();
-    var non=document.getElementById('non').value.trim();
-    var email=document.getElementById('email').value.trim();
-    var tel=document.getElementById('tel').value.trim();
-    var pass=document.getElementById('pass').value;
-    var pass2=document.getElementById('pass2').value;
-    if(!non||!email||!tel||!pass){alert('Ranpli tout chan obligatwa');return false}
-    if(pass!==pass2){alert('Mòdepas yo pa menm!');return false}
-    if(pass.length<6){alert('Mòdepas dwe gen 6+ karaktè');return false}
-    var users=JSON.parse(localStorage.getItem('komandem-users')||'[]');
-    if(users.find(function(u){return u.email===email||u.telefòn===tel})){alert('Imèl oswa telefòn deja itilize!');return false}
-    users.push({id:'usr_'+Date.now(),non:non,siyati:document.getElementById('siyati').value.trim(),email:email,telefòn:tel,adrès:document.getElementById('adr').value.trim(),password:pass,total_kòmand:0,dat_kreye:new Date().toISOString()});
-    localStorage.setItem('komandem-users',JSON.stringify(users));
-    alert('✅ Kont kreye! Byenveni '+non+'!');
-    window.location.href='login.html';
-    return false;
-}
-</script>
 </body>
 </html>

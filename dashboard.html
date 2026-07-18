@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - KòmandeM</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0A0A1A;color:white;font-family:system-ui,sans-serif;min-height:100vh}
+        .topbar{background:#1E293B;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+        .topbar h1{font-size:1.3rem}.topbar h1 span{color:#FF6B35}
+        .btn{background:#EF4444;color:white;border:none;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:600}
+        .container{padding:2rem;text-align:center}
+        .card{background:#1E293B;border-radius:16px;padding:2rem;margin:1rem auto;max-width:500px}
+        .btn-action{background:#FF6B35;color:white;border:none;padding:0.8rem 1.5rem;border-radius:12px;font-weight:700;cursor:pointer;margin:0.5rem;width:100%;font-size:1rem}
+        .success{color:#22C55E;font-size:1.5rem}
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>⚡ Kòmande<span>M</span> Admin</h1>
+    <button class="btn" onclick="logout()">Dekonekte</button>
+</div>
+
+<div class="container">
+    <div class="card">
+        <p class="success">✅ Ou konekte!</p>
+        <p style="color:#94A3B8;margin:1rem 0">Byenveni <strong id="wname">Admin</strong></p>
+    </div>
+    
+    <div class="card">
+        <button class="btn-action" onclick="addMerchant()">🏪 Ajoute Machann</button>
+        <button class="btn-action" onclick="addProduct()">📦 Ajoute Pwodui</button>
+        <button class="btn-action" onclick="viewOrders()">🛒 Wè Kòmand</button>
+        <button class="btn-action" onclick="addDriver()">🏍️ Ajoute Livrè</button>
+        <button class="btn-action" onclick="viewNatcash()">💰 NatCash 32924776</button>
+    </div>
+</div>
+
+<script>
+var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
+if(!session||session.expires<Date.now()){
+    session={user:{id:'sa001',non:'Administratè',role:'superadmin'},token:'tok_'+Date.now(),expires:Date.now()+(12*60*60*1000)};
+    localStorage.setItem('komandem-admin-session',JSON.stringify(session));
+}
+document.getElementById('wname').textContent=session.user.non;
+
+function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
+
+function addMerchant(){
+    var nom=prompt('Non biznis:');if(!nom)return;
+    var tel=prompt('Telefòn:');if(!tel)return;
+    var mdp=prompt('Mòdepas:','machann123');
+    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
+    merchants.push({id:'mer_'+Date.now(),non_biznis:nom,telefòn:tel,email:tel,password:mdp,estat:'aktif',balans:0,tip:'restoran',tax:10});
+    localStorage.setItem('komandem-merchants',JSON.stringify(merchants));
+    alert('✅ Machann '+nom+' ajoute!\n\nKonekte ak:\nTelefòn: '+tel+'\nMòdepas: '+mdp);
+}
+
+function addProduct(){
+    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
+    if(!merchants.length){alert('Ajoute yon machann avan!');return}
+    var nom=prompt('Non pwodui:');if(!nom)return;
+    var pri=parseInt(prompt('Pri (GDS):','200'));if(!pri)return;
+    var cat=prompt('Kategori (dejene/dine/soupe/desè/bwason/glase):','dejene');
+    var mlist=merchants.map(function(m,i){return(i+1)+'. '+m.non_biznis}).join('\n');
+    var mi=parseInt(prompt('Chwazi machann:\n'+mlist,'1'))-1;
+    var m=merchants[mi]||merchants[0];
+    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
+    products.push({id:'prod_'+Date.now(),non:nom,kategori:cat||'dejene',pri:pri,machann_id:m.id,machann_non:m.non_biznis,tan_preparasyon:15,disponib:true});
+    localStorage.setItem('komandem-products',JSON.stringify(products));
+    alert('✅ Pwodui '+nom+' ajoute!');
+}
+
+function viewOrders(){
+    var orders=JSON.parse(localStorage.getItem('komandem-orders')||'[]');
+    if(!orders.length){alert('Pa gen kòmand');return}
+    var list=orders.map(function(o){return '#'+o.id+' - '+o.kliyan+' - '+fm(o.total)+' - '+o.estat}).join('\n');
+    alert('📋 Lis Kòmand:\n\n'+list);
+}
+
+function addDriver(){
+    var nom=prompt('Non livrè:');if(!nom)return;
+    var tel=prompt('Telefòn:');if(!tel)return;
+    var mdp=prompt('Mòdepas:','livrè123');
+    var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');
+    drivers.push({id:'drv_'+Date.now(),non:nom,telefòn:tel,email:tel,password:mdp,estat:'disponib',veikil:'moto'});
+    localStorage.setItem('komandem-drivers',JSON.stringify(drivers));
+    alert('✅ Livrè '+nom+' ajoute!\n\nKonekte ak:\nTelefòn: '+tel+'\nMòdepas: '+mdp);
+}
+
+function viewNatcash(){
+    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
+    var list=merchants.map(function(m){return m.non_biznis+' - '+fm(m.balans)}).join('\n');
+    var mname=prompt('💰 Retrè NatCash 32924776\n\n'+list+'\n\nNon machann pou retire:');
+    if(mname){
+        var mer=merchants.find(function(x){return x.non_biznis===mname});
+        if(mer&&mer.balans>0){
+            if(confirm('Voye '+fm(mer.balans)+' sou NatCash 32924776?')){
+                mer.balans=0;
+                localStorage.setItem('komandem-merchants',JSON.stringify(merchants));
+                alert('✅ Retrè reyisi!');
+            }
+        }else{alert('Pa gen balans')}
+    }
+}
+
+function logout(){localStorage.removeItem('komandem-admin-session');window.location.href='index.html'}
+</script>
+</body>
+</html>

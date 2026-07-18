@@ -1,139 +1,135 @@
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#FF6B35">
-    <title>KòmandeM 2026 - Manje w, pi pre w</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0A0A1A;color:white;font-family:system-ui,sans-serif;min-height:100vh}
-        
-        .header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
-        .logo{color:white;text-decoration:none;font-size:1.3rem;font-weight:800}.logo span{color:#FF6B35}
-        
-        .btn{display:inline-block;padding:0.7rem 1.5rem;border-radius:12px;font-weight:600;font-size:0.9rem;cursor:pointer;text-decoration:none;border:none;font-family:inherit}
-        .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
-        .btn-primary{background:#FF6B35;color:white}
-        
-        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem}
-        .hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:1rem}
-        .hero h1 span{color:#FF6B35}
-        .hero p{color:#94A3B8;font-size:1.1rem;margin-bottom:2rem}
-        
-        .search-box{display:flex;align-items:center;background:#1E293B;border:2px solid rgba(255,255,255,0.1);border-radius:16px;padding:0.5rem;max-width:550px;margin:0 auto}
-        .search-box i{color:#64748B;margin-left:1rem}
-        .search-box input{flex:1;padding:0.9rem 1rem;background:transparent;border:none;outline:none;color:white;font-size:1rem;font-family:inherit}
-        .search-box input::placeholder{color:#64748B}
-        .search-box button{padding:0.9rem 1.5rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:0.9rem;white-space:nowrap}
-        
-        .hint-box{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);border-radius:12px;padding:0.5rem 1rem;margin-top:0.75rem;display:inline-block}
-        .hint-box span{color:#FF6B35;font-weight:700;font-size:0.85rem}
-        
-        .stats{display:flex;justify-content:center;gap:3rem;margin-top:2.5rem;flex-wrap:wrap}
-        .stat{text-align:center}.stat .nb{font-size:1.5rem;font-weight:800}.stat .lb{font-size:0.8rem;color:#94A3B8}
-        
-        .section{padding:4rem 2rem;text-align:center}
-        .section h2{font-size:1.8rem;font-weight:800;margin-bottom:2rem}.section h2 span{color:#FF6B35}
-        
-        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
-        .feat{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:2rem;text-align:center}
-        .feat .ic{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.3rem}
-        .feat h3{color:white;margin-bottom:0.5rem}.feat p{color:#94A3B8;font-size:0.9rem}
-        
-        .cta{background:linear-gradient(135deg,#FF6B35,#E55A2B);text-align:center;padding:4rem 2rem}
-        .cta h2{color:white;font-size:2rem;font-weight:800;margin-bottom:0.5rem}
-        .cta p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;font-size:0.95rem}
-        .btn-white{background:white;color:#FF6B35}
-        
-        footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
-        
-        .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center}
-        .overlay.show{display:flex}
-        .overlay div{text-align:center;color:white}
-        .overlay .big{font-size:5rem;margin-bottom:1rem}
-        .overlay h2{color:#FF6B35;font-size:2rem;margin-bottom:1rem}
-        
-        @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 2rem}.stats{gap:1.5rem}}
-    </style>
-</head>
-<body>
+‎<!DOCTYPE html>
+‎<html lang="ht">
+‎<head>
+‎    <meta charset="UTF-8">
+‎    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎    <meta name="theme-color" content="#FF6B35">
+‎    <title>KòmandeM 2026 - Manje w, pi pre w</title>
+‎    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+‎    <style>
+‎        *{margin:0;padding:0;box-sizing:border-box}
+‎        body{background:#0A0A1A;color:white;font-family:system-ui,sans-serif;min-height:100vh}
+‎        
+‎        .header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
+‎        .logo{color:white;text-decoration:none;font-size:1.3rem;font-weight:800}.logo span{color:#FF6B35}
+‎        
+‎        .btn{display:inline-block;padding:0.7rem 1.5rem;border-radius:12px;font-weight:600;font-size:0.9rem;cursor:pointer;text-decoration:none;border:none;font-family:inherit}
+‎        .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
+‎        .btn-primary{background:#FF6B35;color:white}
+‎        
+‎        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem}
+‎        .hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:1rem}
+‎        .hero h1 span{color:#FF6B35}
+‎        .hero p{color:#94A3B8;font-size:1.1rem;margin-bottom:2rem}
+‎        
+‎        .search-box{display:flex;align-items:center;background:#1E293B;border:2px solid rgba(255,255,255,0.1);border-radius:16px;padding:0.5rem;max-width:550px;margin:0 auto}
+‎        .search-box i{color:#64748B;margin-left:1rem}
+‎        .search-box input{flex:1;padding:0.9rem 1rem;background:transparent;border:none;outline:none;color:white;font-size:1rem;font-family:inherit}
+‎        .search-box input::placeholder{color:#64748B}
+‎        .search-box button{padding:0.9rem 1.5rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:0.9rem;white-space:nowrap}
+‎        
+‎        .hint-box{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);border-radius:12px;padding:0.5rem 1rem;margin-top:0.75rem;display:inline-block}
+‎        .hint-box span{color:#FF6B35;font-weight:700;font-size:0.85rem}
+‎        
+‎        .stats{display:flex;justify-content:center;gap:3rem;margin-top:2.5rem;flex-wrap:wrap}
+‎        .stat{text-align:center}.stat .nb{font-size:1.5rem;font-weight:800}.stat .lb{font-size:0.8rem;color:#94A3B8}
+‎        
+‎        .section{padding:4rem 2rem;text-align:center}
+‎        .section h2{font-size:1.8rem;font-weight:800;margin-bottom:2rem}.section h2 span{color:#FF6B35}
+‎        
+‎        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+‎        .feat{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:2rem;text-align:center}
+‎        .feat .ic{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.3rem}
+‎        .feat h3{color:white;margin-bottom:0.5rem}.feat p{color:#94A3B8;font-size:0.9rem}
+‎        
+‎        .cta{background:linear-gradient(135deg,#FF6B35,#E55A2B);text-align:center;padding:4rem 2rem}
+‎        .cta h2{color:white;font-size:2rem;font-weight:800;margin-bottom:0.5rem}
+‎        .cta p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;font-size:0.95rem}
+‎        .btn-white{background:white;color:#FF6B35}
+‎        
+‎        footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
+‎        
+‎        .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center}
+‎        .overlay.show{display:flex}
+‎        .overlay div{text-align:center;color:white}
+‎        .overlay .big{font-size:5rem;margin-bottom:1rem}
+‎        .overlay h2{color:#FF6B35;font-size:2rem;margin-bottom:1rem}
+‎        
+‎        @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 2rem}.stats{gap:1.5rem}}
+‎    </style>
+‎</head>
+‎<body>
+‎
+‎<header class="header">
+‎    <a href="index.html" class="logo">🍔 Kòmande<span>M</span></a>
+‎    <div style="display:flex;gap:0.75rem">
+‎        <a href="login-kliyan.html" class="btn btn-outline">Konekte</a>
+‎        <a href="register.html" class="btn btn-primary">Enskri</a>
+‎    </div>
+‎</header>
+‎
+‎<section class="hero">
+‎    <div>
+‎        <h1>Manje w pi renmen,<br><span>livre nan pòt ou</span></h1>
+‎        <p>Kòmande manje pi bon restoran ak makèt Gonayiv yo</p>
+‎        
+‎        <div class="search-box">
+‎            <i class="fas fa-search"></i>
+‎            <input type="text" id="search" placeholder="Ki manje w vle jodi a?">
+‎            <button onclick="doSearch()">Chèche</button>
+‎        </div>
+‎       
+‎        
+‎        <div class="stats">
+‎            <div class="stat"><div class="nb">50+</div><div class="lb">Machann</div></div>
+‎            <div class="stat"><div class="nb">500+</div><div class="lb">Pwodui</div></div>
+‎            <div class="stat"><div class="nb">15-30</div><div class="lb">Min Livrezon</div></div>
+‎        </div>
+‎    </div>
+‎</section>
+‎
+‎<section class="section">
+‎    <h2>Poukisa <span>KòmandeM</span>?</h2>
+‎    <div class="features">
+‎        <div class="feat"><div class="ic" style="background:rgba(255,107,53,0.1);color:#FF6B35"><i class="fas fa-bolt"></i></div><h3>Livrezon Rapid</h3><p>15-30 minit</p></div>
+‎        <div class="feat"><div class="ic" style="background:rgba(34,197,94,0.1);color:#22C55E"><i class="fas fa-shield-halved"></i></div><h3>Peman Sekirize</h3><p>NatCash disponib</p></div>
+‎        <div class="feat"><div class="ic" style="background:rgba(59,130,246,0.1);color:#3B82F6"><i class="fas fa-store"></i></div><h3>Plizyè Machann</h3><p>50+ restoran</p></div>
+‎    </div>
+‎</section>
+‎
+‎<section class="cta">
+‎    <h2>Prè pou Kòmande?</h2>
+‎    <p>Kreye kont ou jodi a epi jwenn 10% rabè sou premye kòmand ou!</p>
+‎    <a href="register.html" class="btn btn-white" style="padding:1rem 2rem;font-size:1rem">✨ Kreye Kont Gratis</a>
+‎</section>
+‎
+‎<footer>
+‎    <p>&copy; 2026 KòmandeM. Tout dwa rezève.</p>
+‎</footer>
+‎
+‎<div class="overlay" id="overlay">
+‎    <div>
+‎        <div class="big">🔐</div>
+‎        <h2>Aksè Admin Detekte!</h2>
+‎        <p style="color:#94A3B8">W ap redireje sou login admin...</p>
+‎    </div>
+‎</div>
+‎
+‎<script>
+‎function doSearch(){
+‎    var q=document.getElementById('search').value.trim().toLowerCase();
+‎    if(!q)return;
+‎    if(q==='ogsun'){
+‎        document.getElementById('overlay').classList.add('show');
+‎        setTimeout(function(){window.location.href='admin-login.html'},2000);
+‎        return;
+‎    }
+‎    alert('🔍 Rezilta pou: '+q);
+‎}
+‎document.getElementById('search').addEventListener('keydown',function(e){
+‎    if(e.key==='Enter')doSearch();
+‎});
+‎</script>
+‎</body>
+‎</html>
 
-<header class="header">
-    <a href="index.html" class="logo">🍔 Kòmande<span>M</span></a>
-    <div style="display:flex;gap:0.75rem">
-        <a href="login.html" class="btn btn-outline">Konekte</a>
-        <a href="register.html" class="btn btn-primary">Enskri</a>
-    </div>
-</header>
-
-<section class="hero">
-    <div>
-        <h1>Manje w pi renmen,<br><span>livre nan pòt ou</span></h1>
-        <p>Kòmande manje pi bon restoran ak makèt Gonayiv yo</p>
-        
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="search" placeholder="Ki manje w vle jodi a?">
-            <button onclick="doSearch()">Chèche</button>
-        </div>
-        
-        
-        <div class="stats">
-            <div class="stat"><div class="nb">50+</div><div class="lb">Machann</div></div>
-            <div class="stat"><div class="nb">500+</div><div class="lb">Pwodui</div></div>
-            <div class="stat"><div class="nb">15-30</div><div class="lb">Min Livrezon</div></div>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <h2>Poukisa <span>KòmandeM</span>?</h2>
-    <div class="features">
-        <div class="feat"><div class="ic" style="background:rgba(255,107,53,0.1);color:#FF6B35"><i class="fas fa-bolt"></i></div><h3>Livrezon Rapid</h3><p>15-30 minit</p></div>
-        <div class="feat"><div class="ic" style="background:rgba(34,197,94,0.1);color:#22C55E"><i class="fas fa-shield-halved"></i></div><h3>Peman Sekirize</h3><p>NatCash disponib</p></div>
-        <div class="feat"><div class="ic" style="background:rgba(59,130,246,0.1);color:#3B82F6"><i class="fas fa-store"></i></div><h3>Plizyè Machann</h3><p>50+ restoran</p></div>
-    </div>
-</section>
-
-<section class="cta">
-    <h2>Prè pou Kòmande?</h2>
-    <p>Kreye kont ou jodi a epi jwenn 10% rabè sou premye kòmand ou!</p>
-    <a href="register.html" class="btn btn-white" style="padding:1rem 2rem;font-size:1rem">✨ Kreye Kont Gratis</a>
-</section>
-
-<footer>
-    <p>&copy; 2026 KòmandeM. Tout dwa rezève.</p>
-</footer>
-
-<div class="overlay" id="overlay">
-    <div>
-        <div class="big">🔐</div>
-        <h2>Aksè Admin Detekte!</h2>
-        <p style="color:#94A3B8">W ap redireje sou panèl admin...</p>
-    </div>
-</div>
-
-<script>
-function doSearch(){
-    var q=document.getElementById('search').value.trim().toLowerCase();
-    if(!q)return;
-    
-    if(q==='ogsun'){
-        document.getElementById('overlay').classList.add('show');
-        setTimeout(function(){
-            window.location.href='dashboard.html';
-        },2000);
-        return;
-    }
-    
-    alert('🔍 Rezilta pou: '+q);
-}
-
-document.getElementById('search').addEventListener('keydown',function(e){
-    if(e.key==='Enter')doSearch();
-});
-</script>
-</body>
-</html>
