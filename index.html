@@ -7,56 +7,40 @@
     <title>KòmandeM 2026 - Manje w, pi pre w</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--radius:14px;--radius-lg:20px}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0A0A1A;color:white;font-family:system-ui,sans-serif;min-height:100vh}
-        
-        .header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
-        .logo{color:white;text-decoration:none;font-size:1.3rem;font-weight:800}.logo span{color:#FF6B35}
-        
+        body{background:var(--dark);color:white;font-family:system-ui,sans-serif;min-height:100vh}
+        .header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+        .logo{color:white;text-decoration:none;font-size:1.3rem;font-weight:800}.logo span{color:var(--brand)}
         .btn{display:inline-block;padding:0.7rem 1.5rem;border-radius:12px;font-weight:600;font-size:0.9rem;cursor:pointer;text-decoration:none;border:none;font-family:inherit}
         .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
-        .btn-primary{background:#FF6B35;color:white}
-        
+        .btn-primary{background:var(--brand);color:white}
         .hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 2rem}
-        .hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:1rem}
-        .hero h1 span{color:#FF6B35}
-        .hero p{color:#94A3B8;font-size:1.1rem;margin-bottom:2rem}
-        
-        .search-box{display:flex;align-items:center;background:#1E293B;border:2px solid rgba(255,255,255,0.1);border-radius:16px;padding:0.5rem;max-width:550px;margin:0 auto}
+        .hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:1rem}.hero h1 span{color:var(--brand)}
+        .hero p{color:var(--muted);font-size:1.1rem;margin-bottom:2rem}
+        .search-box{display:flex;align-items:center;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:0.5rem;max-width:550px;margin:0 auto}
         .search-box i{color:#64748B;margin-left:1rem}
         .search-box input{flex:1;padding:0.9rem 1rem;background:transparent;border:none;outline:none;color:white;font-size:1rem;font-family:inherit}
-        .search-box button{padding:0.9rem 1.5rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer}
+        .search-box button{padding:0.9rem 1.5rem;background:var(--brand);color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer}
         .hint-box{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);border-radius:12px;padding:0.5rem 1rem;margin-top:0.75rem;display:inline-block}
-        .hint-box span{color:#FF6B35;font-weight:700;font-size:0.85rem}
-        
-        .section{padding:2rem}
-        .section h2{font-size:1.5rem;font-weight:800;margin-bottom:1.5rem;text-align:center}
-        .section h2 span{color:#FF6B35}
-        
+        .hint-box span{color:var(--brand);font-weight:700;font-size:0.85rem}
+        .section{padding:2rem}.section h2{font-size:1.5rem;font-weight:800;margin-bottom:1.5rem;text-align:center}.section h2 span{color:var(--brand)}
         .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
-        .product-card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s}
-        .product-card:hover{border-color:#FF6B35;transform:translateY(-3px)}
+        .product-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s}
+        .product-card:hover{border-color:var(--brand);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
         .product-img{height:160px;background:rgba(255,107,53,0.05);display:flex;align-items:center;justify-content:center;font-size:3rem}
         .product-img img{width:100%;height:100%;object-fit:cover}
-        .product-info{padding:1rem}
-        .product-info h4{font-size:0.95rem;margin-bottom:0.25rem}
-        .product-info .merchant{font-size:0.8rem;color:#94A3B8;margin-bottom:0.5rem}
-        .product-info .price{font-size:1.1rem;font-weight:700;color:#FF6B35}
-        
+        .product-info{padding:1rem}.product-info h4{font-size:0.95rem;margin-bottom:0.25rem}
+        .product-info .merchant{font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem}
+        .product-info .price{font-size:1.1rem;font-weight:700;color:var(--brand)}
         .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
-        .badge-brand{background:rgba(255,107,53,0.1);color:#FF6B35}
-        
+        .badge-brand{background:rgba(255,107,53,0.1);color:var(--brand)}
         .cta{background:linear-gradient(135deg,#FF6B35,#E55A2B);text-align:center;padding:2rem}
         .cta p{color:rgba(255,255,255,0.8);font-size:0.9rem}
-        
         footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
-        
         .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center}
-        .overlay.show{display:flex}
-        .overlay div{text-align:center;color:white}
-        .overlay .big{font-size:5rem;margin-bottom:1rem}
-        .overlay h2{color:#FF6B35;font-size:2rem;margin-bottom:1rem}
-        
+        .overlay.show{display:flex}.overlay div{text-align:center;color:white}
+        .overlay .big{font-size:5rem;margin-bottom:1rem}.overlay h2{color:var(--brand);font-size:2rem;margin-bottom:1rem}
         @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 1rem}.product-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
@@ -74,7 +58,6 @@
     <div>
         <h1>Manje w pi renmen,<br><span>livre nan pòt ou</span></h1>
         <p>Kòmande manje pi bon restoran ak makèt Gonayiv yo</p>
-        
         <div class="search-box">
             <i class="fas fa-search"></i>
             <input type="text" id="search" placeholder="Ki manje w vle jodi a?">
@@ -83,165 +66,75 @@
     </div>
 </section>
 
-<div id="menuDuJourBadge" style="display:none;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:0.5rem 1rem;margin-top:1rem;display:inline-block">
-    <span style="color:#22C55E;font-weight:700">📅 Menu du Jour disponib!</span>
-</div>
-<!-- 🔥 SEKSYON PWODUI VISIB POU TOUT MOUN -->
 <section class="section">
-    <h2>🍽️ <span>Menu Disponib</span></h2>
+    <h2>🍽️ <span>Menu du Jour</span></h2>
+    <div id="menuDuJourBadge" style="display:none;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:0.5rem 1rem;margin-bottom:1rem;text-align:center">
+        <span style="color:#22C55E;font-weight:700">📅 Menu du Jour disponib jodi a!</span>
+    </div>
     <div class="product-grid" id="productGrid"></div>
-    <p id="noProducts" style="text-align:center;color:#94A3B8;display:none">
-        Pa gen pwodui disponib pou kounye a<br>
-        <small>Machann yo ap ajoute pwodui byento</small>
-    </p>
+    <p id="noProducts" style="text-align:center;color:var(--muted);display:none">Pa gen pwodui disponib</p>
 </section>
 
-<section class="cta">
-    <p>💳 NatCash disponib | 📱 WhatsApp | 🔒 Peman sekirize</p>
-</section>
-
+<section class="cta"><p>💳 NatCash disponib | 📱 WhatsApp | 🔒 Peman sekirize</p></section>
 <footer><p>&copy; 2026 KòmandeM. Tout dwa rezève.</p></footer>
 
-<div class="overlay" id="overlay">
-    <div>
-        <div class="big">🔐</div>
-        <h2>Aksè Admin Detekte!</h2>
-        <p style="color:#94A3B8">W ap redireje sou login admin...</p>
-    </div>
-</div>
+<div class="overlay" id="overlay"><div><div class="big">🔐</div><h2>Aksè Admin Detekte!</h2><p style="color:#94A3B8">W ap redireje sou login admin...</p></div></div>
 
 <script>
-
-// ===== TOAST BÈL =====
-function showToast(msg, type) {
-    var styles = {
-        success: { bg: 'linear-gradient(135deg,#22C55E,#16A34A)', emoji: '🎉', title: 'Siksè!' },
-        error: { bg: 'linear-gradient(135deg,#EF4444,#DC2626)', emoji: '❌', title: 'Erè' },
-        warning: { bg: 'linear-gradient(135deg,#F59E0B,#D97706)', emoji: '⚠️', title: 'Atansyon' },
-        info: { bg: 'linear-gradient(135deg,#3B82F6,#2563EB)', emoji: '💡', title: 'Info' }
-    };
-    var s = styles[type] || styles.info;
-    var t = document.createElement('div');
-    t.style.cssText = 'position:fixed;top:20px;right:-400px;color:white;padding:1rem 1.25rem;border-radius:18px;font-weight:600;font-size:0.85rem;z-index:9999;box-shadow:0 15px 50px rgba(0,0,0,0.5);max-width:350px;font-family:system-ui,sans-serif;cursor:pointer;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);background:' + s.bg;
-    t.innerHTML = '<div style="display:flex;align-items:flex-start;gap:0.6rem"><div style="font-size:1.6rem;flex-shrink:0;animation:bounce 0.6s ease">' + s.emoji + '</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.85;margin-bottom:0.15rem">' + s.title + '</div><div style="font-size:0.85rem;line-height:1.3">' + msg + '</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:0.7rem;flex-shrink:0">✕</button></div><div style="height:3px;background:rgba(255,255,255,0.3);border-radius:0 0 18px 18px;margin:0.5rem -1.25rem -1rem -1.25rem;overflow:hidden"><div style="height:100%;background:rgba(255,255,255,0.6);animation:progress 4s linear"></div></div>';
-    document.body.appendChild(t);
-    setTimeout(function() { t.style.right = '20px'; }, 50);
-    setTimeout(function() { t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); }, 4000);
-    t.onclick = function(e) { if (e.target.tagName === 'BUTTON') return; t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); };
+// ============================================
+// TOAST BÈL AK ANIMASYON
+// ============================================
+function showToast(msg,type){
+    var styles={success:{bg:'linear-gradient(135deg,#22C55E,#16A34A)',emoji:'🎉',title:'Siksè!'},error:{bg:'linear-gradient(135deg,#EF4444,#DC2626)',emoji:'❌',title:'Erè'},warning:{bg:'linear-gradient(135deg,#F59E0B,#D97706)',emoji:'⚠️',title:'Atansyon'},info:{bg:'linear-gradient(135deg,#3B82F6,#2563EB)',emoji:'💡',title:'Info'}};
+    var s=styles[type]||styles.info;
+    var t=document.createElement('div');
+    t.style.cssText='position:fixed;top:20px;right:-420px;color:white;padding:1.2rem 1.5rem;border-radius:20px;font-weight:600;font-size:0.88rem;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.6);max-width:380px;font-family:system-ui;cursor:pointer;transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);background:'+s.bg;
+    t.innerHTML='<div style="display:flex;align-items:flex-start;gap:0.8rem"><div style="font-size:2rem;flex-shrink:0;animation:toastBounce 0.6s ease;line-height:1">'+s.emoji+'</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.9;margin-bottom:0.2rem">'+s.title+'</div><div style="font-size:0.85rem;line-height:1.4">'+msg+'</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:0.8rem;flex-shrink:0">✕</button></div><div style="height:4px;background:rgba(255,255,255,0.25);border-radius:0 0 20px 20px;margin:0.7rem -1.5rem -1.2rem -1.5rem;overflow:hidden"><div style="height:100%;background:rgba(255,255,255,0.7);animation:toastProgress 4s linear forwards"></div></div>';
+    document.body.appendChild(t);setTimeout(function(){t.style.right='20px'},50);
+    setTimeout(function(){t.style.right='-420px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},500)},4200);
 }
-var ts = document.createElement('style');
-ts.textContent = '@keyframes progress{from{width:100%}to{width:0%}}@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}';
-document.head.appendChild(ts);
+var ts=document.createElement('style');ts.textContent='@keyframes toastBounce{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}@keyframes toastProgress{from{width:100%}to{width:0%}}';document.head.appendChild(ts);
 
-// ===== CHAJE PWODUI / MENU DU JOUR =====
-function loadProducts() {
-    var menuDuJour = JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]');
-    var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
-    var today = new Date().toDateString();
-
-    // Filtre menu jodi a
-    var todayMenu = menuDuJour.filter(function(m) {
-        return m.dat === today && m.disponib !== false;
-    });
-
-    // Chwazi sous done: menu du jour si genyen, sinon tout pwodui
-    var available = todayMenu.length > 0 ? todayMenu : products.filter(function(p) {
-        return p.disponib !== false;
-    });
-
-    // Afiche badge si menu du jour disponib
-    var badge = document.getElementById('menuDuJourBadge');
-    if (badge) {
-        badge.style.display = todayMenu.length > 0 ? 'inline-block' : 'none';
-    }
-
-    // Mizajou tit seksyon an
-    var menuTitle = document.querySelector('.section h2 span');
-    if (menuTitle) {
-        menuTitle.textContent = todayMenu.length > 0 ? 'Menu du Jour' : 'Menu Disponib';
-    }
-
-    if (!available.length) {
-        document.getElementById('productGrid').innerHTML = '';
-        document.getElementById('noProducts').style.display = 'block';
-        return;
-    }
-
-    document.getElementById('noProducts').style.display = 'none';
-
-    document.getElementById('productGrid').innerHTML = available.map(function(p) {
-        var imgHtml = (p.imaj && p.imaj.length > 5) ? 
-            '<img src="' + p.imaj + '" alt="' + p.non + '" onerror="this.innerHTML=\'🍽️\'">' : 
-            '<div>🍽️</div>';
-
-        // Lè disponib si se menu du jour
-        var timeInfo = '';
-        if (p.heure_debut && p.heure_fin) {
-            timeInfo = '<div style="font-size:0.7rem;color:var(--muted);margin-top:0.25rem">🕐 ' + 
-                       p.heure_debut + ' - ' + p.heure_fin + '</div>';
-        }
-
-        // Kategori ak emoji
-        var catEmoji = '';
-        switch(p.kategori) {
-            case 'dejene': catEmoji = '🌅'; break;
-            case 'dine': catEmoji = '☀️'; break;
-            case 'soupe': catEmoji = '🌙'; break;
-            case 'desè': catEmoji = '🍰'; break;
-            case 'bwason': catEmoji = '🥤'; break;
-            case 'glase': catEmoji = '🍦'; break;
-            default: catEmoji = '';
-        }
-
-        return '<div class="product-card">' +
-            '<div class="product-img">' + imgHtml + '</div>' +
-            '<div class="product-info">' +
-                '<span class="badge badge-brand">' + catEmoji + ' ' + (p.kategori || '') + '</span>' +
-                '<h4>' + p.non + '</h4>' +
-                '<div class="merchant">🏪 ' + (p.machann_non || p.machann || 'Machann') + '</div>' +
-                '<div class="price">' + (p.pri || 0).toLocaleString('ht-HT') + ' GDS</div>' +
-                timeInfo +
-                '<div style="margin-top:0.5rem">' +
-                    '<a href="login-kliyan.html" class="btn btn-primary btn-sm" style="font-size:0.75rem">🛒 Kòmande</a>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
+// ============================================
+// CHAJE PWODUI / MENU DU JOUR
+// ============================================
+function loadProducts(){
+    var menuDuJour=JSON.parse(localStorage.getItem('komandem-menu-du-jour')||'[]');
+    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
+    var today=new Date().toDateString();
+    var todayMenu=menuDuJour.filter(function(m){return m.dat===today&&m.disponib!==false});
+    var available=todayMenu.length>0?todayMenu:products.filter(function(p){return p.disponib!==false});
+    var badge=document.getElementById('menuDuJourBadge');
+    if(badge)badge.style.display=todayMenu.length>0?'block':'none';
+    var menuTitle=document.querySelector('.section h2 span');
+    if(menuTitle)menuTitle.textContent=todayMenu.length>0?'Menu du Jour':'Menu Disponib';
+    if(!available.length){document.getElementById('productGrid').innerHTML='';document.getElementById('noProducts').style.display='block';return}
+    document.getElementById('noProducts').style.display='none';
+    document.getElementById('productGrid').innerHTML=available.map(function(p){
+        var imgHtml=(p.imaj&&p.imaj.length>5)?'<img src="'+p.imaj+'" alt="'+p.non+'" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div style=font-size:3rem>🍽️</div>\'" style="width:100%;height:100%;object-fit:cover">':'<div style="font-size:3rem">🍽️</div>';
+        var timeInfo='';
+        if(p.heure_debut&&p.heure_fin)timeInfo='<div style="font-size:0.7rem;color:#94A3B8;margin-top:0.3rem">🕐 '+p.heure_debut+' - '+p.heure_fin+'</div>';
+        var catEmoji='';
+        switch(p.kategori){case'dejene':catEmoji='🌅';break;case'dine':catEmoji='☀️';break;case'soupe':catEmoji='🌙';break;case'desè':catEmoji='🍰';break;case'bwason':catEmoji='🥤';break;case'glase':catEmoji='🍦';break;default:catEmoji='📦'}
+        var discountBadge='';
+        if(p.pri_originèl&&p.pri_originèl>p.pri){var pct=Math.round((1-p.pri/p.pri_originèl)*100);discountBadge='<span class="badge" style="background:rgba(239,68,68,0.1);color:#EF4444;margin-left:0.3rem">-'+pct+'%</span>'}
+        return'<div class="product-card"><div class="product-img">'+imgHtml+'</div><div class="product-info"><span class="badge badge-brand">'+catEmoji+' '+(p.kategori||'')+'</span>'+discountBadge+'<h4>'+p.non+'</h4><div class="merchant">🏪 '+(p.machann_non||p.machann||'Machann')+'</div><div class="price">'+(p.pri||0).toLocaleString('ht-HT')+' GDS</div>'+timeInfo+(p.lyen?'<div style="margin-top:0.3rem"><a href="'+p.lyen+'" target="_blank" style="color:#FF6B35;font-size:0.7rem;text-decoration:none">🔗 Wè plis</a></div>':'')+'<div style="margin-top:0.6rem"><a href="login-kliyan.html" class="btn btn-primary btn-sm" style="font-size:0.75rem;width:100%;justify-content:center">🛒 Kòmande</a></div></div></div>';
     }).join('');
 }
 
-// ===== REDIREKSYON KÒMANDE =====
-function redirectToLogin() {
-    var s = JSON.parse(localStorage.getItem('komandem-kliyan-session') || 'null');
-    if (s && s.expires > Date.now()) {
-        window.location.href = 'kliyan-dashboard.html';
-    } else {
-        showToast('Konekte pou kòmande', 'warning');
-        setTimeout(function() { window.location.href = 'login-kliyan.html'; }, 1000);
-    }
+function doSearch(){
+    var q=document.getElementById('search').value.trim().toLowerCase();
+    if(!q)return;
+    if(q==='ogsun'){document.getElementById('overlay').classList.add('show');setTimeout(function(){window.location.href='admin-login.html'},2000);return}
+    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
+    var found=products.filter(function(p){return p.non.toLowerCase().includes(q)||(p.kategori||'').toLowerCase().includes(q)});
+    if(found.length>0)showToast(found.length+' pwodui jwenn! 🔍','info');
+    else showToast('Pa gen rezilta','warning');
 }
 
-// ===== OGSUN → ADMIN =====
-function doSearch() {
-    var q = document.getElementById('search').value.trim().toLowerCase();
-    if (!q) return;
-    if (q === 'ogsun') {
-        document.getElementById('overlay').classList.add('show');
-        setTimeout(function() { window.location.href = 'admin-login.html'; }, 2000);
-        return;
-    }
-    showToast('Rezilta pou: ' + q, 'info');
-}
-
-// ===== ENTER KEY =====
-document.getElementById('search').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') doSearch();
-});
-
-// ===== INIT =====
+document.getElementById('search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch()});
 loadProducts();
-
-// Rafrechi chak 30 segond
-setInterval(loadProducts, 30000);
+setInterval(loadProducts,30000);
 </script>
 </body>
 </html>
