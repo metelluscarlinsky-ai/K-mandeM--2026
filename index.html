@@ -17,7 +17,7 @@
         .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
         .btn-primary{background:#FF6B35;color:white}
         
-        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem}
+        .hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 2rem}
         .hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:1rem}
         .hero h1 span{color:#FF6B35}
         .hero p{color:#94A3B8;font-size:1.1rem;margin-bottom:2rem}
@@ -25,26 +25,29 @@
         .search-box{display:flex;align-items:center;background:#1E293B;border:2px solid rgba(255,255,255,0.1);border-radius:16px;padding:0.5rem;max-width:550px;margin:0 auto}
         .search-box i{color:#64748B;margin-left:1rem}
         .search-box input{flex:1;padding:0.9rem 1rem;background:transparent;border:none;outline:none;color:white;font-size:1rem;font-family:inherit}
-        .search-box input::placeholder{color:#64748B}
-        .search-box button{padding:0.9rem 1.5rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:0.9rem;white-space:nowrap}
-        
+        .search-box button{padding:0.9rem 1.5rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer}
         .hint-box{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);border-radius:12px;padding:0.5rem 1rem;margin-top:0.75rem;display:inline-block}
         .hint-box span{color:#FF6B35;font-weight:700;font-size:0.85rem}
         
-        .stats{display:flex;justify-content:center;gap:3rem;margin-top:2.5rem;flex-wrap:wrap}
-        .stat{text-align:center}.stat .nb{font-size:1.5rem;font-weight:800}.stat .lb{font-size:0.8rem;color:#94A3B8}
+        .section{padding:2rem}
+        .section h2{font-size:1.5rem;font-weight:800;margin-bottom:1.5rem;text-align:center}
+        .section h2 span{color:#FF6B35}
         
-        .section{padding:4rem 2rem;text-align:center}
-        .section h2{font-size:1.8rem;font-weight:800;margin-bottom:2rem}.section h2 span{color:#FF6B35}
-        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
-        .feat{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:2rem;text-align:center}
-        .feat .ic{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.3rem}
-        .feat h3{color:white;margin-bottom:0.5rem}.feat p{color:#94A3B8;font-size:0.9rem}
+        .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
+        .product-card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s}
+        .product-card:hover{border-color:#FF6B35;transform:translateY(-3px)}
+        .product-img{height:160px;background:rgba(255,107,53,0.05);display:flex;align-items:center;justify-content:center;font-size:3rem}
+        .product-img img{width:100%;height:100%;object-fit:cover}
+        .product-info{padding:1rem}
+        .product-info h4{font-size:0.95rem;margin-bottom:0.25rem}
+        .product-info .merchant{font-size:0.8rem;color:#94A3B8;margin-bottom:0.5rem}
+        .product-info .price{font-size:1.1rem;font-weight:700;color:#FF6B35}
         
-        .cta{background:linear-gradient(135deg,#FF6B35,#E55A2B);text-align:center;padding:4rem 2rem}
-        .cta h2{color:white;font-size:2rem;font-weight:800;margin-bottom:0.5rem}
-        .cta p{color:rgba(255,255,255,0.8);margin-bottom:1.5rem;font-size:0.95rem}
-        .btn-white{background:white;color:#FF6B35}
+        .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
+        .badge-brand{background:rgba(255,107,53,0.1);color:#FF6B35}
+        
+        .cta{background:linear-gradient(135deg,#FF6B35,#E55A2B);text-align:center;padding:2rem}
+        .cta p{color:rgba(255,255,255,0.8);font-size:0.9rem}
         
         footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
         
@@ -54,7 +57,7 @@
         .overlay .big{font-size:5rem;margin-bottom:1rem}
         .overlay h2{color:#FF6B35;font-size:2rem;margin-bottom:1rem}
         
-        @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 2rem}.stats{gap:1.5rem}}
+        @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 1rem}.product-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
@@ -77,34 +80,24 @@
             <input type="text" id="search" placeholder="Ki manje w vle jodi a?">
             <button onclick="doSearch()">Chèche</button>
         </div>
-        
-        
-        <div class="stats">
-            <div class="stat"><div class="nb">50+</div><div class="lb">Machann</div></div>
-            <div class="stat"><div class="nb">500+</div><div class="lb">Pwodui</div></div>
-            <div class="stat"><div class="nb">15-30</div><div class="lb">Min Livrezon</div></div>
-        </div>
     </div>
 </section>
 
+<!-- 🔥 SEKSYON PWODUI VISIB POU TOUT MOUN -->
 <section class="section">
-    <h2>Poukisa <span>KòmandeM</span>?</h2>
-    <div class="features">
-        <div class="feat"><div class="ic" style="background:rgba(255,107,53,0.1);color:#FF6B35"><i class="fas fa-bolt"></i></div><h3>Livrezon Rapid</h3><p>15-30 minit</p></div>
-        <div class="feat"><div class="ic" style="background:rgba(34,197,94,0.1);color:#22C55E"><i class="fas fa-shield-halved"></i></div><h3>Peman Sekirize</h3><p>NatCash disponib</p></div>
-        <div class="feat"><div class="ic" style="background:rgba(59,130,246,0.1);color:#3B82F6"><i class="fas fa-store"></i></div><h3>Plizyè Machann</h3><p>50+ restoran</p></div>
-    </div>
+    <h2>🍽️ <span>Menu Disponib</span></h2>
+    <div class="product-grid" id="productGrid"></div>
+    <p id="noProducts" style="text-align:center;color:#94A3B8;display:none">
+        Pa gen pwodui disponib pou kounye a<br>
+        <small>Machann yo ap ajoute pwodui byento</small>
+    </p>
 </section>
 
 <section class="cta">
-    <h2>Prè pou Kòmande?</h2>
-    <p>Kreye kont ou jodi a epi jwenn 10% rabè sou premye kòmand ou!</p>
-    <a href="register.html" class="btn btn-white" style="padding:1rem 2rem;font-size:1rem">✨ Kreye Kont Gratis</a>
+    <p>💳 NatCash disponib | 📱 WhatsApp | 🔒 Peman sekirize</p>
 </section>
 
-<footer>
-    <p>&copy; 2026 KòmandeM. Tout dwa rezève.</p>
-</footer>
+<footer><p>&copy; 2026 KòmandeM. Tout dwa rezève.</p></footer>
 
 <div class="overlay" id="overlay">
     <div>
@@ -115,37 +108,68 @@
 </div>
 
 <script>
-(function() {
-    var searchInput = document.getElementById('search');
-    var overlay = document.getElementById('overlay');
+// 🔥 CHAJE PWODUI SOU PAJ AKÈY
+function loadProducts(){
+    var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
+    var available = products.filter(function(p){ return p.disponib !== false; });
     
-    function goToAdmin() {
-        overlay.classList.add('show');
-        setTimeout(function() {
-            window.location.href = 'admin-login.html';
-        }, 2000);
+    if (!available.length) {
+        document.getElementById('productGrid').innerHTML = '';
+        document.getElementById('noProducts').style.display = 'block';
+        return;
     }
     
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            var q = this.value.trim().toLowerCase();
-            if (q === 'ogsun') {
-                goToAdmin();
-            } else if (q) {
-                window.location.href = 'login-kliyan.html';
-            }
-        }
-    });
+    document.getElementById('noProducts').style.display = 'none';
     
-    window.doSearch = function() {
-        var q = searchInput.value.trim().toLowerCase();
-        if (q === 'ogsun') {
-            goToAdmin();
-        } else if (q) {
-            window.location.href = 'login-kliyan.html';
-        }
-    };
-})();
+    document.getElementById('productGrid').innerHTML = available.map(function(p){
+        var imgHtml = p.imaj ? '<img src="'+p.imaj+'" alt="'+p.non+'">' : '<div>🍽️</div>';
+        var linkHtml = p.lyen ? '<a href="'+p.lyen+'" target="_blank" style="color:#FF6B35;font-size:0.75rem;text-decoration:none">🔗 Wè plis</a>' : '';
+        
+        return '<div class="product-card">' +
+            '<div class="product-img">' + imgHtml + '</div>' +
+            '<div class="product-info">' +
+                '<span class="badge badge-brand">' + (p.kategori || '') + '</span>' +
+                '<h4>' + p.non + '</h4>' +
+                '<div class="merchant">🏪 ' + (p.machann_non || 'Machann') + '</div>' +
+                '<div class="price">' + (p.pri || 0).toLocaleString('ht-HT') + ' GDS</div>' +
+                '<div style="margin-top:0.5rem;display:flex;justify-content:space-between;align-items:center">' +
+                    linkHtml +
+                    '<button class="btn btn-primary btn-sm" onclick="redirectToLogin()" style="font-size:0.75rem">🛒 Kòmande</button>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+// 🔥 REDIREJE SOU LOGIN POU KÒMANDE
+function redirectToLogin(){
+    var kliyanSession = JSON.parse(localStorage.getItem('komandem-kliyan-session') || 'null');
+    if (kliyanSession && kliyanSession.expires > Date.now()) {
+        window.location.href = 'kliyan-dashboard.html';
+    } else {
+        alert('🔐 Ou dwe konekte pou kòmande!\n\nKlike sou "Konekte" oswa "Enskri".');
+        window.location.href = 'login-kliyan.html';
+    }
+}
+
+// 🔍 OGSUN
+function doSearch(){
+    var q = document.getElementById('search').value.trim().toLowerCase();
+    if (!q) return;
+    if (q === 'ogsun') {
+        document.getElementById('overlay').classList.add('show');
+        setTimeout(function(){ window.location.href = 'admin-login.html'; }, 2000);
+        return;
+    }
+    alert('🔍 Rezilta pou: ' + q);
+}
+
+document.getElementById('search').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') doSearch();
+});
+
+// Chaje pwodui lè paj la ouvri
+loadProducts();
 </script>
 </body>
 </html>
