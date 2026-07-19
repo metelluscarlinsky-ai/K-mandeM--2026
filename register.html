@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enskri - KòmandeM</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{background:#0A0A1A;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:20px}
@@ -18,146 +16,52 @@
         .inp:focus{border-color:#FF6B35}.inp::placeholder{color:#64748B}
         .btn{width:100%;padding:0.85rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit;margin-top:0.5rem}
         .btn:hover{background:#E55A2B}
-        .err{background:rgba(239,68,68,0.1);color:#EF4444;padding:0.75rem;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;display:none}
-        .err.show{display:block}
-        .links{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:#94A3B8}
-        .links a{color:#FF6B35;text-decoration:none;font-weight:600}
+        .links{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:#94A3B8}.links a{color:#FF6B35;text-decoration:none;font-weight:600}
         .back{text-align:center;margin-top:0.5rem}.back a{color:#64748B;text-decoration:none;font-size:0.85rem}
+        .toast{position:fixed;top:20px;right:20px;z-index:9999;padding:1rem 1.5rem;border-radius:16px;font-weight:600;font-size:0.9rem;box-shadow:0 10px 40px rgba(0,0,0,0.4);animation:slideIn 0.3s ease;max-width:350px;cursor:pointer;display:flex;align-items:center;gap:0.5rem;color:white}
+        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
     </style>
 </head>
 <body>
 <div class="card">
-    <div class="icon">🍔</div>
-    <h1>Kòmande<span>M</span></h1>
-    <p class="sub">Kreye kont ou pou kòmanse kòmande</p>
-    
-    <div class="err" id="errBox"></div>
-    
+    <div class="icon">🍔</div><h1>Kòmande<span>M</span></h1><p class="sub">Kreye kont ou</p>
     <form onsubmit="return handleRegister(event)">
-        <div class="row">
-            <div class="fg"><label>Non *</label><input type="text" id="non" class="inp" placeholder="Non ou" required></div>
-            <div class="fg"><label>Siyati</label><input type="text" id="siyati" class="inp" placeholder="Siyati ou"></div>
-        </div>
+        <div class="row"><div class="fg"><label>Non *</label><input type="text" id="non" class="inp" placeholder="Non ou" required></div><div class="fg"><label>Siyati</label><input type="text" id="siyati" class="inp" placeholder="Siyati ou"></div></div>
         <div class="fg"><label>Imèl *</label><input type="email" id="email" class="inp" placeholder="ou@imel.com" required></div>
         <div class="fg"><label>Telefòn *</label><input type="tel" id="tel" class="inp" placeholder="Ex: 41234567" required></div>
         <div class="fg"><label>Adrès Livrezon</label><input type="text" id="adr" class="inp" placeholder="Ri, Katye, Gonayiv"></div>
-        <div class="row">
-            <div class="fg"><label>Mòdepas *</label><input type="password" id="pass" class="inp" placeholder="Omwen 6 karaktè" required></div>
-            <div class="fg"><label>Konfime *</label><input type="password" id="pass2" class="inp" placeholder="Konfime mòdepas" required></div>
-        </div>
+        <div class="row"><div class="fg"><label>Mòdepas *</label><input type="password" id="pass" class="inp" placeholder="Omwen 6 karaktè" required></div><div class="fg"><label>Konfime *</label><input type="password" id="pass2" class="inp" placeholder="Konfime mòdepas" required></div></div>
         <button type="submit" class="btn">✨ Kreye Kont</button>
     </form>
-    
     <p class="links">Deja gen kont? <a href="login-kliyan.html">Konekte</a></p>
-    <p class="back"><a href="index.html">← Retounen nan Akèy</a></p>
+    <p class="back"><a href="index.html">← Retounen</a></p>
 </div>
-
 <script>
-// 🔔 SISTÈM TOAST NOTIFICATION BÈL
-function showToast(message, type) {
-    // Kreye eleman toast
-    var toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    
-    // Koulè selon tip
-    var colors = {
-        success: { bg: '#22C55E', icon: '✅' },
-        error: { bg: '#EF4444', icon: '❌' },
-        warning: { bg: '#F59E0B', icon: '⚠️' },
-        info: { bg: '#3B82F6', icon: 'ℹ️' },
-        order: { bg: '#FF6B35', icon: '🛒' }
-    };
-    
-    var c = colors[type] || colors.info;
-    
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${c.bg};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 16px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        z-index: 9999;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-        animation: slideInRight 0.3s ease;
-        max-width: 350px;
-        font-family: system-ui, sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-    `;
-    
-    toast.innerHTML = c.icon + ' ' + message;
-    toast.onclick = function() { toast.remove(); };
-    
-    document.body.appendChild(toast);
-    
-    // Oto-kache apre 4 segond
-    setTimeout(function() {
-        if (toast) {
-            toast.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(function() { if (toast) toast.remove(); }, 300);
-        }
-    }, 4000);
+function showToast(msg,type){
+    var colors={success:'#22C55E',error:'#EF4444',warning:'#F59E0B',info:'#3B82F6'};
+    var icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+    var t=document.createElement('div');t.className='toast';
+    t.style.background=colors[type]||colors.info;t.innerHTML=icons[type]+' '+msg;
+    t.onclick=function(){t.remove()};document.body.appendChild(t);
+    setTimeout(function(){if(t)t.remove()},4000);
 }
-
-// Ajoute animasyon CSS
-var toastStyle = document.createElement('style');
-toastStyle.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(toastStyle);function handleRegister(e){
+function handleRegister(e){
     e.preventDefault();
     var non=document.getElementById('non').value.trim();
     var email=document.getElementById('email').value.trim();
     var tel=document.getElementById('tel').value.trim();
     var pass=document.getElementById('pass').value;
     var pass2=document.getElementById('pass2').value;
-    var err=document.getElementById('errBox');
-    err.classList.remove('show');
-    
-    if(!non||!email||!tel||!pass){err.textContent='Ranpli tout chan obligatwa yo';err.classList.add('show');return false}
-    if(pass!==pass2){err.textContent='Mòdepas yo pa menm!';err.classList.add('show');return false}
-    if(pass.length<6){err.textContent='Mòdepas dwe gen omwen 6 karaktè';err.classList.add('show');return false}
-    
+    if(!non||!email||!tel||!pass){showToast('Ranpli tout chan obligatwa','warning');return false}
+    if(pass!==pass2){showToast('Mòdepas yo pa menm','error');return false}
+    if(pass.length<6){showToast('Mòdepas dwe gen 6+ karaktè','warning');return false}
     var users=JSON.parse(localStorage.getItem('komandem-users')||'[]');
-    if(users.find(function(u){return u.email===email||u.telefòn===tel})){
-        err.textContent='Imèl oswa telefòn sa a deja itilize!';err.classList.add('show');return false;
-    }
-   
-    var user={
-        id:'usr_'+Date.now(),
-        non:non,
-        siyati:document.getElementById('siyati').value.trim(),
-        email:email,
-        telefòn:tel,
-        adrès:document.getElementById('adr').value.trim(),
-        password:pass,
-        total_kòmand:0,
-        dat_kreye:new Date().toISOString()
-    };
-    
-    users.push(user);
-    localStorage.setItem('komandem-users',JSON.stringify(users));
-    localStorage.setItem('komandem-kliyan-session',JSON.stringify({
-        user:user,
-        loginTime:new Date().toISOString(),
-        expires:Date.now()+(24*60*60*1000)
-    }));
-    
-    alert('✅ Kont kreye! Byenveni '+non+'!');
-    window.location.href='kliyan-dashboard.html';
+    if(users.find(function(u){return u.email===email||u.telefòn===tel})){showToast('Imèl oswa telefòn deja itilize','error');return false}
+    var user={id:'usr_'+Date.now(),non:non,siyati:document.getElementById('siyati').value.trim(),email:email,telefòn:tel,adrès:document.getElementById('adr').value.trim(),password:pass,total_kòmand:0,dat_kreye:new Date().toISOString()};
+    users.push(user);localStorage.setItem('komandem-users',JSON.stringify(users));
+    localStorage.setItem('komandem-kliyan-session',JSON.stringify({user:user,loginTime:new Date().toISOString(),expires:Date.now()+(24*60*60*1000)}));
+    showToast('Kont kreye! Byenveni '+non+'!','success');
+    setTimeout(function(){window.location.href='kliyan-dashboard.html'},1500);
     return false;
 }
 </script>
