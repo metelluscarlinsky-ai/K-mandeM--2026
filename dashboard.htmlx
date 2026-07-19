@@ -149,7 +149,71 @@
 </main>
 
 <script>
-var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
+// 🔔 SISTÈM TOAST NOTIFICATION BÈL
+function showToast(message, type) {
+    // Kreye eleman toast
+    var toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    
+    // Koulè selon tip
+    var colors = {
+        success: { bg: '#22C55E', icon: '✅' },
+        error: { bg: '#EF4444', icon: '❌' },
+        warning: { bg: '#F59E0B', icon: '⚠️' },
+        info: { bg: '#3B82F6', icon: 'ℹ️' },
+        order: { bg: '#FF6B35', icon: '🛒' }
+    };
+    
+    var c = colors[type] || colors.info;
+    
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${c.bg};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        z-index: 9999;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        animation: slideInRight 0.3s ease;
+        max-width: 350px;
+        font-family: system-ui, sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    `;
+    
+    toast.innerHTML = c.icon + ' ' + message;
+    toast.onclick = function() { toast.remove(); };
+    
+    document.body.appendChild(toast);
+    
+    // Oto-kache apre 4 segond
+    setTimeout(function() {
+        if (toast) {
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(function() { if (toast) toast.remove(); }, 300);
+        }
+    }, 4000);
+}
+
+// Ajoute animasyon CSS
+var toastStyle = document.createElement('style');
+toastStyle.textContent = `
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(toastStyle);var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
 if(!session||session.expires<Date.now()){localStorage.removeItem('komandem-admin-session');window.location.href='login.html'}
 document.getElementById('wname').textContent=session.user.non;
 

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panye - KòmandeM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--danger:#EF4444;--radius:14px;--radius-lg:20px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:var(--dark);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
+        .topbar{background:var(--card);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+        .topbar h1{font-size:1.2rem}.topbar h1 span{color:var(--brand)}
+        .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:var(--radius);font-weight:600;font-size:0.85rem;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s}
+        .btn-primary{background:var(--brand);color:white}.btn-primary:hover{background:#E55A2B}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
+        .btn-danger{background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.2)}
+        .btn-sm{padding:0.35rem 0.75rem;font-size:0.78rem}
+        
+        .container{max-width:800px;margin:0 auto;padding:1.5rem}
+        
+        .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1.5rem;overflow:hidden}
+        .card-header{padding:1.25rem;border-bottom:1px solid var(--border)}
+        .card-header h3{font-weight:700;font-size:1rem}
+        .card-body{padding:1.25rem}
+        
+        .cart-item{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--border)}
+        .cart-item:last-child{border-bottom:none}
+        .cart-item-info{flex:1}
+        .cart-item-info h4{font-size:0.95rem;margin-bottom:0.2rem}
+        .cart-item-info p{font-size:0.8rem;color:var(--muted)}
+        .cart-item-price{font-weight:700;font-size:1.1rem;color:var(--brand);margin:0 1rem}
+        .cart-item-qty{display:flex;align-items:center;gap:0.5rem}
+        .qty-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;color:white;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+        .qty-num{width:40px;text-align:center;font-weight:600}
+        
+        .summary{margin-top:1rem;padding-top:1rem;border-top:2px solid var(--border)}
+        .summary-row{display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.9rem;color:var(--muted)}
+        .summary-row.total{font-size:1.2rem;font-weight:700;color:white;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--border)}
+        
+        .empty-state{text-align:center;padding:3rem;color:var(--muted)}
+        .empty-state i{font-size:4rem;display:block;margin-bottom:1rem;opacity:0.3}
+        
+        .toast{position:fixed;top:20px;right:20px;z-index:9999;padding:1rem 1.5rem;border-radius:16px;font-weight:600;font-size:0.9rem;box-shadow:0 10px 40px rgba(0,0,0,0.4);animation:slideIn 0.3s ease;max-width:350px;cursor:pointer;display:flex;align-items:center;gap:0.5rem}
+        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        
+        @media(max-width:600px){.topbar{padding:1rem}.container{padding:1rem}.cart-item{flex-wrap:wrap;gap:0.5rem}}
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>🛒 <span>Panye</span> w</h1>
+    <div style="display:flex;gap:0.5rem">
+        <a href="index.html" class="btn btn-outline btn-sm">🏠 Akèy</a>
+        <a href="kliyan-dashboard.html" class="btn btn-outline btn-sm">📋 Menu</a>
+    </div>
+</div>
+
+<div class="container">
+    
+    <div class="card">
+        <div class="card-header"><h3>Atik nan panye w</h3></div>
+        <div class="card-body">
+            <div id="cartItems"></div>
+            <div id="emptyCart" class="empty-state" style="display:none">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Panye w vid</p>
+                <a href="kliyan-dashboard.html" class="btn btn-primary btn-sm" style="margin-top:1rem">Ale nan Menu</a>
+            </div>
+            
+            <div class="summary" id="cartSummary" style="display:none">
+                <div class="summary-row"><span>Sou-Total</span><span id="subtotal">0 GDS</span></div>
+                <div class="summary-row"><span>Tax (10%)</span><span id="tax">0 GDS</span></div>
+                <div class="summary-row"><span>Frè Sèvis</span><span>25 GDS</span></div>
+                <div class="summary-row"><span>Frè Livrezon</span><span>50 GDS</span></div>
+                <div class="summary-row total"><span>Total</span><span id="total">0 GDS</span></div>
+                <a href="checkout.html" class="btn btn-primary" style="width:100%;margin-top:1rem;justify-content:center">
+                    <i class="fas fa-lock"></i> Ale nan Peman
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+var cart=JSON.parse(localStorage.getItem('komandem-panye-temp')||'[]');
+
+function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
+function showToast(msg,type){
+    var colors={success:'#22C55E',error:'#EF4444',warning:'#F59E0B',info:'#3B82F6'};
+    var icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+    var t=document.createElement('div');t.className='toast';
+    t.style.background=colors[type]||colors.info;
+    t.innerHTML=icons[type]+' '+msg;
+    t.onclick=function(){t.remove()};
+    document.body.appendChild(t);
+    setTimeout(function(){if(t)t.remove()},4000);
+}
+
+function renderCart(){
+    if(!cart.length){
+        document.getElementById('cartItems').innerHTML='';
+        document.getElementById('emptyCart').style.display='block';
+        document.getElementById('cartSummary').style.display='none';
+        return;
+    }
+    document.getElementById('emptyCart').style.display='none';
+    document.getElementById('cartSummary').style.display='block';
+    
+    document.getElementById('cartItems').innerHTML=cart.map(function(item,idx){
+        return'<div class="cart-item"><div class="cart-item-info"><h4>'+item.non+'</h4><p>🏪 '+(item.machann_non||'Machann')+'</p></div><div class="cart-item-qty"><button class="qty-btn" onclick="updateQty('+idx+',-1)">-</button><span class="qty-num">'+item.kantite+'</span><button class="qty-btn" onclick="updateQty('+idx+',1)">+</button></div><div class="cart-item-price">'+fm(item.pri_total)+'</div><button class="btn btn-danger btn-sm" onclick="removeItem('+idx+')"><i class="fas fa-trash"></i></button></div>';
+    }).join('');
+    
+    var sub=cart.reduce(function(s,i){return s+i.pri_total},0);
+    var tax=Math.round(sub*0.1);
+    var total=sub+tax+25+50;
+    document.getElementById('subtotal').textContent=fm(sub);
+    document.getElementById('tax').textContent=fm(tax);
+    document.getElementById('total').textContent=fm(total);
+}
+
+function updateQty(idx,delta){
+    cart[idx].kantite+=delta;
+    if(cart[idx].kantite<1)cart[idx].kantite=1;
+    cart[idx].pri_total=cart[idx].kantite*cart[idx].pri_inite;
+    localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));
+    renderCart();
+}
+
+function removeItem(idx){
+    var name=cart[idx].non;
+    cart.splice(idx,1);
+    localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));
+    renderCart();
+    showToast(name+' retire nan panye','warning');
+}
+
+renderCart();
+</script>
+</body>
+</html>
