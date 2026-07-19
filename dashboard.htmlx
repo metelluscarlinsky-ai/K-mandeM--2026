@@ -74,7 +74,7 @@
         .modal-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.75rem}
         
         .page{display:none}.page.active{display:block}
-        
+l        
         @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1rem}}
     </style>
 </head>
@@ -128,7 +128,19 @@
         <div class="topbar"><h1>🛒 Jere Kòmand</h1></div>
         <div class="card"><div class="table-wrap"><table><thead><tr><th>Nimewo</th><th>Kliyan</th><th>Total</th><th>Estat</th><th>Aksyon</th></tr></thead><tbody id="ordBody"></tbody></table></div></div>
     </div>
-
+<div class="page" id="pageDelivery">
+    <div class="topbar"><h1>🚚 Livrezon Aktif</h1></div>
+    <div class="card">
+        <div class="card-body">
+            <div style="text-align:center;padding:1rem">
+                <button class="btn btn-primary" onclick="trackAllDrivers()">
+                    <i class="fas fa-satellite"></i> Aktive Tracking GPS
+                </button>
+            </div>
+            <div id="driversTracking" style="margin-top:1rem"></div>
+        </div>
+    </div>
+</div>
     <!-- DRIVERS -->
     <div class="page" id="pageDrivers">
         <div class="topbar"><h1>🏍️ Jere Livrè</h1><button class="btn btn-primary" onclick="addDriver()"><i class="fas fa-plus"></i> Ajoute</button></div>
@@ -149,6 +161,57 @@
 </main>
 
 <script>
+function trackAllDrivers() {
+    if (!navigator.geolocation) {
+        alert('GPS pa sipòte sou aparèy sa a');
+        return;
+    }
+    
+    // Pran pozisyon admin tou
+    navigator.geolocation.getCurrentPosition(function(adminPos) {
+        var drivers = gd();
+        var activeDrivers = drivers.filter(function(d) { return d.estat === 'disponib' || d.estat === 'an_wout'; });
+        
+        var html = '<div style="background:rgba(34,197,94,0.1);padding:1rem;border-radius:12px;margin-bottom:1rem">' +
+            '<p style="color:#22C55E">✅ GPS Admin aktive!</p>' +
+            '<p style="color:var(--muted);font-size:0.85rem">Lat: ' + adminPos.coords.latitude.toFixed(6) + ' | Lng: ' + adminPos.coords.longitude.toFixed(6) + '</p>' +
+            '<p style="color:var(--muted);font-size:0.8rem">Presizyon: ' + Math.round(adminPos.coords.accuracy) + 'm</p>' +
+            '</div>';
+        
+        if (activeDrivers.length === 0) {
+            html += '<p style="text-align:center;color:var(--muted)">Pa gen livrè aktif</p>';
+        } else {
+            html += '<div style="display:grid;gap:0.75rem">';
+            activeDrivers.forEach(function(driver) {
+                var loc = JSON.parse(localStorage.getItem('komandem-driver-location-' + driver.id) || 'null');
+                var statusColor = driver.estat === 'an_wout' ? '#FF6B35' : '#22C55E';
+                var statusText = driver.estat === 'an_wout' ? 'An Wout' : 'Disponib';
+                
+                html += '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1rem">' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">' +
+                        '<strong>' + driver.non + '</strong>' +
+                        '<span style="color:' + statusColor + ';font-weight:600;font-size:0.85rem">' + statusText + '</span>' +
+                    '</div>' +
+                    '<p style="font-size:0.85rem;color:var(--muted)">📞 ' + driver.telefòn + '</p>' +
+                    (loc ? 
+                        '<div style="background:rgba(34,197,94,0.05);padding:0.5rem;border-radius:8px;margin-top:0.5rem">' +
+                            '<p style="color:#22C55E;font-size:0.8rem">📍 Dènye pozisyon:</p>' +
+                            '<p style="font-size:0.8rem;color:var(--muted)">Lat: ' + loc.lat.toFixed(6) + ' | Lng: ' + loc.lng.toFixed(6) + '</p>' +
+                            '<p style="font-size:0.75rem;color:var(--muted)">🕐 ' + new Date(loc.timestamp).toLocaleTimeString('ht-HT') + '</p>' +
+                            '<a href="https://www.google.com/maps?q=' + loc.lat + ',' + loc.lng + '" target="_blank" style="color:var(--brand);font-size:0.8rem">🗺️ Wè sou Google Maps</a>' +
+                        '</div>' :
+                        '<p style="color:var(--warning);font-size:0.8rem;margin-top:0.5rem">⚠️ Pa gen done lokalizasyon</p>'
+                    ) +
+                '</div>';
+            });
+            html += '</div>';
+        }
+        
+        document.getElementById('driversTracking').innerHTML = html;
+    }, function(err) {
+        alert('❌ Pa ka jwenn pozisyon ou. Aktive GPS sou telefòn ou.');
+    }, { enableHighAccuracy: true, timeout: 15000 });
+}
 // 🔔 SISTÈM TOAST NOTIFICATION BÈL
 function showToast(message, type) {
     // Kreye eleman toast
