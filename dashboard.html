@@ -3,110 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - KòmandeM</title>
+    <title>KòmandeM Admin Pro 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--danger:#EF4444;--warning:#F59E0B;--info:#3B82F6}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0A0A1A;color:white;font-family:system-ui,sans-serif;min-height:100vh}
-        .topbar{background:#1E293B;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
-        .topbar h1{font-size:1.3rem}.topbar h1 span{color:#FF6B35}
-        .btn{background:#EF4444;color:white;border:none;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:600}
-        .container{padding:2rem;text-align:center}
-        .card{background:#1E293B;border-radius:16px;padding:2rem;margin:1rem auto;max-width:500px}
-        .btn-action{background:#FF6B35;color:white;border:none;padding:0.8rem 1.5rem;border-radius:12px;font-weight:700;cursor:pointer;margin:0.5rem;width:100%;font-size:1rem}
-        .success{color:#22C55E;font-size:1.5rem}
+        body{background:var(--dark);color:var(--text);font-family:system-ui,sans-serif;display:flex;min-height:100vh}
+        
+        .sidebar{width:280px;background:#0F172A;border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;padding:1.5rem;z-index:100;overflow-y:auto}
+        .sidebar-logo{font-size:1.3rem;font-weight:800;color:white;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+        .sidebar-logo span{color:var(--brand)}
+        .sidebar-section{margin-bottom:1.5rem}
+        .sidebar-label{font-size:0.65rem;text-transform:uppercase;color:#64748B;padding:0.5rem 0;font-weight:700;letter-spacing:0.1em}
+        .sidebar-link{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;color:var(--muted);text-decoration:none;border-radius:12px;font-size:0.9rem;cursor:pointer;transition:all 0.2s;margin-bottom:0.25rem}
+        .sidebar-link:hover,.sidebar-link.active{background:rgba(255,107,53,0.1);color:var(--brand)}
+        .sidebar-link .badge{background:var(--brand);color:white;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.7rem;margin-left:auto}
+        
+        .main{flex:1;margin-left:280px;padding:2rem}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+        .topbar h1{font-size:1.6rem;font-weight:800}
+        .topbar-actions{display:flex;gap:0.75rem;align-items:center}
+        
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+        .stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;cursor:pointer;transition:all 0.3s}
+        .stat-card:hover{border-color:var(--brand);transform:translateY(-2px)}
+        .stat-icon{font-size:1.5rem;margin-bottom:0.75rem}
+        .stat-value{font-size:2rem;font-weight:800}
+        .stat-label{font-size:0.85rem;color:var(--muted)}
+        
+        .card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden}
+        .card-header{padding:1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .card-header h3{font-weight:700}
+        .card-body{padding:1.25rem}
+        
+        .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.4rem;border-radius:12px;font-weight:600;font-size:0.9rem;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
+        .btn-primary{background:var(--brand);color:white}.btn-primary:hover{background:#E55A2B}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
+        .btn-danger{background:rgba(239,68,68,0.1);color:var(--danger)}
+        .btn-sm{padding:0.4rem 0.9rem;font-size:0.8rem}
+        
+        .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
+        .badge-success{background:rgba(34,197,94,0.1);color:var(--success)}
+        .badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
+        .badge-brand{background:rgba(255,107,53,0.1);color:var(--brand)}
+        
+        table{width:100%;border-collapse:collapse}
+        th{text-align:left;padding:0.75rem;font-size:0.7rem;font-weight:700;color:#64748B;text-transform:uppercase;border-bottom:1px solid var(--border)}
+        td{padding:0.75rem;font-size:0.85rem;border-bottom:1px solid var(--border)}
+        
+        .form-input{width:100%;padding:0.75rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;color:white;font-size:0.9rem;outline:none;font-family:inherit}
+        .form-input:focus{border-color:var(--brand)}
+        
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
+        .modal.show{display:flex}
+        .modal-content{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
+        .modal-header{padding:1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .modal-close{background:none;border:none;color:#64748B;font-size:1.5rem;cursor:pointer}
+        .modal-body{padding:1.25rem}
+        .modal-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.75rem}
+        
+        .page{display:none}.page.active{display:block}
+        
+        .map-container{background:rgba(255,255,255,0.02);border:1px dashed var(--border);border-radius:16px;height:300px;display:flex;align-items:center;justify-content:center}
+        .pulse-dot{width:16px;height:16px;background:var(--brand);border-radius:50%;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,0.4)}70%{box-shadow:0 0 0 20px rgba(255,107,53,0)}}
+        
+        .screenshot-preview{max-width:100%;max-height:300px;border-radius:12px;margin-top:0.5rem}
+        
+        @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1rem}.stats-grid{grid-template-columns:repeat(2,1fr)}}
     </style>
 </head>
 <body>
 
-<div class="topbar">
-    <h1>⚡ Kòmande<span>M</span> Admin</h1>
-    <button class="btn" onclick="logout()">Dekonekte</button>
-</div>
+<aside class="sidebar">
+    <div class="sidebar-logo">⚡ Kòmande<span>M</span></div>
+    <div class="sidebar-section">
+        <div class="sidebar-label">Prensipal</div>
+        <a class="sidebar-link active" onclick="showPage('dash')"><i class="fas fa-th-large"></i>Tablo Kontwòl</a>
+        <a class="sidebar-link" onclick="showPage('orders')"><i class="fas fa-shopping-bag"></i>Kòmand<span class="badge" id="pendingBadge">0</span></a>
+        <a class="sidebar-link" onclick="showPage('delivery')"><i class="fas fa-truck"></i>Livrezon</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-label">Jesyon</div>
+        <a class="sidebar-link" onclick="showPage('merchants')"><i class="fas fa-store"></i>Machann</a>
+        <a class="sidebar-link" onclick="showPage('products')"><i class="fas fa-box"></i>Pwodui</a>
+        <a class="sidebar-link" onclick="showPage('drivers')"><i class="fas fa-motorcycle"></i>Livrè</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-label">Finans</div>
+        <a class="sidebar-link" onclick="showPage('natcash')"><i class="fas fa-money-bill"></i>NatCash</a>
+    </div>
+    <button class="btn btn-danger" style="width:100%;margin-top:2rem" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Dekonekte</button>
+</aside>
 
-<div class="container">
-    <div class="card">
-        <p class="success">✅ Ou konekte!</p>
-        <p style="color:#94A3B8;margin:1rem 0">Byenveni <strong id="wname">Admin</strong></p>
-    </div>
+<main class="main">
     
-    <div class="card">
-        <button class="btn-action" onclick="addMerchant()">🏪 Ajoute Machann</button>
-        <button class="btn-action" onclick="addProduct()">📦 Ajoute Pwodui</button>
-        <button class="btn-action" onclick="viewOrders()">🛒 Wè Kòmand</button>
-        <button class="btn-action" onclick="addDriver()">🏍️ Ajoute Livrè</button>
-        <button class="btn-action" onclick="viewNatcash()">💰 NatCash 32924776</button>
+    <!-- DASHBOARD -->
+    <div class="page active" id="pageDash">
+        <div class="topbar"><h1>📊 Tablo Kontwòl</h1><span id="time" style="color:var(--muted)"></span></div>
+        <div class="stats-grid">
+            <div class="stat-card" onclick="showPage('orders')"><div class="stat-icon">🕐</div><div class="stat-value" id="s1" style="color:var(--warning)">0</div><div class="stat-label">An Atant</div></div>
+            <div class="stat-card"><div class="stat-icon">🛒</div><div class="stat-value" id="s2">0</div><div class="stat-label">Jodi a</div></div>
+            <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-value" id="s3" style="color:var(--success)">0 GDS</div><div class="stat-label">Revni</div></div>
+            <div class="stat-card" onclick="showPage('merchants')"><div class="stat-icon">🏪</div><div class="stat-value" id="s4" style="color:var(--info)">0</div><div class="stat-label">Machann</div></div>
+        </div>
+        <div class="card"><div class="card-body" style="text-align:center;padding:2rem"><p style="color:var(--success);font-size:1.2rem">✅ Sistèm Admin aktif</p></div></div>
     </div>
-</div>
+
+    <!-- ORDERS -->
+    <div class="page" id="pageOrders">
+        <div class="topbar"><h1>🛒 Jere Kòmand</h1></div>
+        <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Nimewo</th><th>Kliyan</th><th>Total</th><th>Estat</th><th>Screenshot</th><th>Aksyon</th></tr></thead><tbody id="ordBody"></tbody></table></div></div></div>
+    </div>
+
+    <!-- MERCHANTS -->
+    <div class="page" id="pageMerchants">
+        <div class="topbar"><h1>🏪 Jere Machann</h1><button class="btn btn-primary" onclick="addMerchant()"><i class="fas fa-plus"></i>Ajoute</button></div>
+        <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Machann</th><th>Telefòn</th><th>Balans</th><th>Aksyon</th></tr></thead><tbody id="merBody"></tbody></table></div></div></div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="page" id="pageProducts">
+        <div class="topbar"><h1>📦 Jere Pwodui</h1><button class="btn btn-primary" onclick="addProduct()"><i class="fas fa-plus"></i>Ajoute</button></div>
+        <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Pwodui</th><th>Kategori</th><th>Pri</th><th>Aksyon</th></tr></thead><tbody id="prodBody"></tbody></table></div></div></div>
+    </div>
+
+    <!-- DRIVERS -->
+    <div class="page" id="pageDrivers">
+        <div class="topbar"><h1>🏍️ Jere Livrè</h1><button class="btn btn-primary" onclick="addDriver()"><i class="fas fa-plus"></i>Ajoute</button></div>
+        <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Livrè</th><th>Telefòn</th><th>Estat</th><th>Pozisyon</th><th>Aksyon</th></tr></thead><tbody id="drvBody"></tbody></table></div></div></div>
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="page" id="pageDelivery">
+        <div class="topbar"><h1>🚚 Livrezon Aktif</h1></div>
+        <div class="card"><div class="card-body"><div class="map-container" id="deliveryMap"><div class="pulse-dot"></div><p style="color:var(--muted);margin-left:1rem">Sistèm tracking aktif</p></div></div></div>
+    </div>
+
+    <!-- NATCASH -->
+    <div class="page" id="pageNatcash">
+        <div class="topbar"><h1>💰 Retrè NatCash</h1></div>
+        <div class="card" style="background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,107,53,0.02));text-align:center;padding:2rem;margin-bottom:1.5rem">
+            <div style="font-size:3rem">🏦</div><h3>Nimewo NatCash</h3>
+            <p style="color:var(--brand);font-size:2rem;font-weight:800;letter-spacing:0.05em">32924776</p>
+        </div>
+        <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Machann</th><th>Balans</th><th>Aksyon</th></tr></thead><tbody id="natBody"></tbody></table></div></div></div>
+    </div>
+
+</main>
 
 <script>
 var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
-if(!session||session.expires<Date.now()){
-    session={user:{id:'sa001',non:'Administratè',role:'superadmin'},token:'tok_'+Date.now(),expires:Date.now()+(12*60*60*1000)};
-    localStorage.setItem('komandem-admin-session',JSON.stringify(session));
-}
-document.getElementById('wname').textContent=session.user.non;
+if(!session||session.expires<Date.now()){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
 
 function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
+function gm(){return JSON.parse(localStorage.getItem('komandem-merchants')||'[]')}
+function sm(d){localStorage.setItem('komandem-merchants',JSON.stringify(d))}
+function gp(){return JSON.parse(localStorage.getItem('komandem-products')||'[]')}
+function sp(d){localStorage.setItem('komandem-products',JSON.stringify(d))}
+function go(){return JSON.parse(localStorage.getItem('komandem-orders')||'[]')}
+function so(d){localStorage.setItem('komandem-orders',JSON.stringify(d))}
+function gd(){return JSON.parse(localStorage.getItem('komandem-drivers')||'[]')}
+function sd(d){localStorage.setItem('komandem-drivers',JSON.stringify(d))}
 
-function addMerchant(){
-    var nom=prompt('Non biznis:');if(!nom)return;
-    var tel=prompt('Telefòn:');if(!tel)return;
-    var mdp=prompt('Mòdepas:','machann123');
-    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
-    merchants.push({id:'mer_'+Date.now(),non_biznis:nom,telefòn:tel,email:tel,password:mdp,estat:'aktif',balans:0,tip:'restoran',tax:10});
-    localStorage.setItem('komandem-merchants',JSON.stringify(merchants));
-    alert('✅ Machann '+nom+' ajoute!\n\nKonekte ak:\nTelefòn: '+tel+'\nMòdepas: '+mdp);
+function showPage(p){
+    document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
+    document.querySelectorAll('.sidebar-link').forEach(function(el){el.classList.remove('active')});
+    document.getElementById('page'+p.charAt(0).toUpperCase()+p.slice(1)).classList.add('active');
+    event.target.classList.add('active');
+    if(p==='dash')loadDash();
+    if(p==='orders')renderOrders();
+    if(p==='merchants')renderMerchants();
+    if(p==='products')renderProducts();
+    if(p==='drivers')renderDrivers();
+    if(p==='natcash')renderNatCash();
 }
 
-function addProduct(){
-    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
-    if(!merchants.length){alert('Ajoute yon machann avan!');return}
-    var nom=prompt('Non pwodui:');if(!nom)return;
-    var pri=parseInt(prompt('Pri (GDS):','200'));if(!pri)return;
-    var cat=prompt('Kategori (dejene/dine/soupe/desè/bwason/glase):','dejene');
-    var mlist=merchants.map(function(m,i){return(i+1)+'. '+m.non_biznis}).join('\n');
-    var mi=parseInt(prompt('Chwazi machann:\n'+mlist,'1'))-1;
-    var m=merchants[mi]||merchants[0];
-    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
-    products.push({id:'prod_'+Date.now(),non:nom,kategori:cat||'dejene',pri:pri,machann_id:m.id,machann_non:m.non_biznis,tan_preparasyon:15,disponib:true});
-    localStorage.setItem('komandem-products',JSON.stringify(products));
-    alert('✅ Pwodui '+nom+' ajoute!');
+function loadDash(){
+    var o=go(),m=gm();var today=new Date().toDateString();
+    var to=o.filter(function(x){return x.dat&&new Date(x.dat).toDateString()===today});
+    document.getElementById('s1').textContent=o.filter(function(x){return x.estat==='ann_atent'}).length;
+    document.getElementById('s2').textContent=to.length;
+    document.getElementById('s3').textContent=fm(to.reduce(function(a,x){return a+(x.total||0)},0));
+    document.getElementById('s4').textContent=m.length;
+    document.getElementById('time').textContent=new Date().toLocaleString('ht-HT');
+    document.getElementById('pendingBadge').textContent=o.filter(function(x){return x.estat==='ann_atent'}).length;
 }
+loadDash();
 
-function viewOrders(){
-    var orders=JSON.parse(localStorage.getItem('komandem-orders')||'[]');
-    if(!orders.length){alert('Pa gen kòmand');return}
-    var list=orders.map(function(o){return '#'+o.id+' - '+o.kliyan+' - '+fm(o.total)+' - '+o.estat}).join('\n');
-    alert('📋 Lis Kòmand:\n\n'+list);
+function addMerchant(){var n=prompt('Non biznis:');if(!n)return;var t=prompt('Telefòn:');if(!t)return;var p=prompt('Mòdepas:','machann'+Date.now().toString(36).substr(0,4));var m=gm();m.push({id:'mer_'+Date.now(),non_biznis:n,telefòn:t,email:t,password:p,estat:'aktif',balans:0,tip:'restoran',tax:10});sm(m);renderMerchants();loadDash();alert('✅ Machann ajoute!\nTel: '+t+'\nMdp: '+p)}
+function renderMerchants(){var m=gm();document.getElementById('merBody').innerHTML=m.length?m.map(function(mer){return'<tr><td><strong>'+mer.non_biznis+'</strong></td><td>'+mer.telefòn+'</td><td>'+fm(mer.balans)+'</td><td><button class="btn btn-outline btn-sm" onclick="deleteMerchant(\''+mer.id+'\')"><i class="fas fa-trash"></i></button></td></tr>'}).join(''):'<tr><td colspan="4">Pa gen machann</td></tr>'}
+function deleteMerchant(id){if(confirm('Retire?')){sm(gm().filter(function(x){return x.id!==id}));renderMerchants()}}
+
+function addProduct(){var m=gm();if(!m.length){alert('Ajoute machann avan!');return}var n=prompt('Non:');if(!n)return;var pr=parseInt(prompt('Pri:','200'));if(!pr)return;var c=prompt('Kategori:','dejene');var ml=m.map(function(mer,i){return(i+1)+'. '+mer.non_biznis}).join('\n');var mi=parseInt(prompt('Machann:\n'+ml,'1'))-1;var mer=m[mi]||m[0];var p=gp();p.push({id:'prod_'+Date.now(),non:n,kategori:c||'dejene',pri:pr,machann_id:mer.id,machann_non:mer.non_biznis,tan_preparasyon:15,disponib:true});sp(p);renderProducts();loadDash();alert('✅ Pwodui ajoute!')}
+function renderProducts(){var p=gp();document.getElementById('prodBody').innerHTML=p.length?p.map(function(pr){return'<tr><td><strong>'+pr.non+'</strong></td><td><span class="badge badge-brand">'+pr.kategori+'</span></td><td>'+fm(pr.pri)+'</td><td><button class="btn btn-outline btn-sm" onclick="deleteProduct(\''+pr.id+'\')"><i class="fas fa-trash"></i></button></td></tr>'}).join(''):'<tr><td colspan="4">Pa gen pwodui</td></tr>'}
+function deleteProduct(id){if(confirm('Retire?')){sp(gp().filter(function(x){return x.id!==id}));renderProducts()}}
+
+function renderOrders(){
+    var o=go();var labels={ann_atent:'An Atant',konfime:'Konfime',an_preparasyon:'An Preparasyon',an_wout:'An Wout',livre:'Livre'};
+    var colors={ann_atent:'badge-warning',konfime:'badge-brand',an_preparasyon:'badge-brand',an_wout:'badge-brand',livre:'badge-success'};
+    document.getElementById('ordBody').innerHTML=o.length?o.map(function(ord){
+        return'<tr><td><strong style="color:var(--brand)">'+(ord.id||'KMD')+'</strong></td><td>'+(ord.kliyan||'-')+'</td><td>'+fm(ord.total)+'</td><td><span class="badge '+(colors[ord.estat]||'badge-warning')+'">'+(labels[ord.estat]||ord.estat)+'</span></td><td>'+(ord.screenshot?'<a href="'+ord.screenshot+'" target="_blank"><img src="'+ord.screenshot+'" class="screenshot-preview" style="width:60px;height:60px;object-fit:cover"></a>':'—')+'</td><td><select class="form-input" onchange="updateOrder(\''+ord.id+'\',this.value)" style="width:120px;padding:0.3rem"><option value="">Mete...</option><option value="konfime">Konfime</option><option value="an_preparasyon">An Preparasyon</option><option value="an_wout">An Wout</option><option value="livre">Livre</option></select></td></tr>';
+    }).join(''):'<tr><td colspan="6">Pa gen kòmand</td></tr>';
 }
+function updateOrder(id,st){if(!st)return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat=st;so(o);renderOrders();loadDash();alert('✅ Estati mizajou!')}}
 
-function addDriver(){
-    var nom=prompt('Non livrè:');if(!nom)return;
-    var tel=prompt('Telefòn:');if(!tel)return;
-    var mdp=prompt('Mòdepas:','livrè123');
-    var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');
-    drivers.push({id:'drv_'+Date.now(),non:nom,telefòn:tel,email:tel,password:mdp,estat:'disponib',veikil:'moto'});
-    localStorage.setItem('komandem-drivers',JSON.stringify(drivers));
-    alert('✅ Livrè '+nom+' ajoute!\n\nKonekte ak:\nTelefòn: '+tel+'\nMòdepas: '+mdp);
+function addDriver(){var n=prompt('Non:');if(!n)return;var t=prompt('Telefòn:');if(!t)return;var p=prompt('Mòdepas:','livrè'+Date.now().toString(36).substr(0,4));var d=gd();d.push({id:'drv_'+Date.now(),non:n,telefòn:t,email:t,password:p,estat:'disponib',veikil:'moto'});sd(d);renderDrivers();loadDash();alert('✅ Livrè ajoute!\nTel: '+t+'\nMdp: '+p)}
+function renderDrivers(){
+    var d=gd();
+    document.getElementById('drvBody').innerHTML=d.length?d.map(function(dr){
+        var loc=JSON.parse(localStorage.getItem('komandem-driver-location-'+dr.id)||'null');
+        return'<tr><td><strong>'+dr.non+'</strong></td><td>'+dr.telefòn+'</td><td><span class="badge '+(dr.estat==='disponib'?'badge-success':'badge-warning')+'">'+(dr.estat||'disponib')+'</span></td><td>'+(loc?'📍 '+loc.lat.toFixed(4)+', '+loc.lng.toFixed(4):'—')+'</td><td><button class="btn btn-outline btn-sm" onclick="deleteDriver(\''+dr.id+'\')"><i class="fas fa-trash"></i></button></td></tr>';
+    }).join(''):'<tr><td colspan="5">Pa gen livrè</td></tr>';
 }
+function deleteDriver(id){if(confirm('Retire?')){sd(gd().filter(function(x){return x.id!==id}));renderDrivers()}}
 
-function viewNatcash(){
-    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
-    var list=merchants.map(function(m){return m.non_biznis+' - '+fm(m.balans)}).join('\n');
-    var mname=prompt('💰 Retrè NatCash 32924776\n\n'+list+'\n\nNon machann pou retire:');
-    if(mname){
-        var mer=merchants.find(function(x){return x.non_biznis===mname});
-        if(mer&&mer.balans>0){
-            if(confirm('Voye '+fm(mer.balans)+' sou NatCash 32924776?')){
-                mer.balans=0;
-                localStorage.setItem('komandem-merchants',JSON.stringify(merchants));
-                alert('✅ Retrè reyisi!');
-            }
-        }else{alert('Pa gen balans')}
-    }
-}
+function renderNatCash(){var m=gm();document.getElementById('natBody').innerHTML=m.length?m.map(function(mer){return'<tr><td><strong>'+mer.non_biznis+'</strong></td><td>'+fm(mer.balans)+'</td><td><button class="btn btn-primary btn-sm" onclick="payout(\''+mer.id+'\')" '+(mer.balans<=0?'disabled':'')+'><i class="fas fa-paper-plane"></i>Voye</button></td></tr>'}).join(''):'<tr><td colspan="3">Pa gen machann</td></tr>'}
+function payout(id){var m=gm();var mer=m.find(function(x){return x.id===id});if(mer&&mer.balans>0){if(confirm('Voye '+fm(mer.balans)+' sou NatCash 32924776?')){mer.balans=0;sm(m);renderNatCash();alert('✅ Retrè reyisi!')}}}
 
-function logout(){localStorage.removeItem('komandem-admin-session');window.location.href='index.html'}
+function logout(){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
 </script>
 </body>
 </html>
+
