@@ -83,6 +83,9 @@
     </div>
 </section>
 
+<div id="menuDuJourBadge" style="display:none;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:0.5rem 1rem;margin-top:1rem;display:inline-block">
+    <span style="color:#22C55E;font-weight:700">📅 Menu du Jour disponib!</span>
+</div>
 <!-- 🔥 SEKSYON PWODUI VISIB POU TOUT MOUN -->
 <section class="section">
     <h2>🍽️ <span>Menu Disponib</span></h2>
@@ -108,132 +111,137 @@
 </div>
 
 <script>
-// 🔔 SISTÈM TOAST NOTIFICATION BÈL
-function showToast(message, type) {
-    // Kreye eleman toast
-    var toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    
-    // Koulè selon tip
-    var colors = {
-        success: { bg: '#22C55E', icon: '✅' },
-        error: { bg: '#EF4444', icon: '❌' },
-        warning: { bg: '#F59E0B', icon: '⚠️' },
-        info: { bg: '#3B82F6', icon: 'ℹ️' },
-        order: { bg: '#FF6B35', icon: '🛒' }
-    };
-    
-    var c = colors[type] || colors.info;
-    
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${c.bg};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 16px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        z-index: 9999;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-        animation: slideInRight 0.3s ease;
-        max-width: 350px;
-        font-family: system-ui, sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-    `;
-    
-    toast.innerHTML = c.icon + ' ' + message;
-    toast.onclick = function() { toast.remove(); };
-    
-    document.body.appendChild(toast);
-    
-    // Oto-kache apre 4 segond
-    setTimeout(function() {
-        if (toast) {
-            toast.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(function() { if (toast) toast.remove(); }, 300);
-        }
-    }, 4000);
-}
 
-// Ajoute animasyon CSS
-var toastStyle = document.createElement('style');
-toastStyle.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(toastStyle);// 🔥 CHAJE PWODUI SOU PAJ AKÈY
-function loadProducts(){
+// ===== TOAST BÈL =====
+function showToast(msg, type) {
+    var styles = {
+        success: { bg: 'linear-gradient(135deg,#22C55E,#16A34A)', emoji: '🎉', title: 'Siksè!' },
+        error: { bg: 'linear-gradient(135deg,#EF4444,#DC2626)', emoji: '❌', title: 'Erè' },
+        warning: { bg: 'linear-gradient(135deg,#F59E0B,#D97706)', emoji: '⚠️', title: 'Atansyon' },
+        info: { bg: 'linear-gradient(135deg,#3B82F6,#2563EB)', emoji: '💡', title: 'Info' }
+    };
+    var s = styles[type] || styles.info;
+    var t = document.createElement('div');
+    t.style.cssText = 'position:fixed;top:20px;right:-400px;color:white;padding:1rem 1.25rem;border-radius:18px;font-weight:600;font-size:0.85rem;z-index:9999;box-shadow:0 15px 50px rgba(0,0,0,0.5);max-width:350px;font-family:system-ui,sans-serif;cursor:pointer;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);background:' + s.bg;
+    t.innerHTML = '<div style="display:flex;align-items:flex-start;gap:0.6rem"><div style="font-size:1.6rem;flex-shrink:0;animation:bounce 0.6s ease">' + s.emoji + '</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.85;margin-bottom:0.15rem">' + s.title + '</div><div style="font-size:0.85rem;line-height:1.3">' + msg + '</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:0.7rem;flex-shrink:0">✕</button></div><div style="height:3px;background:rgba(255,255,255,0.3);border-radius:0 0 18px 18px;margin:0.5rem -1.25rem -1rem -1.25rem;overflow:hidden"><div style="height:100%;background:rgba(255,255,255,0.6);animation:progress 4s linear"></div></div>';
+    document.body.appendChild(t);
+    setTimeout(function() { t.style.right = '20px'; }, 50);
+    setTimeout(function() { t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); }, 4000);
+    t.onclick = function(e) { if (e.target.tagName === 'BUTTON') return; t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); };
+}
+var ts = document.createElement('style');
+ts.textContent = '@keyframes progress{from{width:100%}to{width:0%}}@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}';
+document.head.appendChild(ts);
+
+// ===== CHAJE PWODUI / MENU DU JOUR =====
+function loadProducts() {
+    var menuDuJour = JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]');
     var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
-    var available = products.filter(function(p){ return p.disponib !== false; });
-    
+    var today = new Date().toDateString();
+
+    // Filtre menu jodi a
+    var todayMenu = menuDuJour.filter(function(m) {
+        return m.dat === today && m.disponib !== false;
+    });
+
+    // Chwazi sous done: menu du jour si genyen, sinon tout pwodui
+    var available = todayMenu.length > 0 ? todayMenu : products.filter(function(p) {
+        return p.disponib !== false;
+    });
+
+    // Afiche badge si menu du jour disponib
+    var badge = document.getElementById('menuDuJourBadge');
+    if (badge) {
+        badge.style.display = todayMenu.length > 0 ? 'inline-block' : 'none';
+    }
+
+    // Mizajou tit seksyon an
+    var menuTitle = document.querySelector('.section h2 span');
+    if (menuTitle) {
+        menuTitle.textContent = todayMenu.length > 0 ? 'Menu du Jour' : 'Menu Disponib';
+    }
+
     if (!available.length) {
         document.getElementById('productGrid').innerHTML = '';
         document.getElementById('noProducts').style.display = 'block';
         return;
     }
-    
+
     document.getElementById('noProducts').style.display = 'none';
-    
-    document.getElementById('productGrid').innerHTML = available.map(function(p){
-        var imgHtml = p.imaj ? '<img src="'+p.imaj+'" alt="'+p.non+'">' : '<div>🍽️</div>';
-        var linkHtml = p.lyen ? '<a href="'+p.lyen+'" target="_blank" style="color:#FF6B35;font-size:0.75rem;text-decoration:none">🔗 Wè plis</a>' : '';
-        
+
+    document.getElementById('productGrid').innerHTML = available.map(function(p) {
+        var imgHtml = (p.imaj && p.imaj.length > 5) ? 
+            '<img src="' + p.imaj + '" alt="' + p.non + '" onerror="this.innerHTML=\'🍽️\'">' : 
+            '<div>🍽️</div>';
+
+        // Lè disponib si se menu du jour
+        var timeInfo = '';
+        if (p.heure_debut && p.heure_fin) {
+            timeInfo = '<div style="font-size:0.7rem;color:var(--muted);margin-top:0.25rem">🕐 ' + 
+                       p.heure_debut + ' - ' + p.heure_fin + '</div>';
+        }
+
+        // Kategori ak emoji
+        var catEmoji = '';
+        switch(p.kategori) {
+            case 'dejene': catEmoji = '🌅'; break;
+            case 'dine': catEmoji = '☀️'; break;
+            case 'soupe': catEmoji = '🌙'; break;
+            case 'desè': catEmoji = '🍰'; break;
+            case 'bwason': catEmoji = '🥤'; break;
+            case 'glase': catEmoji = '🍦'; break;
+            default: catEmoji = '';
+        }
+
         return '<div class="product-card">' +
             '<div class="product-img">' + imgHtml + '</div>' +
             '<div class="product-info">' +
-                '<span class="badge badge-brand">' + (p.kategori || '') + '</span>' +
+                '<span class="badge badge-brand">' + catEmoji + ' ' + (p.kategori || '') + '</span>' +
                 '<h4>' + p.non + '</h4>' +
-                '<div class="merchant">🏪 ' + (p.machann_non || 'Machann') + '</div>' +
+                '<div class="merchant">🏪 ' + (p.machann_non || p.machann || 'Machann') + '</div>' +
                 '<div class="price">' + (p.pri || 0).toLocaleString('ht-HT') + ' GDS</div>' +
-                '<div style="margin-top:0.5rem;display:flex;justify-content:space-between;align-items:center">' +
-                    linkHtml +
-                    '<button class="btn btn-primary btn-sm" onclick="redirectToLogin()" style="font-size:0.75rem">🛒 Kòmande</button>' +
+                timeInfo +
+                '<div style="margin-top:0.5rem">' +
+                    '<a href="login-kliyan.html" class="btn btn-primary btn-sm" style="font-size:0.75rem">🛒 Kòmande</a>' +
                 '</div>' +
             '</div>' +
         '</div>';
     }).join('');
 }
 
-// 🔥 REDIREJE SOU LOGIN POU KÒMANDE
-function redirectToLogin(){
-    var kliyanSession = JSON.parse(localStorage.getItem('komandem-kliyan-session') || 'null');
-    if (kliyanSession && kliyanSession.expires > Date.now()) {
+// ===== REDIREKSYON KÒMANDE =====
+function redirectToLogin() {
+    var s = JSON.parse(localStorage.getItem('komandem-kliyan-session') || 'null');
+    if (s && s.expires > Date.now()) {
         window.location.href = 'kliyan-dashboard.html';
     } else {
-        alert('🔐 Ou dwe konekte pou kòmande!\n\nKlike sou "Konekte" oswa "Enskri".');
-        window.location.href = 'login-kliyan.html';
+        showToast('Konekte pou kòmande', 'warning');
+        setTimeout(function() { window.location.href = 'login-kliyan.html'; }, 1000);
     }
 }
 
-// 🔍 OGSUN
-function doSearch(){
+// ===== OGSUN → ADMIN =====
+function doSearch() {
     var q = document.getElementById('search').value.trim().toLowerCase();
     if (!q) return;
     if (q === 'ogsun') {
         document.getElementById('overlay').classList.add('show');
-        setTimeout(function(){ window.location.href = 'admin-login.html'; }, 2000);
+        setTimeout(function() { window.location.href = 'admin-login.html'; }, 2000);
         return;
     }
-    alert('🔍 Rezilta pou: ' + q);
+    showToast('Rezilta pou: ' + q, 'info');
 }
 
-document.getElementById('search').addEventListener('keydown', function(e){
+// ===== ENTER KEY =====
+document.getElementById('search').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') doSearch();
 });
 
-// Chaje pwodui lè paj la ouvri
+// ===== INIT =====
 loadProducts();
+
+// Rafrechi chak 30 segond
+setInterval(loadProducts, 30000);
 </script>
 </body>
 </html>
