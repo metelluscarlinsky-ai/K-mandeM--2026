@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ht">
 <head>
@@ -22,7 +23,6 @@
         .main{flex:1;margin-left:280px;padding:2rem}
         .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
         .topbar h1{font-size:1.6rem;font-weight:800}
-        .topbar-actions{display:flex;gap:0.75rem;align-items:center}
         
         .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
         .stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;cursor:pointer;transition:all 0.3s}
@@ -53,22 +53,9 @@
         
         .form-input{width:100%;padding:0.75rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;color:white;font-size:0.9rem;outline:none;font-family:inherit}
         .form-input:focus{border-color:var(--brand)}
-        
-        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
-        .modal.show{display:flex}
-        .modal-content{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
-        .modal-header{padding:1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-        .modal-close{background:none;border:none;color:#64748B;font-size:1.5rem;cursor:pointer}
-        .modal-body{padding:1.25rem}
-        .modal-footer{padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.75rem}
+        .screenshot-preview{max-width:60px;max-height:60px;border-radius:8px;object-fit:cover}
         
         .page{display:none}.page.active{display:block}
-        
-        .map-container{background:rgba(255,255,255,0.02);border:1px dashed var(--border);border-radius:16px;height:300px;display:flex;align-items:center;justify-content:center}
-        .pulse-dot{width:16px;height:16px;background:var(--brand);border-radius:50%;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,0.4)}70%{box-shadow:0 0 0 20px rgba(255,107,53,0)}}
-        
-        .screenshot-preview{max-width:100%;max-height:300px;border-radius:12px;margin-top:0.5rem}
         
         @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1rem}.stats-grid{grid-template-columns:repeat(2,1fr)}}
     </style>
@@ -98,7 +85,6 @@
 
 <main class="main">
     
-    <!-- DASHBOARD -->
     <div class="page active" id="pageDash">
         <div class="topbar"><h1>📊 Tablo Kontwòl</h1><span id="time" style="color:var(--muted)"></span></div>
         <div class="stats-grid">
@@ -110,42 +96,36 @@
         <div class="card"><div class="card-body" style="text-align:center;padding:2rem"><p style="color:var(--success);font-size:1.2rem">✅ Sistèm Admin aktif</p></div></div>
     </div>
 
-    <!-- ORDERS -->
     <div class="page" id="pageOrders">
         <div class="topbar"><h1>🛒 Jere Kòmand</h1></div>
         <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Nimewo</th><th>Kliyan</th><th>Total</th><th>Estat</th><th>Screenshot</th><th>Aksyon</th></tr></thead><tbody id="ordBody"></tbody></table></div></div></div>
     </div>
 
-    <!-- MERCHANTS -->
     <div class="page" id="pageMerchants">
         <div class="topbar"><h1>🏪 Jere Machann</h1><button class="btn btn-primary" onclick="addMerchant()"><i class="fas fa-plus"></i>Ajoute</button></div>
         <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Machann</th><th>Telefòn</th><th>Balans</th><th>Aksyon</th></tr></thead><tbody id="merBody"></tbody></table></div></div></div>
     </div>
 
-    <!-- PRODUCTS -->
     <div class="page" id="pageProducts">
         <div class="topbar"><h1>📦 Jere Pwodui</h1><button class="btn btn-primary" onclick="addProduct()"><i class="fas fa-plus"></i>Ajoute</button></div>
         <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Pwodui</th><th>Kategori</th><th>Pri</th><th>Aksyon</th></tr></thead><tbody id="prodBody"></tbody></table></div></div></div>
     </div>
 
-    <!-- DRIVERS -->
     <div class="page" id="pageDrivers">
         <div class="topbar"><h1>🏍️ Jere Livrè</h1><button class="btn btn-primary" onclick="addDriver()"><i class="fas fa-plus"></i>Ajoute</button></div>
         <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Livrè</th><th>Telefòn</th><th>Estat</th><th>Pozisyon</th><th>Aksyon</th></tr></thead><tbody id="drvBody"></tbody></table></div></div></div>
     </div>
 
-    <!-- DELIVERY -->
     <div class="page" id="pageDelivery">
         <div class="topbar"><h1>🚚 Livrezon Aktif</h1></div>
-        <div class="card"><div class="card-body"><div class="map-container" id="deliveryMap"><div class="pulse-dot"></div><p style="color:var(--muted);margin-left:1rem">Sistèm tracking aktif</p></div></div></div>
+        <div class="card"><div class="card-body"><div style="text-align:center;padding:3rem;color:var(--muted)">🗺️ Sistèm tracking aktif</div></div></div>
     </div>
 
-    <!-- NATCASH -->
     <div class="page" id="pageNatcash">
         <div class="topbar"><h1>💰 Retrè NatCash</h1></div>
         <div class="card" style="background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,107,53,0.02));text-align:center;padding:2rem;margin-bottom:1.5rem">
             <div style="font-size:3rem">🏦</div><h3>Nimewo NatCash</h3>
-            <p style="color:var(--brand);font-size:2rem;font-weight:800;letter-spacing:0.05em">32924776</p>
+            <p style="color:var(--brand);font-size:2rem;font-weight:800">32924776</p>
         </div>
         <div class="card"><div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Machann</th><th>Balans</th><th>Aksyon</th></tr></thead><tbody id="natBody"></tbody></table></div></div></div>
     </div>
@@ -203,10 +183,62 @@ function renderOrders(){
     var o=go();var labels={ann_atent:'An Atant',konfime:'Konfime',an_preparasyon:'An Preparasyon',an_wout:'An Wout',livre:'Livre'};
     var colors={ann_atent:'badge-warning',konfime:'badge-brand',an_preparasyon:'badge-brand',an_wout:'badge-brand',livre:'badge-success'};
     document.getElementById('ordBody').innerHTML=o.length?o.map(function(ord){
-        return'<tr><td><strong style="color:var(--brand)">'+(ord.id||'KMD')+'</strong></td><td>'+(ord.kliyan||'-')+'</td><td>'+fm(ord.total)+'</td><td><span class="badge '+(colors[ord.estat]||'badge-warning')+'">'+(labels[ord.estat]||ord.estat)+'</span></td><td>'+(ord.screenshot?'<a href="'+ord.screenshot+'" target="_blank"><img src="'+ord.screenshot+'" class="screenshot-preview" style="width:60px;height:60px;object-fit:cover"></a>':'—')+'</td><td><select class="form-input" onchange="updateOrder(\''+ord.id+'\',this.value)" style="width:120px;padding:0.3rem"><option value="">Mete...</option><option value="konfime">Konfime</option><option value="an_preparasyon">An Preparasyon</option><option value="an_wout">An Wout</option><option value="livre">Livre</option></select></td></tr>';
+        return'<tr><td><strong style="color:var(--brand)">'+(ord.id||'KMD')+'</strong></td><td>'+(ord.kliyan||'-')+'</td><td>'+fm(ord.total)+'</td><td><span class="badge '+(colors[ord.estat]||'badge-warning')+'">'+(labels[ord.estat]||ord.estat)+'</span></td><td>'+(ord.screenshot?'<a href="'+ord.screenshot+'" target="_blank"><img src="'+ord.screenshot+'" class="screenshot-preview"></a>':'—')+'</td><td><select class="form-input" onchange="updateOrder(\''+ord.id+'\',this.value)" style="width:120px;padding:0.3rem"><option value="">Mete...</option><option value="konfime">Konfime</option><option value="an_preparasyon">An Preparasyon</option><option value="prè">Prè</option><option value="an_wout">An Wout</option><option value="livre">Livre</option></select></td></tr>';
     }).join(''):'<tr><td colspan="6">Pa gen kòmand</td></tr>';
 }
-function updateOrder(id,st){if(!st)return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat=st;so(o);renderOrders();loadDash();alert('✅ Estati mizajou!')}}
+
+function updateOrder(id, st) {
+    if (!st) return;
+    var o = go();
+    var i = o.findIndex(function(x) { return x.id === id; });
+    if (i >= 0) {
+        o[i].estat = st;
+        
+        // 🔥 SI "AN WOUT" → CHWAZI LIVRÈ
+        if (st === 'an_wout') {
+            var drivers = gd();
+            var availDrivers = drivers.filter(function(d) { return d.estat === 'disponib'; });
+            
+            if (availDrivers.length === 0) {
+                alert('⚠️ Pa gen livrè disponib! Ajoute yon livrè avan.');
+                return;
+            }
+            
+            var dList = availDrivers.map(function(d, idx) {
+                return (idx + 1) + '. 🏍️ ' + d.non + ' - 📞 ' + d.telefòn;
+            }).join('\n');
+            
+            var dChoice = parseInt(prompt('🛵 Chwazi yon livrè:\n\n' + dList + '\n\nTape nimewo a:', '1')) - 1;
+            var chosenDriver = availDrivers[dChoice] || availDrivers[0];
+            
+            o[i].livrè_id = chosenDriver.id;
+            o[i].livrè = chosenDriver.non;
+            
+            // 🔔 Notifikasyon
+            var notifs = JSON.parse(localStorage.getItem('komandem-notifications') || '[]');
+            notifs.unshift({message:'🛵 Nouvo livrezon! #'+id,time:new Date().toISOString(),read:false,type:'livrè',driver_id:chosenDriver.id,order_id:id});
+            notifs.unshift({message:'🚀 Livrè '+chosenDriver.non+' asiyen pou #'+id,time:new Date().toISOString(),read:false,type:'machann',machann_id:o[i].machann_id,order_id:id});
+            localStorage.setItem('komandem-notifications',JSON.stringify(notifs));
+            alert('✅ Livrè '+chosenDriver.non+' asiyen!');
+        }
+        
+        // 🔥 SI "PRÈ" → NOTIFYE TOUT LIVRÈ
+        if (st === 'prè') {
+            var allDrivers = gd();
+            var availAll = allDrivers.filter(function(d) { return d.estat === 'disponib'; });
+            var notifs = JSON.parse(localStorage.getItem('komandem-notifications') || '[]');
+            availAll.forEach(function(d) {
+                notifs.unshift({message:'📦 Kòmand #'+id+' prè!',time:new Date().toISOString(),read:false,type:'livrè',driver_id:d.id,order_id:id});
+            });
+            localStorage.setItem('komandem-notifications',JSON.stringify(notifs));
+            alert('✅ Kòmand "Prè"! '+availAll.length+' livrè notifye.');
+        }
+        
+        so(o);
+        renderOrders();
+        loadDash();
+    }
+}
 
 function addDriver(){var n=prompt('Non:');if(!n)return;var t=prompt('Telefòn:');if(!t)return;var p=prompt('Mòdepas:','livrè'+Date.now().toString(36).substr(0,4));var d=gd();d.push({id:'drv_'+Date.now(),non:n,telefòn:t,email:t,password:p,estat:'disponib',veikil:'moto'});sd(d);renderDrivers();loadDash();alert('✅ Livrè ajoute!\nTel: '+t+'\nMdp: '+p)}
 function renderDrivers(){
@@ -225,4 +257,3 @@ function logout(){localStorage.removeItem('komandem-admin-session');window.locat
 </script>
 </body>
 </html>
-
