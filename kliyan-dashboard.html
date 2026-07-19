@@ -147,103 +147,211 @@
 <div class="cart-fab" onclick="showTab('cart')"><i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartFabCount" style="display:none">0</span></div>
 
 <script>
-var cart=JSON.parse(localStorage.getItem('komandem-panye-temp')||'[]');
-var session=JSON.parse(localStorage.getItem('komandem-kliyan-session')||'null');
-var kliyan=session?.user||{non:'Kliyan'};
-document.getElementById('kliyanName').textContent=kliyan.non||'Kliyan';
-var userLocation=null,paymentSS=null;
+var cart = JSON.parse(localStorage.getItem('komandem-panye-temp') || '[]');
+var session = JSON.parse(localStorage.getItem('komandem-kliyan-session') || 'null');
+var kliyan = session?.user || { non: 'Kliyan' };
+document.getElementById('kliyanName').textContent = kliyan.non || 'Kliyan';
+var userLocation = null, paymentSS = null;
 
-function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
+function fm(m) { return (m || 0).toLocaleString('ht-HT') + ' GDS'; }
 
 // ===== TOAST BÈL =====
-function showToast(msg,type){
-    var styles={success:{bg:'linear-gradient(135deg,#22C55E,#16A34A)',emoji:'🎉',title:'Siksè!'},error:{bg:'linear-gradient(135deg,#EF4444,#DC2626)',emoji:'❌',title:'Erè'},warning:{bg:'linear-gradient(135deg,#F59E0B,#D97706)',emoji:'⚠️',title:'Atansyon'},info:{bg:'linear-gradient(135deg,#3B82F6,#2563EB)',emoji:'💡',title:'Info'},order:{bg:'linear-gradient(135deg,#FF6B35,#E55A2B)',emoji:'🎊',title:'Kòmand'},cart:{bg:'linear-gradient(135deg,#8B5CF6,#7C3AED)',emoji:'🛍️',title:'Panye'}};
-    var s=styles[type]||styles.info;
-    var t=document.createElement('div');t.className='toast-notification';t.style.background=s.bg;
-    t.innerHTML='<div style="display:flex;align-items:flex-start;gap:0.6rem"><div style="font-size:1.6rem;flex-shrink:0;animation:bounce 0.6s ease">'+s.emoji+'</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.85;margin-bottom:0.15rem">'+s.title+'</div><div style="font-size:0.85rem;line-height:1.3">'+msg+'</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:0.7rem;flex-shrink:0">✕</button></div><div style="height:3px;background:rgba(255,255,255,0.3);border-radius:0 0 18px 18px;margin:0.5rem -1.25rem -1rem -1.25rem;overflow:hidden"><div style="height:100%;background:rgba(255,255,255,0.6);animation:progress 4s linear"></div></div>';
-    document.body.appendChild(t);setTimeout(function(){t.style.right='20px'},50);
-    setTimeout(function(){t.style.right='-400px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},400)},4000);
-    t.onclick=function(e){if(e.target.tagName==='BUTTON')return;t.style.right='-400px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},400)};
+function showToast(msg, type) {
+    var styles = {
+        success: { bg: 'linear-gradient(135deg,#22C55E,#16A34A)', emoji: '🎉', title: 'Siksè!' },
+        error: { bg: 'linear-gradient(135deg,#EF4444,#DC2626)', emoji: '❌', title: 'Erè' },
+        warning: { bg: 'linear-gradient(135deg,#F59E0B,#D97706)', emoji: '⚠️', title: 'Atansyon' },
+        info: { bg: 'linear-gradient(135deg,#3B82F6,#2563EB)', emoji: '💡', title: 'Info' },
+        order: { bg: 'linear-gradient(135deg,#FF6B35,#E55A2B)', emoji: '🎊', title: 'Kòmand' },
+        cart: { bg: 'linear-gradient(135deg,#8B5CF6,#7C3AED)', emoji: '🛍️', title: 'Panye' }
+    };
+    var s = styles[type] || styles.info;
+    var t = document.createElement('div'); t.className = 'toast-notification'; t.style.background = s.bg;
+    t.innerHTML = '<div style="display:flex;align-items:flex-start;gap:0.6rem"><div style="font-size:1.6rem;flex-shrink:0;animation:bounce 0.6s ease">' + s.emoji + '</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.85;margin-bottom:0.15rem">' + s.title + '</div><div style="font-size:0.85rem;line-height:1.3">' + msg + '</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:0.7rem;flex-shrink:0">✕</button></div><div style="height:3px;background:rgba(255,255,255,0.3);border-radius:0 0 18px 18px;margin:0.5rem -1.25rem -1rem -1.25rem;overflow:hidden"><div style="height:100%;background:rgba(255,255,255,0.6);animation:progress 4s linear"></div></div>';
+    document.body.appendChild(t); setTimeout(function() { t.style.right = '20px'; }, 50);
+    setTimeout(function() { t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); }, 4000);
+    t.onclick = function(e) { if (e.target.tagName === 'BUTTON') return; t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); };
 }
-var ts=document.createElement('style');ts.textContent='@keyframes progress{from{width:100%}to{width:0%}}@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}';document.head.appendChild(ts);
+var ts = document.createElement('style'); ts.textContent = '@keyframes progress{from{width:100%}to{width:0%}}@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}'; document.head.appendChild(ts);
 
-function showTab(tab){
-    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
-    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+// ===== NAVIGATION =====
+function showTab(tab) {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
     event.target.classList.add('active');
-    document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
-    if(tab==='menu')loadMenu();if(tab==='cart')renderCart();if(tab==='orders')loadOrders();
+    document.getElementById('page' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+    if (tab === 'menu') loadMenu();
+    if (tab === 'cart') renderCart();
+    if (tab === 'orders') loadOrders();
 }
 
-function loadMenu(){
-    try{
-        var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
-        var menuDuJour=JSON.parse(localStorage.getItem('komandem-menu-du-jour')||'[]');
-        var available=menuDuJour.length?menuDuJour.filter(function(m){return m.disponib!==false}):products.filter(function(p){return p.disponib!==false});
-        if(!available.length){document.getElementById('menuGrid').innerHTML='';document.getElementById('noMenu').style.display='block';return}
-        document.getElementById('noMenu').style.display='none';
-        document.getElementById('menuGrid').innerHTML=available.map(function(p){
-            var imgHtml=p.imaj&&p.imaj.length>5?'<img src="'+p.imaj+'" alt="'+p.non+'" onerror="this.innerHTML=\'🍽️\'">':'🍽️';
-            return'<div class="product-card" onclick="addToCart(\''+p.id+'\')"><div class="product-img">'+imgHtml+'</div><div class="product-info"><span class="badge badge-brand">'+(p.kategori||'')+'</span><h4>'+p.non+'</h4><div class="merchant">🏪 '+(p.machann_non||p.machann||'Machann')+'</div><div class="price">'+fm(p.pri)+'</div></div></div>';
+// ===== MENU =====
+function loadMenu() {
+    try {
+        var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
+        var menuDuJour = JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]');
+        var available = menuDuJour.length ? menuDuJour.filter(function(m) { return m.disponib !== false; }) : products.filter(function(p) { return p.disponib !== false; });
+        
+        if (!available.length) { document.getElementById('menuGrid').innerHTML = ''; document.getElementById('noMenu').style.display = 'block'; return; }
+        document.getElementById('noMenu').style.display = 'none';
+        
+        document.getElementById('menuGrid').innerHTML = available.map(function(p) {
+            var pid = p.pwodui_id || p.id;
+            var imgHtml = (p.imaj && p.imaj.length > 5) ? '<img src="' + p.imaj + '" alt="' + p.non + '" onerror="this.innerHTML=\'🍽️\'">' : '🍽️';
+            return '<div class="product-card" onclick="addToCart(\'' + pid + '\')"><div class="product-img">' + imgHtml + '</div><div class="product-info"><span class="badge badge-brand">' + (p.kategori || '') + '</span><h4>' + p.non + '</h4><div class="merchant">🏪 ' + (p.machann_non || p.machann || 'Machann') + '</div><div class="price">' + fm(p.pri) + '</div></div></div>';
         }).join('');
-    }catch(e){document.getElementById('noMenu').style.display='block';document.getElementById('noMenu').textContent='Erè chajman';}
+    } catch (e) { document.getElementById('noMenu').style.display = 'block'; }
 }
 
-function addToCart(pid){
-    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
-    var p=products.find(function(x){return x.id===pid});
-    if(!p){showToast('Pwodui pa jwenn!','error');return}
-    if(!cart)cart=[];
-    var existing=cart.find(function(i){return i.pwodui_id===pid});
-    if(existing){existing.kantite++;existing.pri_total=existing.kantite*existing.pri_inite}
-    else{cart.push({pwodui_id:p.id,non:p.non,pri_inite:p.pri||0,kantite:1,pri_total:p.pri||0,machann_id:p.machann_id||'',machann_non:p.machann_non||'Machann'})}
-    localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));updateBadges();showToast(p.non+' ajoute! 🛒','cart');
+// ===== AJOUTE NAN PANYE =====
+function addToCart(pid) {
+    var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
+    var menuDuJour = JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]');
+    var allProducts = products.concat(menuDuJour);
+    
+    var p = allProducts.find(function(x) { return x.id === pid || x.pwodui_id === pid; });
+    if (!p) { showToast('Pwodui pa disponib!', 'error'); return; }
+    if (!cart) cart = [];
+    
+    var existing = cart.find(function(i) { return i.pwodui_id === pid || i.pwodui_id === p.id; });
+    if (existing) { existing.kantite++; existing.pri_total = existing.kantite * existing.pri_inite; }
+    else { cart.push({ pwodui_id: p.id || pid, non: p.non, pri_inite: p.pri || 0, kantite: 1, pri_total: p.pri || 0, machann_id: p.machann_id || '', machann_non: p.machann_non || p.machann || 'Machann' }); }
+    
+    localStorage.setItem('komandem-panye-temp', JSON.stringify(cart));
+    updateBadges();
+    showToast(p.non + ' ajoute! 🛒', 'cart');
 }
 
-function renderCart(){
-    if(!cart.length){document.getElementById('cartItems').innerHTML='';document.getElementById('emptyCart').style.display='block';document.getElementById('cartSummary').style.display='none';return}
-    document.getElementById('emptyCart').style.display='none';document.getElementById('cartSummary').style.display='block';
-    document.getElementById('cartItems').innerHTML=cart.map(function(item,idx){
-        return'<div class="cart-item"><div class="cart-item-img">🍽️</div><div class="cart-item-details"><h4>'+item.non+'</h4><div class="meta">🏪 '+(item.machann_non||'Machann')+'</div><div class="unit-price">'+fm(item.pri_inite)+' / chak</div></div><div class="cart-item-actions"><div class="qty-selector"><button class="qty-btn minus" onclick="updateQty('+idx+',-1)">−</button><div class="qty-value">'+item.kantite+'</div><button class="qty-btn plus" onclick="updateQty('+idx+',1)">+</button></div><div class="cart-item-total">'+fm(item.pri_total)+'</div><button class="remove-btn" onclick="removeItem('+idx+')">✕</button></div></div>';
+// ===== PANYE =====
+function renderCart() {
+    if (!cart.length) { document.getElementById('cartItems').innerHTML = ''; document.getElementById('emptyCart').style.display = 'block'; document.getElementById('cartSummary').style.display = 'none'; return; }
+    document.getElementById('emptyCart').style.display = 'none'; document.getElementById('cartSummary').style.display = 'block';
+    
+    document.getElementById('cartItems').innerHTML = cart.map(function(item, idx) {
+        return '<div class="cart-item"><div class="cart-item-img">🍽️</div><div class="cart-item-details"><h4>' + item.non + '</h4><div class="meta">🏪 ' + (item.machann_non || 'Machann') + '</div><div class="unit-price">' + fm(item.pri_inite) + ' / chak</div></div><div class="cart-item-actions"><div class="qty-selector"><button class="qty-btn minus" onclick="updateQty(' + idx + ',-1)">−</button><div class="qty-value">' + item.kantite + '</div><button class="qty-btn plus" onclick="updateQty(' + idx + ',1)">+</button></div><div class="cart-item-total">' + fm(item.pri_total) + '</div><button class="remove-btn" onclick="removeItem(' + idx + ')">✕</button></div></div>';
     }).join('');
-    var sub=cart.reduce(function(s,i){return s+i.pri_total},0);var tax=Math.round(sub*0.1);
-    document.getElementById('sumSub').textContent=fm(sub);document.getElementById('sumTax').textContent=fm(tax);document.getElementById('sumTotal').textContent=fm(sub+tax+25+50);
-}
-function updateQty(idx,delta){cart[idx].kantite+=delta;if(cart[idx].kantite<1)cart[idx].kantite=1;if(cart[idx].kantite>20)cart[idx].kantite=20;cart[idx].pri_total=cart[idx].kantite*cart[idx].pri_inite;localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));renderCart();updateBadges()}
-function removeItem(idx){var n=cart[idx].non;cart.splice(idx,1);localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));renderCart();updateBadges();showToast(n+' retire ✕','warning')}
-
-function showCheckout(){if(!cart.length){showToast('Panye vid!','warning');return}document.getElementById('coName').value=kliyan.non||'';document.getElementById('coPhone').value=kliyan.telefòn||'';document.getElementById('coAddr').value=kliyan.adrès||'';document.getElementById('coTotal').textContent=fm(cart.reduce(function(s,i){return s+i.pri_total},0)+Math.round(cart.reduce(function(s,i){return s+i.pri_total},0)*0.1)+25+50);document.getElementById('checkoutModal').classList.add('show')}
-function closeCheckout(){document.getElementById('checkoutModal').classList.remove('show')}
-
-function getLocation(){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(function(pos){userLocation={lat:pos.coords.latitude,lng:pos.coords.longitude};document.getElementById('locStatus').style.display='block';document.getElementById('locStatus').innerHTML='<span style="color:#22C55E">✅ GPS aktive!</span>';showToast('📍 Lokalisasyon aktive!','info')},function(){document.getElementById('locStatus').style.display='block';document.getElementById('locStatus').innerHTML='<span style="color:#EF4444">❌ Pa ka jwenn GPS</span>'})}
-
-function handleSS(event){var f=event.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(e){paymentSS=e.target.result;document.getElementById('ssPreview').src=paymentSS;document.getElementById('ssPreview').style.display='block';document.getElementById('removeSS').style.display='inline-flex';document.getElementById('ssBox').classList.add('success');document.getElementById('ssBox').innerHTML='<i class="fas fa-check-circle" style="color:#22C55E"></i><p style="color:#22C55E">✅ Screenshot telechaje!</p>'};r.readAsDataURL(f)}
-function removeSS(){paymentSS=null;document.getElementById('ssPreview').style.display='none';document.getElementById('removeSS').style.display='none';document.getElementById('ssBox').classList.remove('success');document.getElementById('ssBox').innerHTML='<i class="fas fa-cloud-upload-alt"></i><p style="color:var(--muted);font-size:0.85rem">Klike pou telechaje screenshot</p>';document.getElementById('ssInput').value=''}
-
-function placeOrder(){
-    var name=document.getElementById('coName').value.trim(),phone=document.getElementById('coPhone').value.trim(),addr=document.getElementById('coAddr').value.trim();
-    if(!name||!phone||!addr){showToast('Ranpli tout chan!','warning');return}
-    if(!paymentSS){showToast('📸 Telechaje screenshot depo NatCash!','warning');return}
-    var sub=cart.reduce(function(s,i){return s+i.pri_total},0),tax=Math.round(sub*0.1),total=sub+tax+25+50;
-    var order={id:'KMD-'+Date.now().toString(36).toUpperCase(),kliyan:name,kliyan_tel:phone,kliyan_id:kliyan.id||'anonymous',atik:cart,sou_total:sub,tax:tax,frè_sèvis:25,frè_livrezon:50,total:total,estat:'ann_atent',metòd_peman:'natcash',adrès_livrezon:{ri:addr},location:userLocation,screenshot:paymentSS,dat:new Date().toISOString()};
-    var orders=JSON.parse(localStorage.getItem('komandem-orders')||'[]');orders.unshift(order);localStorage.setItem('komandem-orders',JSON.stringify(orders));
-    localStorage.setItem('komandem-panye-temp','[]');cart=[];paymentSS=null;
-    var notifs=JSON.parse(localStorage.getItem('komandem-notifications')||'[]');notifs.unshift({message:'🛒 Nouvo kòmand #'+order.id+' - '+fm(total),time:new Date().toISOString(),type:'machann',machann_id:order.atik[0]?.machann_id});localStorage.setItem('komandem-notifications',JSON.stringify(notifs));
-    closeCheckout();updateBadges();showTab('orders');showToast('🎉 Kòmand #'+order.id+' konfime! 📸','order');
+    
+    var sub = cart.reduce(function(s, i) { return s + i.pri_total; }, 0);
+    var tax = Math.round(sub * 0.1);
+    document.getElementById('sumSub').textContent = fm(sub);
+    document.getElementById('sumTax').textContent = fm(tax);
+    document.getElementById('sumTotal').textContent = fm(sub + tax + 25 + 50);
 }
 
-function loadOrders(){
-    var orders=JSON.parse(localStorage.getItem('komandem-orders')||'[]');
-    var my=orders.filter(function(o){return o.kliyan_tel===kliyan.telefòn||o.kliyan_id===kliyan.id});
-    var labels={ann_atent:'⏳ An Atant',konfime:'✅ Konfime',an_preparasyon:'👨‍🍳 An Preparasyon',an_wout:'🛵 An Wout',livre:'🏁 Livre'};
-    var colors={ann_atent:'badge-warning',konfime:'badge-info',an_preparasyon:'badge-purple',an_wout:'badge-brand',livre:'badge-success'};
-    document.getElementById('ordersList').innerHTML=my.length?my.map(function(o){return'<div class="order-card"><div style="display:flex;justify-content:space-between"><strong style="color:var(--brand)">#'+o.id+'</strong><span class="badge '+(colors[o.estat]||'badge-warning')+'">'+(labels[o.estat]||o.estat)+'</span></div><p style="color:var(--muted);font-size:0.8rem;margin-top:0.2rem">'+((o.atik||[]).map(function(a){return a.kantite+'x '+a.non}).join(', '))+'</p><p style="font-weight:600;margin-top:0.2rem">'+fm(o.total)+'</p>'+(o.screenshot?'<p style="color:var(--success);font-size:0.7rem">📸 Screenshot enkli</p>':'')+'</div>'}).join(''):'<p style="text-align:center;color:var(--muted);padding:2rem">Ou poko gen kòmand</p>';
+function updateQty(idx, delta) {
+    cart[idx].kantite += delta;
+    if (cart[idx].kantite < 1) cart[idx].kantite = 1;
+    if (cart[idx].kantite > 20) cart[idx].kantite = 20;
+    cart[idx].pri_total = cart[idx].kantite * cart[idx].pri_inite;
+    localStorage.setItem('komandem-panye-temp', JSON.stringify(cart));
+    renderCart(); updateBadges();
 }
 
-function updateBadges(){var c=cart.reduce(function(s,i){return s+i.kantite},0);document.getElementById('cartBadge').textContent=c;document.getElementById('cartBadge').style.display=c>0?'inline':'none';document.getElementById('cartFabCount').textContent=c;document.getElementById('cartFabCount').style.display=c>0?'flex':'none'}
-function logout(){localStorage.removeItem('komandem-kliyan-session');window.location.href='index.html'}
+function removeItem(idx) {
+    var n = cart[idx].non;
+    cart.splice(idx, 1);
+    localStorage.setItem('komandem-panye-temp', JSON.stringify(cart));
+    renderCart(); updateBadges();
+    showToast(n + ' retire ✕', 'warning');
+}
 
-loadMenu();updateBadges();
+// ===== CHECKOUT =====
+function showCheckout() {
+    if (!cart.length) { showToast('Panye vid!', 'warning'); return; }
+    document.getElementById('coName').value = kliyan.non || '';
+    document.getElementById('coPhone').value = kliyan.telefòn || '';
+    document.getElementById('coAddr').value = kliyan.adrès || '';
+    document.getElementById('coTotal').textContent = fm(cart.reduce(function(s, i) { return s + i.pri_total; }, 0) + Math.round(cart.reduce(function(s, i) { return s + i.pri_total; }, 0) * 0.1) + 25 + 50);
+    document.getElementById('checkoutModal').classList.add('show');
+}
+
+function closeCheckout() { document.getElementById('checkoutModal').classList.remove('show'); }
+
+// ===== LOKALISASYON =====
+function getLocation() {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+        function(pos) { userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude }; document.getElementById('locStatus').style.display = 'block'; document.getElementById('locStatus').innerHTML = '<span style="color:#22C55E">✅ GPS aktive!</span>'; showToast('📍 Lokalisasyon aktive!', 'info'); },
+        function() { document.getElementById('locStatus').style.display = 'block'; document.getElementById('locStatus').innerHTML = '<span style="color:#EF4444">❌ Pa ka jwenn GPS</span>'; }
+    );
+}
+
+// ===== SCREENSHOT =====
+function handleSS(event) {
+    var f = event.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(e) {
+        paymentSS = e.target.result;
+        document.getElementById('ssPreview').src = paymentSS;
+        document.getElementById('ssPreview').style.display = 'block';
+        document.getElementById('removeSS').style.display = 'inline-flex';
+        document.getElementById('ssBox').classList.add('success');
+        document.getElementById('ssBox').innerHTML = '<i class="fas fa-check-circle" style="color:#22C55E"></i><p style="color:#22C55E">✅ Screenshot telechaje!</p>';
+    };
+    r.readAsDataURL(f);
+}
+
+function removeSS() {
+    paymentSS = null;
+    document.getElementById('ssPreview').style.display = 'none';
+    document.getElementById('removeSS').style.display = 'none';
+    document.getElementById('ssBox').classList.remove('success');
+    document.getElementById('ssBox').innerHTML = '<i class="fas fa-cloud-upload-alt"></i><p style="color:var(--muted);font-size:0.85rem">Klike pou telechaje screenshot</p>';
+    document.getElementById('ssInput').value = '';
+}
+
+// ===== PLACE ORDER =====
+function placeOrder() {
+    var name = document.getElementById('coName').value.trim();
+    var phone = document.getElementById('coPhone').value.trim();
+    var addr = document.getElementById('coAddr').value.trim();
+    if (!name || !phone || !addr) { showToast('Ranpli tout chan!', 'warning'); return; }
+    if (!paymentSS) { showToast('📸 Telechaje screenshot depo NatCash!', 'warning'); return; }
+    
+    var sub = cart.reduce(function(s, i) { return s + i.pri_total; }, 0);
+    var tax = Math.round(sub * 0.1);
+    var total = sub + tax + 25 + 50;
+    
+    var order = { id: 'KMD-' + Date.now().toString(36).toUpperCase(), kliyan: name, kliyan_tel: phone, kliyan_id: kliyan.id || 'anonymous', atik: cart, sou_total: sub, tax: tax, frè_sèvis: 25, frè_livrezon: 50, total: total, estat: 'ann_atent', metòd_peman: 'natcash', adrès_livrezon: { ri: addr }, location: userLocation, screenshot: paymentSS, dat: new Date().toISOString() };
+    
+    var orders = JSON.parse(localStorage.getItem('komandem-orders') || '[]'); orders.unshift(order);
+    localStorage.setItem('komandem-orders', JSON.stringify(orders));
+    localStorage.setItem('komandem-panye-temp', '[]'); cart = []; paymentSS = null;
+    
+    var notifs = JSON.parse(localStorage.getItem('komandem-notifications') || '[]');
+    notifs.unshift({ message: '🛒 Nouvo kòmand #' + order.id + ' - ' + fm(total), time: new Date().toISOString(), type: 'machann', machann_id: order.atik[0]?.machann_id });
+    localStorage.setItem('komandem-notifications', JSON.stringify(notifs));
+    
+    closeCheckout(); updateBadges(); showTab('orders');
+    showToast('🎉 Kòmand #' + order.id + ' konfime! 📸', 'order');
+}
+
+// ===== KÒMAND =====
+function loadOrders() {
+    var orders = JSON.parse(localStorage.getItem('komandem-orders') || '[]');
+    var my = orders.filter(function(o) { return o.kliyan_tel === kliyan.telefòn || o.kliyan_id === kliyan.id; });
+    var labels = { ann_atent: '⏳ An Atant', konfime: '✅ Konfime', an_preparasyon: '👨‍🍳 An Preparasyon', an_wout: '🛵 An Wout', livre: '🏁 Livre' };
+    var colors = { ann_atent: 'badge-warning', konfime: 'badge-info', an_preparasyon: 'badge-purple', an_wout: 'badge-brand', livre: 'badge-success' };
+    document.getElementById('ordersList').innerHTML = my.length ? my.map(function(o) {
+        return '<div class="order-card"><div style="display:flex;justify-content:space-between"><strong style="color:var(--brand)">#' + o.id + '</strong><span class="badge ' + (colors[o.estat] || 'badge-warning') + '">' + (labels[o.estat] || o.estat) + '</span></div><p style="color:var(--muted);font-size:0.8rem;margin-top:0.2rem">' + ((o.atik || []).map(function(a) { return a.kantite + 'x ' + a.non; }).join(', ')) + '</p><p style="font-weight:600;margin-top:0.2rem">' + fm(o.total) + '</p>' + (o.screenshot ? '<p style="color:var(--success);font-size:0.7rem">📸 Screenshot enkli</p>' : '') + '</div>';
+    }).join('') : '<p style="text-align:center;color:var(--muted);padding:2rem">Ou poko gen kòmand</p>';
+}
+
+// ===== BADGES =====
+function updateBadges() {
+    var c = cart.reduce(function(s, i) { return s + i.kantite; }, 0);
+    document.getElementById('cartBadge').textContent = c;
+    document.getElementById('cartBadge').style.display = c > 0 ? 'inline' : 'none';
+    document.getElementById('cartFabCount').textContent = c;
+    document.getElementById('cartFabCount').style.display = c > 0 ? 'flex' : 'none';
+}
+
+// ===== LOGOUT =====
+function logout() { localStorage.removeItem('komandem-kliyan-session'); window.location.href = 'index.html'; }
+
+// ===== INIT =====
+loadMenu(); updateBadges();
+
 </script>
 </body>
 </html>
