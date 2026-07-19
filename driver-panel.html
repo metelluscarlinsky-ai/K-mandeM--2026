@@ -178,35 +178,74 @@ function toggleActive(){
 }
 
 var watchId=null;
-function getLocation(){
-    if(!navigator.geolocation){alert('GPS pa sipòte');return}
-    document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--brand)">Ap chèche satelit...</p></div>';
+function getLocation() {
+    if (!navigator.geolocation) {
+        alert('GPS pa sipòte sou aparèy sa a');
+        return;
+    }
     
-    navigator.geolocation.getCurrentPosition(function(pos){
-        document.getElementById('mapBox').classList.add('active');
-        document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--success);font-weight:600">✅ GPS Aktive!</p><p style="color:var(--muted);font-size:0.8rem">W ap vizib sou kat pou admin</p></div>';
-        document.getElementById('locInfo').style.display='grid';
-        document.getElementById('latVal').textContent=pos.coords.latitude.toFixed(6);
-        document.getElementById('lngVal').textContent=pos.coords.longitude.toFixed(6);
-        document.getElementById('accVal').textContent=Math.round(pos.coords.accuracy)+'m';
-        document.getElementById('timeVal').textContent=new Date().toLocaleTimeString('ht-HT');
-        localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify({lat:pos.coords.latitude,lng:pos.coords.longitude,accuracy:pos.coords.accuracy,timestamp:new Date().toISOString(),driverId:driverId}));
-        
-        if(watchId)navigator.geolocation.clearWatch(watchId);
-        watchId=navigator.geolocation.watchPosition(function(p){
-            localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify({lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy,timestamp:new Date().toISOString(),driverId:driverId}));
-            document.getElementById('latVal').textContent=p.coords.latitude.toFixed(6);
-            document.getElementById('lngVal').textContent=p.coords.longitude.toFixed(6);
-            document.getElementById('timeVal').textContent=new Date().toLocaleTimeString('ht-HT');
-        });
-    },function(err){
-        var msg='Pa ka jwenn GPS';
-        if(err.code===1)msg='Pèmisyon refize! Aktive GPS nan paramèt';
-        else if(err.code===2)msg='Siyal pa disponib. Ale deyò';
-        document.getElementById('mapBox').innerHTML='<div><p style="color:var(--danger)">❌ '+msg+'</p><button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.5rem">Eseye Ankò</button></div>';
-    },{enableHighAccuracy:true,timeout:30000,maximumAge:0});
+    document.getElementById('mapBox').innerHTML = '<div><div class="loc-dot"></div><p style="color:var(--brand)">⏳ Ap chèche satelit GPS...</p></div>';
+    
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 30000,
+        maximumAge: 0
+    };
+    
+    navigator.geolocation.getCurrentPosition(
+        function(pos) {
+            document.getElementById('mapBox').classList.add('active');
+            document.getElementById('mapBox').innerHTML = '<div><div class="loc-dot"></div><p style="color:var(--success);font-weight:600">✅ GPS Konekte!</p><p style="color:var(--muted);font-size:0.85rem">Presizyon: ' + Math.round(pos.coords.accuracy) + 'm</p></div>';
+            document.getElementById('locInfo').style.display = 'grid';
+            document.getElementById('latVal').textContent = pos.coords.latitude.toFixed(6);
+            document.getElementById('lngVal').textContent = pos.coords.longitude.toFixed(6);
+            document.getElementById('accVal').textContent = Math.round(pos.coords.accuracy) + 'm';
+            document.getElementById('timeVal').textContent = new Date().toLocaleTimeString('ht-HT');
+            
+            var locData = {
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude,
+                accuracy: pos.coords.accuracy,
+                timestamp: new Date().toISOString(),
+                driverId: driverId,
+                driverName: driverName || 'Livrè'
+            };
+            localStorage.setItem('komandem-driver-location-' + driverId, JSON.stringify(locData));
+            
+            // Suivi kontini
+            if (window.watchId) navigator.geolocation.clearWatch(window.watchId);
+            window.watchId = navigator.geolocation.watchPosition(
+                function(p) {
+                    var updatedLoc = {
+                        lat: p.coords.latitude,
+                        lng: p.coords.longitude,
+                        accuracy: p.coords.accuracy,
+                        timestamp: new Date().toISOString(),
+                        driverId: driverId,
+                        driverName: driverName || 'Livrè'
+                    };
+                    localStorage.setItem('komandem-driver-location-' + driverId, JSON.stringify(updatedLoc));
+                    document.getElementById('latVal').textContent = p.coords.latitude.toFixed(6);
+                    document.getElementById('lngVal').textContent = p.coords.longitude.toFixed(6);
+                    document.getElementById('timeVal').textContent = new Date().toLocaleTimeString('ht-HT');
+                },
+                function() {},
+                { enableHighAccuracy: true, maximumAge: 5000 }
+            );
+        },
+        function(err) {
+            var msg = '';
+            switch(err.code) {
+                case 1: msg = 'Pèmisyon refize! Ale nan Paramèt → Lokalisasyon → Aktive'; break;
+                case 2: msg = 'Siyal pa disponib. Eseye deyò'; break;
+                case 3: msg = 'Tan ekspire. Eseye ankò'; break;
+                default: msg = err.message;
+            }
+            document.getElementById('mapBox').innerHTML = '<div><p style="color:var(--danger)">❌ ' + msg + '</p><button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.5rem">🔄 Eseye Ankò</button></div>';
+        },
+        options
+    );
 }
-
 function loadDeliveries(){
     var orders=go();var today=new Date().toDateString();
     var my=orders.filter(function(o){return o.livrè_id===driverId&&o.dat&&new Date(o.dat).toDateString()===today});
@@ -222,6 +261,64 @@ function openMap(a){window.open('https://www.google.com/maps?q='+encodeURICompon
 function logout(){if(watchId)navigator.geolocation.clearWatch(watchId);localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
 
 getLocation();loadDeliveries();setInterval(loadDeliveries,30000);
+
+// ===== SISTÈM NOTIFIKASYON SON POU LIVRÈ =====
+var lastNotifCount = 0;
+var audioCtx2 = null;
+
+function playAlertSound() {
+    try {
+        if (!audioCtx2) audioCtx2 = new (window.AudioContext || window.webkitAudioContext)();
+        var osc = audioCtx2.createOscillator();
+        var gain = audioCtx2.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx2.destination);
+        osc.frequency.value = 600;
+        osc.type = 'triangle';
+        gain.gain.value = 0.4;
+        osc.start();
+        setTimeout(function() { osc.frequency.value = 900; }, 100);
+        setTimeout(function() { osc.frequency.value = 1200; }, 200);
+        setTimeout(function() { osc.stop(); }, 500);
+    } catch(e) {}
+}
+
+function checkDriverNotifications() {
+    var notifs = JSON.parse(localStorage.getItem('komandem-notifications') || '[]');
+    var myNotifs = notifs.filter(function(n) {
+        return n.type === 'livrè' && n.driver_id === driverId && !n.read;
+    });
+    
+    if (myNotifs.length > lastNotifCount) {
+        var latest = myNotifs[0];
+        playAlertSound();
+        
+        // Notifikasyon vizyèl
+        var notifDiv = document.createElement('div');
+        notifDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF6B35,#E55A2B);color:white;padding:1.5rem 2rem;border-radius:20px;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.5);text-align:center;animation:slideDown 0.5s ease;cursor:pointer;max-width:400px';
+        notifDiv.innerHTML = '<div style="font-size:2rem;margin-bottom:0.5rem">🛵</div><h3 style="margin-bottom:0.5rem">Nouvo Livrezon!</h3><p style="font-size:1rem;font-weight:700">' + latest.message + '</p>' +
+            (latest.address ? '<p style="font-size:0.9rem;opacity:0.9">📍 ' + latest.address + '</p>' : '') +
+            (latest.customer ? '<p style="font-size:0.9rem;opacity:0.9">👤 ' + latest.customer + '</p>' : '') +
+            (latest.phone ? '<p style="font-size:0.9rem;opacity:0.9">📞 ' + latest.phone + '</p>' : '') +
+            '<p style="font-size:0.8rem;opacity:0.7;margin-top:0.5rem">Klike pou aksepte</p>';
+        notifDiv.onclick = function() { 
+            notifDiv.remove(); 
+            if (latest.order_id) accept(latest.order_id);
+        };
+        document.body.appendChild(notifDiv);
+        setTimeout(function() { if (notifDiv.parentNode) notifDiv.remove(); }, 15000);
+    }
+    
+    lastNotifCount = myNotifs.length;
+}
+
+// Verifye chak 5 segond
+setInterval(function() {
+    checkDriverNotifications();
+    loadDeliveries();
+}, 5000);
+
+setTimeout(checkDriverNotifications, 2000);
 </script>
 </body>
 </html>

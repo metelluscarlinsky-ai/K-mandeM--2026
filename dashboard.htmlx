@@ -86,6 +86,56 @@ l
         <a class="active" onclick="showPage('dash')"><i class="fas fa-th-large"></i>Tablo Kontwòl</a>
         <a onclick="showPage('orders')"><i class="fas fa-shopping-bag"></i>Kòmand <span class="sidebar-badge" id="pendingBadge">0</span></a>
     </div>
+<!-- MENU DU JOUR -->
+<div class="page" id="pageMenudujour">
+    <div class="topbar">
+        <h1>📅 Menu du Jour</h1>
+        <button class="btn btn-primary" onclick="addMenuItem()"><i class="fas fa-plus"></i>Ajoute Manje</button>
+    </div>
+    
+    <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card">
+            <div class="stat-icon" style="color:#F59E0B">🌅</div>
+            <div class="stat-value" id="dejeneCount" style="font-size:1.2rem">0</div>
+            <div class="stat-label">Dejene (6h-11h)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color:#FF6B35">☀️</div>
+            <div class="stat-value" id="dineCount" style="font-size:1.2rem">0</div>
+            <div class="stat-label">Dine (11h-15h)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color:#3B82F6">🌙</div>
+            <div class="stat-value" id="soupeCount" style="font-size:1.2rem">0</div>
+            <div class="stat-label">Soupe (15h-22h)</div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header"><h3>📋 Lis Manje Jodi a</h3></div>
+        <div class="card-body">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Manje</th>
+                            <th>Kategori</th>
+                            <th>Pri</th>
+                            <th>Machann</th>
+                            <th>Lè Disponib</th>
+                            <th>Disponib</th>
+                            <th>Aksyon</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuBody"></tbody>
+                </table>
+            </div>
+            <p id="noMenu" style="text-align:center;color:var(--muted);padding:2rem;display:none">
+                Pa gen manje nan menu jodi a.<br>Klike "Ajoute Manje" pou kòmanse.
+            </p>
+        </div>
+    </div>
+</div>
     <div class="sidebar-section"><p>Jesyon</p>
         <a onclick="showPage('merchants')"><i class="fas fa-store"></i>Machann</a>
         <a onclick="showPage('products')"><i class="fas fa-box"></i>Pwodui</a>
@@ -264,6 +314,107 @@ function showToast(message, type) {
     }, 4000);
 }
 
+// ===== MENU DU JOUR =====
+function gmj() { return JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]'); }
+function smj(d) { localStorage.setItem('komandem-menu-du-jour', JSON.stringify(d)); }
+
+function addMenuItem() {
+    var products = gp();
+    if (!products.length) { alert('Ajoute pwodui avan!'); return; }
+    
+    var plist = products.map(function(p, i) {
+        return (i + 1) + '. ' + p.non + ' - ' + fm(p.pri) + ' (' + (p.machann_non || '') + ')';
+    }).join('\n');
+    
+    var pidx = parseInt(prompt('Chwazi pwodui:\n\n' + plist, '1')) - 1;
+    var p = products[pidx];
+    if (!p) return;
+    
+    var cats = ['dejene', 'dine', 'soupe', 'desè', 'bwason', 'glase'];
+    var catNames = ['🌅 Dejene', '☀️ Dine', '🌙 Soupe', '🍰 Desè', '🥤 Bwason', '🍦 Glase'];
+    var catlist = catNames.map(function(c, i) { return (i + 1) + '. ' + c; }).join('\n');
+    var catidx = parseInt(prompt('Kategori:\n\n' + catlist, '1')) - 1;
+    var cat = cats[catidx] || 'dejene';
+    
+    var heureDebut = prompt('Lè ouvèti (ex: 06:00):', '06:00');
+    var heureFin = prompt('Lè fèmti (ex: 11:00):', '11:00');
+    
+    var menu = gmj();
+    menu.push({
+        id: 'menu_' + Date.now(),
+        pwodui_id: p.id,
+        non: p.non,
+        kategori: cat,
+        pri: p.pri,
+        machann: p.machann_non || '',
+        machann_id: p.machann_id,
+        heure_debut: heureDebut || '06:00',
+        heure_fin: heureFin || '22:00',
+        disponib: true,
+        dat: new Date().toDateString()
+    });
+    
+    smj(menu);
+    renderMenu();
+    showToast('✅ ' + p.non + ' ajoute nan menu!', 'success');
+}
+
+function renderMenu() {
+    var menu = gmj();
+    var today = new Date().toDateString();
+    var todayMenu = menu.filter(function(m) { return m.dat === today; });
+    
+    if (!todayMenu.length) {
+        document.getElementById('menuBody').innerHTML = '';
+        document.getElementById('noMenu').style.display = 'block';
+        document.getElementById('dejeneCount').textContent = '0';
+        document.getElementById('dineCount').textContent = '0';
+        document.getElementById('soupeCount').textContent = '0';
+        return;
+    }
+    
+    document.getElementById('noMenu').style.display = 'none';
+    
+    document.getElementById('dejeneCount').textContent = todayMenu.filter(function(m) { return m.kategori === 'dejene'; }).length;
+    document.getElementById('dineCount').textContent = todayMenu.filter(function(m) { return m.kategori === 'dine'; }).length;
+    document.getElementById('soupeCount').textContent = todayMenu.filter(function(m) { return m.kategori === 'soupe'; }).length;
+    
+    document.getElementById('menuBody').innerHTML = todayMenu.map(function(m) {
+        var catEmoji = m.kategori === 'dejene' ? '🌅' : m.kategori === 'dine' ? '☀️' : m.kategori === 'soupe' ? '🌙' : m.kategori === 'desè' ? '🍰' : m.kategori === 'bwason' ? '🥤' : '🍦';
+        return '<tr>' +
+            '<td><strong>' + m.non + '</strong></td>' +
+            '<td>' + catEmoji + ' ' + m.kategori + '</td>' +
+            '<td>' + fm(m.pri) + '</td>' +
+            '<td>' + (m.machann || '-') + '</td>' +
+            '<td><span class="badge badge-info">' + (m.heure_debut || '06:00') + ' - ' + (m.heure_fin || '22:00') + '</span></td>' +
+            '<td><span class="badge ' + (m.disponib ? 'badge-success' : 'badge-warning') + '">' + (m.disponib ? 'Wi' : 'Non') + '</span></td>' +
+            '<td>' +
+                '<button class="btn btn-outline btn-sm" onclick="toggleMenuItem(\'' + m.id + '\')"><i class="fas fa-power-off"></i></button> ' +
+                '<button class="btn btn-danger btn-sm" onclick="deleteMenuItem(\'' + m.id + '\')"><i class="fas fa-trash"></i></button>' +
+            '</td>' +
+        '</tr>';
+    }).join('');
+}
+
+function toggleMenuItem(id) {
+    var menu = gmj();
+    var idx = menu.findIndex(function(m) { return m.id === id; });
+    if (idx >= 0) {
+        menu[idx].disponib = !menu[idx].disponib;
+        smj(menu);
+        renderMenu();
+        showToast('Menu mizajou!', 'info');
+    }
+}
+
+function deleteMenuItem(id) {
+    if (confirm('Retire manje sa a nan menu?')) {
+        var menu = gmj().filter(function(m) { return m.id !== id; });
+        smj(menu);
+        renderMenu();
+        showToast('Manje retire!', 'warning');
+    }
+}
 // Ajoute animasyon CSS
 var toastStyle = document.createElement('style');
 toastStyle.textContent = `
@@ -301,6 +452,7 @@ function showPage(p){
     if(p==='orders')renderOrders();
     if(p==='drivers')renderDrivers();
     if(p==='natcash')renderNatCash();
+if(p==='menudujour') renderMenu();
 }
 
 function loadDash(){
