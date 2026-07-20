@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#FF6B35">
-    <title>KòmandeM 2026 - Manje w, pi pre w</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux version 5.9.14">
+<meta charset="UTF-8">
+<meta name="viewport" content=
+"width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FF6B35">
+<title>KòmandeM 2026 - Manje w, pi pre w</title>
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
         :root{--brand:#FF6B35;--brand2:#FF924D;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--warning:#F59E0B;--radius:14px;--radius-lg:20px}
         *{margin:0;padding:0;box-sizing:border-box}
         body{background:var(--dark);color:white;font-family:system-ui,sans-serif;min-height:100vh}
@@ -71,141 +76,219 @@
         .menu-card-img .time-tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);color:white;padding:0.3rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;display:flex;align-items:center;gap:0.3rem}
         .menu-card-img .cat-tag{position:absolute;top:10px;right:10px;background:var(--brand);color:white;padding:0.3rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:700}
         .menu-card-img .discount-tag{position:absolute;bottom:10px;right:10px;background:#EF4444;color:white;padding:0.3rem 0.7rem;border-radius:999px;font-size:0.75rem;font-weight:800}
-        
-        .menu-card-body{padding:1.25rem}
-        .menu-card-body h3{font-size:1.05rem;font-weight:700;margin-bottom:0.2rem;color:white}
-        .menu-card-body .shop{font-size:0.8rem;color:var(--muted);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.3rem}
-        .menu-card-body .shop i{color:var(--brand);font-size:0.7rem}
-        .menu-card-body .bottom-row{display:flex;align-items:center;justify-content:space-between}
-        .menu-card-body .price{font-size:1.3rem;font-weight:800;color:var(--brand)}
-        .menu-card-body .old-price{font-size:0.8rem;color:var(--muted);text-decoration:line-through;margin-left:0.4rem}
-        .menu-card-body .order-btn{background:var(--brand);color:white;border:none;padding:0.55rem 1.1rem;border-radius:10px;font-weight:600;font-size:0.8rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:0.3rem;text-decoration:none}
-        .menu-card-body .order-btn:hover{background:#E55A2B;transform:scale(1.05)}
-        
-        .cta{background:linear-gradient(135deg,var(--brand),var(--brand2));text-align:center;padding:2rem;position:relative;overflow:hidden}
-        .cta::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
-        .cta h3{color:white;font-size:1.3rem;font-weight:800;position:relative}
-        .cta p{color:rgba(255,255,255,0.85);font-size:0.85rem;margin-top:0.3rem;position:relative}
-        
-        footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
-        footer i{color:var(--danger);font-size:0.7rem;animation:heartbeat 1.5s infinite}
-        @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-        
-        .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center}
-        .overlay.show{display:flex}.overlay div{text-align:center;color:white;animation:fadeInUp 0.5s ease}
-        .overlay .big{font-size:5rem;margin-bottom:1rem}.overlay h2{color:var(--brand);font-size:2rem;margin-bottom:1rem}
-        
-        @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 1rem;min-height:auto}.menu-grid{grid-template-columns:1fr}.quick-stats{gap:0.75rem}}
-    </style>
-</head>
-<body>
 
-<header class="header">
-    <a href="index.html" class="logo"><span class="live-dot"></span> Kòmande<span>M</span></a>
-    <div style="display:flex;gap:0.75rem">
-        <a href="login-kliyan.html" class="btn btn-outline">🔓 Konekte</a>
-        <a href="register.html" class="btn btn-primary">✨ Enskri</a>
-    </div>
-</header>
-
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-badge"><i class="fas fa-sparkles"></i> #1 Platfòm Kòmand Manje nan Gonayiv</div>
-        <h1>Manje w pi renmen,<br><span>livre nan pòt ou</span></h1>
-        <p class="slogan">Kòmande <strong>pi bon manje</strong> Gonayiv yo — <strong>rapid, fasil, ak sekirize!</strong></p>
-        
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="search" placeholder="Ki manje w vle jodi a? 🍕🍔🥗">
-            <button onclick="doSearch()">Chèche</button>
-        </div>
-        
-        <div class="quick-stats">
-            <div class="stat-item"><i class="fas fa-store" style="color:var(--brand)"></i> <span class="nb" id="statMerchants">0</span><div class="lb">Machann</div></div>
-            <div class="stat-item"><i class="fas fa-box" style="color:var(--success)"></i> <span class="nb" id="statProducts">0</span><div class="lb">Pwodui</div></div>
-            <div class="stat-item"><i class="fas fa-motorcycle" style="color:#3B82F6"></i> <span class="nb">15-30</span><div class="lb">Min Livrezon</div></div>
-        </div>
-        
-        <p class="easter-hint">🔑 Sekrè: tape <strong>ogsun</strong> epi peze Enter</p>
-    </div>
-</section>
-
-<section class="menu-section">
-    <div class="menu-header">
-        <div class="status-badge live" id="menuBadge" style="display:none"><span class="dot"></span> Menu du Jour Disponib!</div>
-        <h2>🍽️ <span id="menuTitle">Sa K Ap Kwit Jodi a</span></h2>
-        <p id="menuDesc"><i class="fas fa-utensils"></i> Dekouvri tout bon manje ki disponib pou livrezon rapid</p>
-    </div>
-    <div class="menu-grid" id="menuGrid"></div>
-    <p id="noMenu" style="text-align:center;color:var(--muted);padding:3rem;display:none">
-        <i class="fas fa-utensils" style="font-size:4rem;display:block;margin-bottom:1rem;opacity:0.2"></i>
-        <strong style="color:white">Pa gen manje disponib kounye a</strong><br>
-        <small>Revini pita! Machann yo ap prepare bon bagay pou ou.</small>
-    </p>
-</section>
-
-<section class="cta">
-    <h3>📱 Telechaje App KòmandeM</h3>
-    <p>Disponib sou Android — pi rapid, pi fasil!</p>
-</section>
-
-<footer>
-    <p>&copy; 2026 KòmandeM | Fèt ak <i class="fas fa-heart"></i> nan Gonayiv, Ayiti</p>
-</footer>
-
-<div class="overlay" id="overlay"><div><div class="big">🔐</div><h2>Aksè Admin Detekte!</h2><p style="color:#94A3B8">W ap redireje...</p></div></div>
-
-<script>
-// ===== TOAST BÈL =====
-function showToast(msg,type){
-    var styles={success:{bg:'linear-gradient(135deg,#22C55E,#16A34A)',emoji:'🎉',title:'Siksè!'},error:{bg:'linear-gradient(135deg,#EF4444,#DC2626)',emoji:'❌',title:'Erè'},warning:{bg:'linear-gradient(135deg,#F59E0B,#D97706)',emoji:'⚠️',title:'Atansyon'},info:{bg:'linear-gradient(135deg,#3B82F6,#2563EB)',emoji:'💡',title:'Info'}};
-    var s=styles[type]||styles.info;
-    var t=document.createElement('div');
-    t.style.cssText='position:fixed;top:20px;right:-420px;color:white;padding:1.2rem 1.5rem;border-radius:20px;font-weight:600;font-size:0.88rem;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.6);max-width:380px;font-family:system-ui;cursor:pointer;transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);background:'+s.bg;
-    t.innerHTML='<div style="display:flex;align-items:flex-start;gap:0.8rem"><div style="font-size:2rem;flex-shrink:0;animation:bounce 0.6s ease">'+s.emoji+'</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.9;margin-bottom:0.2rem">'+s.title+'</div><div style="font-size:0.85rem;line-height:1.4">'+msg+'</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:0.8rem">✕</button></div>';
-    document.body.appendChild(t);setTimeout(function(){t.style.right='20px'},50);
-    setTimeout(function(){t.style.right='-420px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},500)},4200);
-}
-var ts=document.createElement('style');ts.textContent='@keyframes bounce{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}';document.head.appendChild(ts);
-
-// ===== CHAJE MENU =====
-function loadMenu(){
-    var menuDuJour=JSON.parse(localStorage.getItem('komandem-menu-du-jour')||'[]');
-    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
-    var today=new Date().toDateString();
-    var todayMenu=menuDuJour.filter(function(m){return m.dat===today&&m.disponib!==false});
-    var available=todayMenu.length>0?todayMenu:products.filter(function(p){return p.disponib!==false});
-    
-    // Stats
-    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
-    document.getElementById('statMerchants').textContent=merchants.length||'50+';
-    document.getElementById('statProducts').textContent=products.length||'500+';
-    
-    // Badge
-    document.getElementById('menuBadge').style.display=todayMenu.length>0?'inline-flex':'none';
-    var title=document.getElementById('menuTitle');
-    var desc=document.getElementById('menuDesc');
-    if(todayMenu.length>0){title.textContent='🍽️ Menu du Jour';desc.innerHTML='<i class="fas fa-calendar-check" style="color:var(--success)"></i> Manje disponib jodi a ak lè livrezon';}
-    else{title.textContent='🍽️ Sa K Ap Kwit Jodi a';desc.innerHTML='<i class="fas fa-utensils" style="color:var(--brand)"></i> Tout bon manje ki disponib pou livrezon rapid';}
-    
-    if(!available.length){document.getElementById('menuGrid').innerHTML='';document.getElementById('noMenu').style.display='block';return}
-    document.getElementById('noMenu').style.display='none';
-    
-    document.getElementById('menuGrid').innerHTML=available.map(function(p){
-        var imgHtml=(p.imaj&&p.imaj.length>5)?'<img src="'+p.imaj+'" alt="'+p.non+'" onerror="this.parentElement.innerHTML=\'<div class=placeholder>🍽️</div>\'">':'<div class="placeholder">🍽️</div>';
-        var catEmoji='📦';switch(p.kategori){case'dejene':catEmoji='🌅';break;case'dine':catEmoji='☀️';break;case'soupe':catEmoji='🌙';break;case'desè':catEmoji='🍰';break;case'bwason':catEmoji='🥤';break;case'glase':catEmoji='🍦';break}
-        var timeHtml='';if(p.heure_debut&&p.heure_fin)timeHtml='<div class="time-tag">🕐 '+p.heure_debut+' - '+p.heure_fin+'</div>';
-        var discountHtml='';if(p.pri_originèl&&p.pri_originèl>p.pri)discountHtml='<div class="discount-tag">-'+Math.round((1-p.pri/p.pri_originèl)*100)+'%</div>';
-        var priceHtml='<span class="price">'+(p.pri||0).toLocaleString('ht-HT')+' GDS</span>';
-        if(p.pri_originèl&&p.pri_originèl>p.pri)priceHtml='<span class="price">'+(p.pri||0).toLocaleString('ht-HT')+' GDS</span><span class="old-price">'+(p.pri_originèl||0).toLocaleString('ht-HT')+' GDS</span>';
-        return'<div class="menu-card"><div class="menu-card-img">'+imgHtml+timeHtml+'<div class="cat-tag">'+catEmoji+' '+(p.kategori||'')+'</div>'+discountHtml+'</div><div class="menu-card-body"><h3>'+p.non+'</h3><div class="shop"><i class="fas fa-store"></i> '+(p.machann_non||p.machann||'Machann')+'</div><div class="bottom-row"><div>'+priceHtml+'</div><a href="login-kliyan.html" class="order-btn"><i class="fas fa-shopping-bag"></i> Kòmande</a></div></div></div>';
-    }).join('');
-}
-
-function doSearch(){var q=document.getElementById('search').value.trim().toLowerCase();if(!q)return;if(q==='ogsun'){document.getElementById('overlay').classList.add('show');setTimeout(function(){window.location.href='admin-login.html'},2000);return}var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');var found=products.filter(function(p){return p.non.toLowerCase().includes(q)});showToast(found.length?found.length+' pwodui jwenn! 🔍':'Pa gen rezilta','info');}
-document.getElementById('search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch()});
-loadMenu();setInterval(loadMenu,30000);
-</script>
-</body>
-</html>
-
+‎
+‎
+‎
+‎
+‎
+‎
+‎
+‎<!DOCTYPE html>
+‎<html lang="ht">
+‎<head>
+‎    <meta charset="UTF-8">
+‎    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎    <meta name="theme-color" content="#FF6B35">
+‎    <title>KòmandeM 2026 - Manje w, pi pre w</title>
+‎    <link rel="icon" type="image/png" href="assets/images/logo-komndem.png">
+‎    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+‎    <style>
+‎        :root{--brand:#FF6B35;--brand2:#FF924D;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--warning:#F59E0B;--radius:14px;--radius-lg:20px}
+‎        *{margin:0;padding:0;box-sizing:border-box}
+‎        body{background:var(--dark);color:white;font-family:system-ui,sans-serif;min-height:100vh}
+‎        
+‎        .header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+‎        .logo{color:white;text-decoration:none;font-size:1.3rem;font-weight:800;display:flex;align-items:center;gap:0.5rem}
+‎        .logo-img{height:40px;width:auto;border-radius:10px}
+‎        .logo span{color:var(--brand)}
+‎        .logo .live-dot{width:8px;height:8px;background:var(--success);border-radius:50%;animation:pulse 1.5s infinite}
+‎        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}}
+‎        
+‎        .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border-radius:12px;font-weight:600;font-size:0.9rem;cursor:pointer;text-decoration:none;border:none;font-family:inherit;transition:all 0.3s}
+‎        .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
+‎        .btn-outline:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.4)}
+‎        .btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:white;box-shadow:0 4px 15px rgba(255,107,53,0.3)}
+‎        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,107,53,0.4)}
+‎        
+‎        .hero{min-height:55vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 1rem;position:relative;overflow:hidden}
+‎        .hero::before{content:'';position:absolute;top:-50%;right:-30%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,53,0.06) 0%,transparent 70%);pointer-events:none}
+‎        .hero::after{content:'';position:absolute;bottom:-40%;left:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(34,197,94,0.04) 0%,transparent 70%);pointer-events:none}
+‎        .hero-content{position:relative;z-index:1;max-width:700px}
+‎        .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.2);padding:0.5rem 1.25rem;border-radius:999px;font-size:0.85rem;color:var(--brand);margin-bottom:1.5rem;animation:fadeInUp 0.6s ease}
+‎        .hero-badge i{font-size:0.9rem}
+‎        .hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;margin-bottom:1rem;animation:fadeInUp 0.6s ease 0.1s both}
+‎        .hero h1 span{background:linear-gradient(135deg,var(--brand),var(--brand2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+‎        .hero .slogan{color:var(--muted);font-size:1.1rem;margin-bottom:2rem;animation:fadeInUp 0.6s ease 0.2s both}
+‎        .hero .slogan strong{color:white}
+‎        
+‎        .search-box{display:flex;align-items:center;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:0.4rem;max-width:500px;margin:0 auto;animation:fadeInUp 0.6s ease 0.3s both;transition:all 0.3s}
+‎        .search-box:focus-within{border-color:var(--brand);box-shadow:0 0 0 4px rgba(255,107,53,0.1)}
+‎        .search-box i{color:#64748B;margin:0 1rem}
+‎        .search-box input{flex:1;padding:0.8rem;background:transparent;border:none;outline:none;color:white;font-size:0.95rem;font-family:inherit}
+‎        .search-box input::placeholder{color:#64748B}
+‎        .search-box button{padding:0.8rem 1.3rem;background:var(--brand);color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+‎        
+‎        .quick-stats{display:flex;justify-content:center;gap:2rem;margin-top:2rem;flex-wrap:wrap;animation:fadeInUp 0.6s ease 0.4s both}
+‎        .stat-item{text-align:center;padding:0.75rem 1.25rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius)}
+‎        .stat-item .nb{font-size:1.3rem;font-weight:800;color:white}.stat-item .lb{font-size:0.75rem;color:var(--muted)}
+‎        .stat-item i{font-size:1rem;margin-right:0.3rem}
+‎        
+‎        .easter-hint{margin-top:0.75rem;font-size:0.7rem;color:rgba(255,255,255,0.08);animation:fadeInUp 0.6s ease 0.5s both}
+‎        .easter-hint strong{color:rgba(255,255,255,0.15)}
+‎        
+‎        @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+‎        
+‎        .menu-section{padding:2rem 1.5rem 4rem}
+‎        .menu-header{text-align:center;margin-bottom:2rem}
+‎        .menu-header .status-badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 1rem;border-radius:999px;font-size:0.8rem;font-weight:700;margin-bottom:0.75rem}
+‎        .status-badge.live{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.2)}
+‎        .status-badge.live .dot{width:7px;height:7px;background:var(--success);border-radius:50%;animation:pulse 1.5s infinite}
+‎        .menu-header h2{font-size:1.8rem;font-weight:800}.menu-header h2 span{color:var(--brand)}
+‎        .menu-header p{color:var(--muted);font-size:0.9rem;margin-top:0.4rem}
+‎        .menu-header p i{color:var(--brand)}
+‎        
+‎        .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;max-width:1100px;margin:0 auto}
+‎        
+‎        .menu-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all 0.35s;cursor:pointer}
+‎        .menu-card:hover{border-color:var(--brand);transform:translateY(-6px);box-shadow:0 25px 60px rgba(0,0,0,0.5)}
+‎        .menu-card-img{height:200px;background:linear-gradient(135deg,rgba(255,107,53,0.06),rgba(255,107,53,0.01));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+‎        .menu-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s}
+‎        .menu-card:hover .menu-card-img img{transform:scale(1.08)}
+‎        .menu-card-img .placeholder{font-size:4rem;opacity:0.4}
+‎        .menu-card-img .time-tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);color:white;padding:0.3rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;display:flex;align-items:center;gap:0.3rem}
+‎        .menu-card-img .cat-tag{position:absolute;top:10px;right:10px;background:var(--brand);color:white;padding:0.3rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:700}
+‎        .menu-card-img .discount-tag{position:absolute;bottom:10px;right:10px;background:#EF4444;color:white;padding:0.3rem 0.7rem;border-radius:999px;font-size:0.75rem;font-weight:800}
+‎        
+‎        .menu-card-body{padding:1.25rem}
+‎        .menu-card-body h3{font-size:1.05rem;font-weight:700;margin-bottom:0.2rem;color:white}
+‎        .menu-card-body .shop{font-size:0.8rem;color:var(--muted);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.3rem}
+‎        .menu-card-body .shop i{color:var(--brand);font-size:0.7rem}
+‎        .menu-card-body .bottom-row{display:flex;align-items:center;justify-content:space-between}
+‎        .menu-card-body .price{font-size:1.3rem;font-weight:800;color:var(--brand)}
+‎        .menu-card-body .old-price{font-size:0.8rem;color:var(--muted);text-decoration:line-through;margin-left:0.4rem}
+‎        .menu-card-body .order-btn{background:var(--brand);color:white;border:none;padding:0.55rem 1.1rem;border-radius:10px;font-weight:600;font-size:0.8rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:0.3rem;text-decoration:none}
+‎        .menu-card-body .order-btn:hover{background:#E55A2B;transform:scale(1.05)}
+‎        
+‎        .cta{background:linear-gradient(135deg,var(--brand),var(--brand2));text-align:center;padding:2rem;position:relative;overflow:hidden}
+‎        .cta::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+‎        .cta h3{color:white;font-size:1.3rem;font-weight:800;position:relative}
+‎        .cta p{color:rgba(255,255,255,0.85);font-size:0.85rem;margin-top:0.3rem;position:relative}
+‎        
+‎        footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
+‎        footer i{color:var(--danger);font-size:0.7rem;animation:heartbeat 1.5s infinite}
+‎        @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+‎        
+‎        .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center}
+‎        .overlay.show{display:flex}.overlay div{text-align:center;color:white;animation:fadeInUp 0.5s ease}
+‎        .overlay .big{font-size:5rem;margin-bottom:1rem}.overlay h2{color:var(--brand);font-size:2rem;margin-bottom:1rem}
+‎        
+‎        @media(max-width:768px){.header{padding:1rem}.hero{padding:5rem 1rem 1rem;min-height:auto}.menu-grid{grid-template-columns:1fr}.quick-stats{gap:0.75rem}}
+‎    </style>
+‎</head>
+‎<body>
+‎
+‎<header class="header">
+‎    <a href="index.html" class="logo">
+‎        <img src="assets/images/logo-komndem.png" alt="KòmandeM" class="logo-img" onerror="this.style.display='none'">
+‎        <span class="live-dot"></span> Kòmande<span>M</span>
+‎    </a>
+‎    <div style="display:flex;gap:0.75rem">
+‎        <a href="login-kliyan.html" class="btn btn-outline">🔓 Konekte</a>
+‎        <a href="register.html" class="btn btn-primary">✨ Enskri</a>
+‎    </div>
+‎</header>
+‎
+‎<section class="hero">
+‎    <div class="hero-content">
+‎        <div class="hero-badge"><i class="fas fa-sparkles"></i> #1 Platfòm Kòmand Manje nan Gonayiv</div>
+‎        <h1>Manje w pi renmen,<br><span>livre nan pòt ou</span></h1>
+‎        <p class="slogan">Kòmande <strong>pi bon manje</strong> Gonayiv yo — <strong>rapid, fasil, ak sekirize!</strong></p>
+‎        
+‎        <div class="search-box">
+‎            <i class="fas fa-search"></i>
+‎            <input type="text" id="search" placeholder="Ki manje w vle jodi a? 🍕🍔🥗">
+‎            <button onclick="doSearch()">Chèche</button>
+‎        </div>
+‎        
+‎        <div class="quick-stats">
+‎            <div class="stat-item"><i class="fas fa-store" style="color:var(--brand)"></i> <span class="nb" id="statMerchants">0</span><div class="lb">Machann</div></div>
+‎            <div class="stat-item"><i class="fas fa-box" style="color:var(--success)"></i> <span class="nb" id="statProducts">0</span><div class="lb">Pwodui</div></div>
+‎            <div class="stat-item"><i class="fas fa-motorcycle" style="color:#3B82F6"></i> <span class="nb">15-30</span><div class="lb">Min Livrezon</div></div>
+‎        </div>
+‎        
+‎        
+‎    </div>
+‎</section>
+‎
+‎<section class="menu-section">
+‎    <div class="menu-header">
+‎        <div class="status-badge live" id="menuBadge" style="display:none"><span class="dot"></span> Menu du Jour Disponib!</div>
+‎        <h2>🍽️ <span id="menuTitle">Sa K Ap Kwit Jodi a</span></h2>
+‎        <p id="menuDesc"><i class="fas fa-utensils"></i> Dekouvri tout bon manje ki disponib pou livrezon rapid</p>
+‎    </div>
+‎    <div class="menu-grid" id="menuGrid"></div>
+‎    <p id="noMenu" style="text-align:center;color:var(--muted);padding:3rem;display:none">
+‎        <i class="fas fa-utensils" style="font-size:4rem;display:block;margin-bottom:1rem;opacity:0.2"></i>
+‎        <strong style="color:white">Pa gen manje disponib kounye a</strong><br>
+‎        <small>Revini pita! Machann yo ap prepare bon bagay pou ou.</small>
+‎    </p>
+‎</section>
+‎
+‎<section class="cta">
+‎    <h3>📱 Telechaje App KòmandeM</h3>
+‎    <p>Disponib sou Android — pi rapid, pi fasil!</p>
+‎</section>
+‎
+‎<footer>
+‎    <p>&copy; 2026 KòmandeM | Fèt ak <i class="fas fa-heart"></i> nan Gonayiv, Ayiti</p>
+‎</footer>
+‎
+‎<div class="overlay" id="overlay"><div><div class="big">🔐</div><h2>Aksè Admin Detekte!</h2><p style="color:#94A3B8">W ap redireje...</p></div></div>
+‎
+‎<script>
+‎function showToast(msg,type){
+‎    var styles={success:{bg:'linear-gradient(135deg,#22C55E,#16A34A)',emoji:'🎉',title:'Siksè!'},error:{bg:'linear-gradient(135deg,#EF4444,#DC2626)',emoji:'❌',title:'Erè'},warning:{bg:'linear-gradient(135deg,#F59E0B,#D97706)',emoji:'⚠️',title:'Atansyon'},info:{bg:'linear-gradient(135deg,#3B82F6,#2563EB)',emoji:'💡',title:'Info'}};
+‎    var s=styles[type]||styles.info;
+‎    var t=document.createElement('div');
+‎    t.style.cssText='position:fixed;top:20px;right:-420px;color:white;padding:1.2rem 1.5rem;border-radius:20px;font-weight:600;font-size:0.88rem;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.6);max-width:380px;font-family:system-ui;cursor:pointer;transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);background:'+s.bg;
+‎    t.innerHTML='<div style="display:flex;align-items:flex-start;gap:0.8rem"><div style="font-size:2rem;flex-shrink:0;animation:bounce 0.6s ease">'+s.emoji+'</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.9;margin-bottom:0.2rem">'+s.title+'</div><div style="font-size:0.85rem;line-height:1.4">'+msg+'</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:0.8rem">✕</button></div>';
+‎    document.body.appendChild(t);setTimeout(function(){t.style.right='20px'},50);
+‎    setTimeout(function(){t.style.right='-420px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},500)},4200);
+‎}
+‎var ts=document.createElement('style');ts.textContent='@keyframes bounce{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}';document.head.appendChild(ts);
+‎
+‎function loadMenu(){
+‎    var menuDuJour=JSON.parse(localStorage.getItem('komandem-menu-du-jour')||'[]');
+‎    var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');
+‎    var today=new Date().toDateString();
+‎    var todayMenu=menuDuJour.filter(function(m){return m.dat===today&&m.disponib!==false});
+‎    var available=todayMenu.length>0?todayMenu:products.filter(function(p){return p.disponib!==false});
+‎    var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
+‎    document.getElementById('statMerchants').textContent=merchants.length||'50+';
+‎    document.getElementById('statProducts').textContent=products.length||'500+';
+‎    document.getElementById('menuBadge').style.display=todayMenu.length>0?'inline-flex':'none';
+‎    var title=document.getElementById('menuTitle');
+‎    var desc=document.getElementById('menuDesc');
+‎    if(todayMenu.length>0){title.textContent='🍽️ Menu du Jour';desc.innerHTML='<i class="fas fa-calendar-check" style="color:var(--success)"></i> Manje disponib jodi a ak lè livrezon';}
+‎    else{title.textContent='🍽️ Sa K Ap Kwit Jodi a';desc.innerHTML='<i class="fas fa-utensils" style="color:var(--brand)"></i> Tout bon manje ki disponib pou livrezon rapid';}
+‎    if(!available.length){document.getElementById('menuGrid').innerHTML='';document.getElementById('noMenu').style.display='block';return}
+‎    document.getElementById('noMenu').style.display='none';
+‎    document.getElementById('menuGrid').innerHTML=available.map(function(p){
+‎        var imgHtml=(p.imaj&&p.imaj.length>5)?'<img src="'+p.imaj+'" alt="'+p.non+'" onerror="this.parentElement.innerHTML=\'<div class=placeholder>🍽️</div>\'">':'<div class="placeholder">🍽️</div>';
+‎        var catEmoji='📦';switch(p.kategori){case'dejene':catEmoji='🌅';break;case'dine':catEmoji='☀️';break;case'soupe':catEmoji='🌙';break;case'desè':catEmoji='🍰';break;case'bwason':catEmoji='🥤';break;case'glase':catEmoji='🍦';break}
+‎        var timeHtml='';if(p.heure_debut&&p.heure_fin)timeHtml='<div class="time-tag">🕐 '+p.heure_debut+' - '+p.heure_fin+'</div>';
+‎        var discountHtml='';if(p.pri_originèl&&p.pri_originèl>p.pri)discountHtml='<div class="discount-tag">-'+Math.round((1-p.pri/p.pri_originèl)*100)+'%</div>';
+‎        var priceHtml='<span class="price">'+(p.pri||0).toLocaleString('ht-HT')+' GDS</span>';
+‎        if(p.pri_originèl&&p.pri_originèl>p.pri)priceHtml='<span class="price">'+(p.pri||0).toLocaleString('ht-HT')+' GDS</span><span class="old-price">'+(p.pri_originèl||0).toLocaleString('ht-HT')+' GDS</span>';
+‎        return'<div class="menu-card"><div class="menu-card-img">'+imgHtml+timeHtml+'<div class="cat-tag">'+catEmoji+' '+(p.kategori||'')+'</div>'+discountHtml+'</div><div class="menu-card-body"><h3>'+p.non+'</h3><div class="shop"><i class="fas fa-store"></i> '+(p.machann_non||p.machann||'Machann')+'</div><div class="bottom-row"><div>'+priceHtml+'</div><a href="login-kliyan.html" class="order-btn"><i class="fas fa-shopping-bag"></i> Kòmande</a></div></div></div>';
+‎    }).join('');
+‎}
+‎
+‎function doSearch(){var q=document.getElementById('search').value.trim().toLowerCase();if(!q)return;if(q==='ogsun'){document.getElementById('overlay').classList.add('show');setTimeout(function(){window.location.href='admin-login.html'},2000);return}var products=JSON.parse(localStorage.getItem('komandem-products')||'[]');var found=products.filter(function(p){return p.non.toLowerCase().includes(q)});showToast(found.length?found.length+' pwodui jwenn! 🔍':'Pa gen rezilta','info');}
+‎document.getElementById('search').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch()});
+‎loadMenu();setInterval(loadMenu,30000);
+‎</script>
+‎</body>
+‎</html>
+‎
