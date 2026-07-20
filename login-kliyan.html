@@ -1,59 +1,63 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF6B35">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
     <title>Konekte - KòmandeM</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-komndem.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{background:#0A0A1A;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:20px}
         .card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:2.5rem;width:100%;max-width:420px;box-shadow:0 25px 80px rgba(0,0,0,0.5);color:white}
-        .icon{width:60px;height:60px;background:#FF6B35;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem}
-        h1{text-align:center;font-size:1.3rem;font-weight:800;margin-bottom:0.25rem}h1 span{color:#FF6B35}
-        .sub{text-align:center;color:#94A3B8;font-size:0.85rem;margin-bottom:1.5rem}
+        .logo-box{text-align:center;margin-bottom:1.5rem}
+        .logo-box img{height:60px;border-radius:16px;margin-bottom:0.5rem}
+        .logo-box h1{font-size:1.4rem;font-weight:800}.logo-box h1 span{color:#FF6B35}
+        .logo-box p{color:#94A3B8;font-size:0.85rem}
         .fg{margin-bottom:1rem}.fg label{display:block;font-weight:600;font-size:0.85rem;color:#E2E8F0;margin-bottom:0.4rem}
         .inp{width:100%;padding:0.8rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:0.95rem;outline:none;font-family:inherit;color:white;box-sizing:border-box}
         .inp:focus{border-color:#FF6B35}.inp::placeholder{color:#64748B}
-        .btn{width:100%;padding:0.9rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
+        .btn{width:100%;padding:0.9rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit;margin-bottom:0.75rem}
         .btn:hover{background:#E55A2B}
-        .links{text-align:center;margin-top:1.5rem;font-size:0.9rem;color:#94A3B8}.links a{color:#FF6B35;text-decoration:none;font-weight:600}
-        .back{text-align:center;margin-top:0.75rem}.back a{color:#64748B;text-decoration:none;font-size:0.85rem}
-        .toast{position:fixed;top:20px;right:20px;z-index:9999;padding:1rem 1.5rem;border-radius:16px;font-weight:600;font-size:0.9rem;box-shadow:0 10px 40px rgba(0,0,0,0.4);animation:slideIn 0.3s ease;max-width:350px;cursor:pointer;display:flex;align-items:center;gap:0.5rem;color:white}
-        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        .btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white;display:flex;align-items:center;justify-content:center;gap:0.5rem;text-decoration:none;width:100%;padding:0.9rem;border-radius:12px;font-weight:600;font-family:inherit}
+        .links{text-align:center;margin-top:1rem;font-size:0.9rem;color:#94A3B8}.links a{color:#FF6B35;text-decoration:none;font-weight:600}
+        .back{text-align:center;margin-top:0.5rem}.back a{color:#64748B;text-decoration:none;font-size:0.85rem}
     </style>
 </head>
 <body>
 <div class="card">
-    <div class="icon">🍔</div><h1>Kòmande<span>M</span></h1><p class="sub">Konekte nan kont kliyan ou</p>
+    <div class="logo-box">
+        <img src="assets/images/logo-komndem.png" alt="KòmandeM" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:3rem>🍔</span>'">
+        <h1>Kòmande<span>M</span></h1>
+        <p>Konekte nan kont ou</p>
+    </div>
     <form onsubmit="return handleLogin(event)">
         <div class="fg"><label>Imèl oswa Telefòn</label><input type="text" id="email" class="inp" placeholder="Antre imèl oswa telefòn ou" required></div>
         <div class="fg"><label>Mòdepas</label><input type="password" id="pass" class="inp" placeholder="••••••••" required></div>
         <button type="submit" class="btn">🔓 Konekte</button>
     </form>
+    <a href="kliyan-dashboard.html" class="btn-outline">🛒 Kontinye san Kont</a>
     <p class="links">Ou poko gen kont? <a href="register.html">Enskri</a></p>
     <p class="back"><a href="index.html">← Retounen</a></p>
 </div>
+<script src="js/security.js"></script>
 <script>
-function showToast(msg,type){
-    var colors={success:'#22C55E',error:'#EF4444',warning:'#F59E0B',info:'#3B82F6'};
-    var icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
-    var t=document.createElement('div');t.className='toast';
-    t.style.background=colors[type]||colors.info;t.innerHTML=icons[type]+' '+msg;
-    t.onclick=function(){t.remove()};document.body.appendChild(t);
-    setTimeout(function(){if(t)t.remove()},4000);
-}
 function handleLogin(e){
     e.preventDefault();
     var email=document.getElementById('email').value.trim();
     var pass=document.getElementById('pass').value;
-    if(!email||!pass){showToast('Ranpli tout chan yo','warning');return false}
+    if(!email||!pass){alert('Ranpli tout chan');return false}
     var users=JSON.parse(localStorage.getItem('komandem-users')||'[]');
     var user=users.find(function(u){return(u.email===email||u.telefòn===email)&&u.password===pass});
-    if(!user){showToast('Imèl oswa mòdepas pa kòrèk','error');return false}
+    if(!user){alert('❌ Imèl oswa mòdepas pa kòrèk!');return false}
     localStorage.setItem('komandem-kliyan-session',JSON.stringify({user:user,loginTime:new Date().toISOString(),expires:Date.now()+(24*60*60*1000)}));
-    showToast('Byenveni '+user.non+'!','success');
-    setTimeout(function(){window.location.href='kliyan-dashboard.html'},1000);
+    window.location.href='kliyan-dashboard.html';
     return false;
 }
+if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
 </script>
 </body>
 </html>

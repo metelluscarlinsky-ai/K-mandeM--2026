@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panèl Machann - KòmandeM 2026</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
+    <title>Panèl Machann - KòmandeM</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-komndem.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--danger:#EF4444;--warning:#F59E0B;--info:#3B82F6;--radius:14px;--radius-lg:20px}
@@ -10,6 +16,8 @@
         body{background:var(--dark);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
         .topbar{background:var(--card);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:1rem}
         .topbar h1{font-size:1.2rem;font-weight:800}.topbar h1 span{color:var(--brand)}
+        .topbar-logo{display:flex;align-items:center;gap:0.5rem}
+        .topbar-logo img{height:35px;border-radius:8px}
         .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:var(--radius);font-weight:600;font-size:0.85rem;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
         .btn-primary{background:var(--brand);color:white}.btn-primary:hover{background:#E55A2B}
         .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
@@ -20,7 +28,7 @@
         .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.3s}
         .stat-card:hover{border-color:var(--brand);transform:translateY(-2px)}
         .stat-icon{font-size:1.5rem;margin-bottom:0.5rem}.stat-value{font-size:1.5rem;font-weight:800}.stat-label{font-size:0.8rem;color:var(--muted)}
-        .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem}
         .tab{padding:0.7rem 1.5rem;border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:0.9rem;background:rgba(255,255,255,0.03);color:var(--muted);border:none;font-family:inherit}
         .tab.active{background:var(--brand);color:white}
         .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1.5rem;overflow:hidden}
@@ -32,7 +40,6 @@
         .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
         .badge-success{background:rgba(34,197,94,0.1);color:var(--success)}.badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
         .badge-brand{background:rgba(255,107,53,0.1);color:var(--brand)}.badge-info{background:rgba(59,130,246,0.1);color:var(--info)}
-        .badge-purple{background:rgba(168,85,247,0.1);color:#A855F7}
         .page{display:none}.page.active{display:block}
         .form-group{margin-bottom:0.75rem}.form-group label{display:block;font-weight:600;font-size:0.8rem;color:var(--text);margin-bottom:0.3rem}
         .form-input{width:100%;padding:0.65rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);color:white;font-size:0.9rem;outline:none;font-family:inherit;box-sizing:border-box}
@@ -42,16 +49,16 @@
         .modal-header{padding:1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
         .modal-close{background:none;border:none;color:#64748B;font-size:1.5rem;cursor:pointer}.modal-body{padding:1rem}
         .modal-footer{padding:1rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.5rem}
-        .order-alert{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;animation:slideDown 0.5s ease;cursor:pointer;max-width:420px;width:90%}
-        @keyframes slideDown{from{transform:translateX(-50%) translateY(-100px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
-        .toast-notification{position:fixed;top:20px;right:-400px;color:white;padding:1rem 1.5rem;border-radius:20px;font-weight:600;font-size:0.9rem;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.5);max-width:380px;cursor:pointer;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
         @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.topbar{padding:1rem}.container{padding:1rem}}
     </style>
 </head>
 <body>
 
 <div class="topbar">
-    <h1>🏪 <span id="mName">Machann</span></h1>
+    <div class="topbar-logo">
+        <img src="assets/images/logo-komndem.png" alt="KòmandeM" onerror="this.style.display='none'">
+        <h1>🏪 <span id="mName">Machann</span></h1>
+    </div>
     <div style="display:flex;gap:0.5rem;align-items:center">
         <span id="notifDot" style="display:none;font-size:1.5rem">🔔</span>
         <button class="btn btn-danger btn-sm" onclick="logout()">Dekonekte</button>
@@ -63,87 +70,57 @@
         <div class="stat-card" onclick="showTab('products')"><div class="stat-icon">📦</div><div class="stat-value" id="s1">0</div><div class="stat-label">Pwodui</div></div>
         <div class="stat-card" onclick="showTab('orders')"><div class="stat-icon">🛒</div><div class="stat-value" id="s2" style="color:var(--warning)">0</div><div class="stat-label">An Atant</div></div>
         <div class="stat-card"><div class="stat-icon">👨‍🍳</div><div class="stat-value" id="s5" style="color:var(--info)">0</div><div class="stat-label">An Preparasyon</div></div>
-        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-value" id="s3">0 GDS</div><div class="stat-label">Revni Jodi a</div></div>
+        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-value" id="s3">0 GDS</div><div class="stat-label">Revni</div></div>
     </div>
-    
     <div class="tabs">
         <button class="tab active" onclick="showTab('products')">📦 Pwodui</button>
         <button class="tab" onclick="showTab('orders')">🛒 Kòmand</button>
-        <button class="tab" onclick="showTab('revenue')">💰 Balans</button>
     </div>
-    
     <div class="page active" id="pageProducts">
         <div class="card"><div class="card-header"><h3>Pwodui mwen yo</h3><button class="btn btn-primary btn-sm" onclick="openForm()">+ Ajoute</button></div>
         <div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Non</th><th>Kategori</th><th>Pri</th><th>Aksyon</th></tr></thead><tbody id="prodBody"></tbody></table></div><p id="prodEmpty" style="display:none;text-align:center;color:var(--muted);padding:2rem">Pa gen pwodui</p></div></div>
     </div>
-    
     <div class="page" id="pageOrders">
         <div class="card"><div class="card-header"><h3>Kòmand Kliyan yo</h3></div>
-        <div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Nimewo</th><th>Kliyan</th><th>Atik</th><th>Total</th><th>Estat</th><th>Aksyon</th></tr></thead><tbody id="ordBody"></tbody></table></div><p id="ordEmpty" style="display:none;text-align:center;color:var(--muted);padding:2rem">Pa gen kòmand</p></div></div>
-    </div>
-    
-    <div class="page" id="pageRevenue">
-        <div class="card" style="background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(34,197,94,0.02));border:1px solid rgba(34,197,94,0.2);text-align:center;padding:2rem;margin-bottom:1.5rem">
-            <div style="font-size:3rem">🏦</div><h3 style="color:white">Balans Disponib</h3>
-            <p style="color:var(--success);font-size:2.5rem;font-weight:800" id="balansValue">0 GDS</p>
-            <p style="color:var(--muted);font-size:0.85rem">Retrè sou NatCash 32924776</p>
-        </div>
-        <div class="card"><div class="card-header"><h3>📊 Revni Jodi a</h3></div>
-        <div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Nimewo</th><th>Kliyan</th><th>Total</th><th>Dat</th></tr></thead><tbody id="revBody"></tbody></table></div><p id="revEmpty" style="display:none;text-align:center;color:var(--muted);padding:2rem">Pa gen revni jodi a</p></div></div>
+        <div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Nimewo</th><th>Kliyan</th><th>Atik</th><th>Total</th><th>Estat</th><th>Aksyon</th></tr></thead><tbody id="ordBody"></tbody></table></div></div></div>
     </div>
 </div>
 
-<div class="modal" id="prodModal">
-    <div class="modal-content"><div class="modal-header"><h3 id="modalTitle">Ajoute Pwodui</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
-    <form onsubmit="saveProduct(event)" class="modal-body"><input type="hidden" id="prodId">
-        <div class="form-group"><label>Non *</label><input type="text" id="prodNom" class="form-input" required></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem"><div class="form-group"><label>Kategori</label><select id="prodCat" class="form-input"><option value="dejene">🌅 Dejene</option><option value="dine">☀️ Dine</option><option value="soupe">🌙 Soupe</option><option value="desè">🍰 Desè</option><option value="bwason">🥤 Bwason</option><option value="glase">🍦 Glase</option></select></div><div class="form-group"><label>Pri *</label><input type="number" id="prodPri" class="form-input" required></div></div>
-        <div class="form-group"><label>📸 Lyen Foto</label><input type="url" id="prodImg" class="form-input" placeholder="https://..."></div>
-        <div class="form-group"><label>🔗 Lyen</label><input type="url" id="prodLink" class="form-input" placeholder="https://..."></div>
-        <div class="modal-footer"><button type="button" class="btn btn-outline" onclick="closeModal()">Anile</button><button type="submit" class="btn btn-primary">Anrejistre</button></div>
-    </form></div>
-</div>
+<div class="modal" id="prodModal"><div class="modal-content"><div class="modal-header"><h3 id="modalTitle">Ajoute Pwodui</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
+<form onsubmit="saveProduct(event)" class="modal-body"><input type="hidden" id="prodId">
+    <div class="form-group"><label>Non *</label><input type="text" id="prodNom" class="form-input" required></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem"><div class="form-group"><label>Kategori</label><select id="prodCat" class="form-input"><option value="dejene">🌅 Dejene</option><option value="dine">☀️ Dine</option><option value="soupe">🌙 Soupe</option><option value="desè">🍰 Desè</option><option value="bwason">🥤 Bwason</option><option value="glase">🍦 Glase</option></select></div><div class="form-group"><label>Pri *</label><input type="number" id="prodPri" class="form-input" required></div></div>
+    <div class="form-group"><label>📸 Lyen Foto</label><input type="url" id="prodImg" class="form-input" placeholder="https://..."></div>
+    <div class="form-group"><label>🔗 Lyen</label><input type="url" id="prodLink" class="form-input" placeholder="https://..."></div>
+    <div class="modal-footer"><button type="button" class="btn btn-outline" onclick="closeModal()">Anile</button><button type="submit" class="btn btn-primary">Anrejistre</button></div>
+</form></div></div>
 
+<script src="js/security.js"></script>
 <script>
 var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
 if(!session||session.expires<Date.now()||(session.user.role!=='merchant'&&session.user.role!=='superadmin')){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
-var merchantId=session.user.merchantId||session.user.id;
-var merchantName=session.user.non||'Machann';
+var merchantId=session.user.merchantId||session.user.id,merchantName=session.user.non||'Machann';
 document.getElementById('mName').textContent=merchantName;
-var lastPendingCount=0,lastPreparingCount=0,audioCtx=null;
-
+var lastPendingCount=0,audioCtx=null;
 function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
 function gp(){return JSON.parse(localStorage.getItem('komandem-products')||'[]')}
 function sp(d){localStorage.setItem('komandem-products',JSON.stringify(d))}
 function go(){return JSON.parse(localStorage.getItem('komandem-orders')||'[]')}
 function getMyOrders(){return go().filter(function(o){if(o.machann_id===merchantId||o.machann===merchantName)return true;if(o.atik)return o.atik.some(function(a){return a.machann_id===merchantId});return false})}
-
-function showToast(msg,type){var colors={success:'#22C55E',error:'#EF4444',warning:'#F59E0B',info:'#3B82F6',order:'#FF6B35'};var icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️',order:'🛒'};var t=document.createElement('div');t.className='toast-notification';t.style.background=colors[type]||colors.info;t.innerHTML=icons[type]+' '+msg;t.onclick=function(){t.remove()};document.body.appendChild(t);setTimeout(function(){t.style.right='20px'},50);setTimeout(function(){t.style.right='-400px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},400)},4000)}
-
-function showTab(tab){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});event.target.classList.add('active');document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');if(tab==='products')renderProducts();if(tab==='orders')renderOrders();if(tab==='revenue')renderRevenue()}
-
-function loadStats(){var o=getMyOrders(),p=gp().filter(function(x){return x.machann_id===merchantId});var today=new Date().toDateString();var to=o.filter(function(x){return x.dat&&new Date(x.dat).toDateString()===today});var deliveredToday=to.filter(function(x){return x.estat==='livre'});document.getElementById('s1').textContent=p.length;document.getElementById('s2').textContent=o.filter(function(x){return x.estat==='ann_atent'}).length;document.getElementById('s5').textContent=o.filter(function(x){return x.estat==='an_preparasyon'||x.estat==='konfime'}).length;document.getElementById('s3').textContent=fm(deliveredToday.reduce(function(a,x){return a+(x.total||0)},0));var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');var me=merchants.find(function(m){return m.id===merchantId});document.getElementById('balansValue').textContent=fm(me?me.balans||0:0);document.getElementById('notifDot').style.display=o.filter(function(x){return x.estat==='ann_atent'}).length>0?'inline':'none'}
-loadStats();
-
-function renderProducts(){var p=gp().filter(function(x){return x.machann_id===merchantId});if(!p.length){document.getElementById('prodBody').innerHTML='';document.getElementById('prodEmpty').style.display='block';return}document.getElementById('prodEmpty').style.display='none';document.getElementById('prodBody').innerHTML=p.map(function(pr){return'<tr><td><strong>'+pr.non+'</strong></td><td><span class="badge badge-brand">'+(pr.kategori||'-')+'</span></td><td>'+fm(pr.pri)+'</td><td><button class="btn btn-outline btn-sm" onclick="editProduct(\''+pr.id+'\')">✏️</button> <button class="btn btn-danger btn-sm" onclick="deleteProduct(\''+pr.id+'\')">🗑️</button></td></tr>'}).join('')}
-renderProducts();
+function showTab(tab){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});event.target.classList.add('active');document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');if(tab==='products')renderProducts();if(tab==='orders')renderOrders()}
+function loadStats(){var o=getMyOrders(),p=gp().filter(function(x){return x.machann_id===merchantId});var today=new Date().toDateString();var to=o.filter(function(x){return x.dat&&new Date(x.dat).toDateString()===today});document.getElementById('s1').textContent=p.length;document.getElementById('s2').textContent=o.filter(function(x){return x.estat==='ann_atent'}).length;document.getElementById('s5').textContent=o.filter(function(x){return x.estat==='an_preparasyon'||x.estat==='konfime'}).length;document.getElementById('s3').textContent=fm(to.filter(function(x){return x.estat==='livre'}).reduce(function(a,x){return a+(x.total||0)},0));document.getElementById('notifDot').style.display=o.filter(function(x){return x.estat==='ann_atent'}).length>0?'inline':'none'}loadStats();
+function renderProducts(){var p=gp().filter(function(x){return x.machann_id===merchantId});if(!p.length){document.getElementById('prodBody').innerHTML='';document.getElementById('prodEmpty').style.display='block';return}document.getElementById('prodEmpty').style.display='none';document.getElementById('prodBody').innerHTML=p.map(function(pr){return'<tr><td><strong>'+pr.non+'</strong></td><td><span class="badge badge-brand">'+(pr.kategori||'-')+'</span></td><td>'+fm(pr.pri)+'</td><td><button class="btn btn-outline btn-sm" onclick="editProduct(\''+pr.id+'\')">✏️</button> <button class="btn btn-danger btn-sm" onclick="deleteProduct(\''+pr.id+'\')">🗑️</button></td></tr>'}).join('')}renderProducts();
 function openForm(id){document.getElementById('prodModal').classList.add('show');document.getElementById('modalTitle').textContent=id?'Modifye':'Ajoute';if(id){var p=gp().filter(function(x){return x.machann_id===merchantId}).find(function(x){return x.id===id});if(p){document.getElementById('prodId').value=p.id;document.getElementById('prodNom').value=p.non;document.getElementById('prodCat').value=p.kategori;document.getElementById('prodPri').value=p.pri;document.getElementById('prodImg').value=p.imaj||'';document.getElementById('prodLink').value=p.lyen||''}}else{document.querySelector('#prodModal form').reset();document.getElementById('prodId').value=''}}
 function closeModal(){document.getElementById('prodModal').classList.remove('show')}
-function saveProduct(e){e.preventDefault();var id=document.getElementById('prodId').value;var pr={id:id||'prod_'+Date.now(),non:document.getElementById('prodNom').value,kategori:document.getElementById('prodCat').value,machann_id:merchantId,machann_non:merchantName,pri:parseInt(document.getElementById('prodPri').value),imaj:document.getElementById('prodImg').value,lyen:document.getElementById('prodLink').value,disponib:true,tan_preparasyon:15};var all=gp();if(id){var i=all.findIndex(function(x){return x.id===id});if(i>=0)all[i]=Object.assign(all[i],pr)}else{all.push(pr)}sp(all);closeModal();renderProducts();loadStats();showToast('Pwodui anrejistre!','success')}
-function editProduct(id){openForm(id)}
-function deleteProduct(id){if(confirm('Retire?')){sp(gp().filter(function(x){return x.id!==id}));renderProducts();loadStats()}}
-
-function renderOrders(){var o=getMyOrders();if(!o.length){document.getElementById('ordBody').innerHTML='';document.getElementById('ordEmpty').style.display='block';return}document.getElementById('ordEmpty').style.display='none';var labels={ann_atent:'⏳ An Atant',konfime:'✅ Konfime',an_preparasyon:'👨‍🍳 An Preparasyon',prè:'📦 Prè',an_wout:'🛵 An Wout',livre:'🏁 Livre'};var colors={ann_atent:'badge-warning',konfime:'badge-info',an_preparasyon:'badge-purple',prè:'badge-success',an_wout:'badge-brand',livre:'badge-success'};document.getElementById('ordBody').innerHTML=o.map(function(ord){var btns='';if(ord.estat==='ann_atent'){btns='<button class="btn btn-success btn-sm" onclick="confirmOrder(\''+ord.id+'\')">✅ Konfime</button>'}else if(ord.estat==='konfime'){btns='<button class="btn btn-primary btn-sm" onclick="startPreparing(\''+ord.id+'\')">👨‍🍳 An Preparasyon</button>'}else if(ord.estat==='an_preparasyon'){btns='<button class="btn btn-success btn-sm" onclick="markReady(\''+ord.id+'\')">📦 Pare</button>'}else if(ord.estat==='prè'){btns='<span style="color:var(--success)">✅ Pare - Tann livrè</span>'}else if(ord.estat==='an_wout'){btns='<span style="color:var(--brand)">🛵 '+(ord.livrè||'Livrè')+' ap vini</span>'}else if(ord.estat==='livre'){btns='<span style="color:var(--success)">🏁 Livre</span>'}return'<tr><td><strong style="color:var(--brand)">'+ord.id+'</strong></td><td>'+ord.kliyan+'<br><small>📞 '+ord.kliyan_tel+'</small></td><td>'+((ord.atik||[]).map(function(a){return a.kantite+'x '+a.non}).join(', '))+'</td><td>'+fm(ord.total)+'</td><td><span class="badge '+(colors[ord.estat]||'badge-warning')+'">'+(labels[ord.estat]||ord.estat)+'</span></td><td>'+btns+'</td></tr>'}).join('')}
-function confirmOrder(orderId){if(!confirm('Konfime #'+orderId+'?'))return;var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});if(idx>=0){orders[idx].estat='konfime';localStorage.setItem('komandem-orders',JSON.stringify(orders));renderOrders();loadStats();showToast('✅ Konfime!','success')}}
-function startPreparing(orderId){if(!confirm('An preparasyon #'+orderId+'?'))return;var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});if(idx>=0){orders[idx].estat='an_preparasyon';localStorage.setItem('komandem-orders',JSON.stringify(orders));renderOrders();loadStats();showToast('👨‍🍳 An preparasyon!','info')}}
-function markReady(orderId){if(!confirm('Pare #'+orderId+'?'))return;var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});if(idx>=0){orders[idx].estat='prè';localStorage.setItem('komandem-orders',JSON.stringify(orders));var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');var avail=drivers.filter(function(d){return d.estat==='disponib'});var notifs=JSON.parse(localStorage.getItem('komandem-notifications')||'[]');avail.forEach(function(d){notifs.unshift({message:'📦 Kòmand #'+orderId+' PARE! 📍 '+(orders[idx].adrès_livrezon?.ri||'Gonayiv')+' | 👤 '+orders[idx].kliyan+' | 📞 '+(orders[idx].kliyan_tel||''),time:new Date().toISOString(),read:false,type:'livrè',driver_id:d.id,order_id:orderId})});localStorage.setItem('komandem-notifications',JSON.stringify(notifs));renderOrders();loadStats();showToast('📦 Pare! '+avail.length+' livrè notifye!','success')}}
-
-function renderRevenue(){var o=getMyOrders();var today=new Date().toDateString();var delivered=o.filter(function(x){return x.estat==='livre'&&x.dat&&new Date(x.dat).toDateString()===today});document.getElementById('balansValue').textContent=fm((JSON.parse(localStorage.getItem('komandem-merchants')||'[]').find(function(m){return m.id===merchantId})||{}).balans||0);if(!delivered.length){document.getElementById('revBody').innerHTML='';document.getElementById('revEmpty').style.display='block';return}document.getElementById('revEmpty').style.display='none';document.getElementById('revBody').innerHTML=delivered.map(function(o){return'<tr><td><strong style="color:var(--brand)">'+o.id+'</strong></td><td>'+o.kliyan+'</td><td>'+fm(o.total)+'</td><td>'+new Date(o.dat).toLocaleDateString('ht-HT')+'</td></tr>'}).join('')}
-
+function saveProduct(e){e.preventDefault();var id=document.getElementById('prodId').value;var pr={id:id||'prod_'+Date.now(),non:document.getElementById('prodNom').value,kategori:document.getElementById('prodCat').value,machann_id:merchantId,machann_non:merchantName,pri:parseInt(document.getElementById('prodPri').value),imaj:document.getElementById('prodImg').value,lyen:document.getElementById('prodLink').value,disponib:true,tan_preparasyon:15};var all=gp();if(id){var i=all.findIndex(function(x){return x.id===id});if(i>=0)all[i]=Object.assign(all[i],pr)}else{all.push(pr)}sp(all);closeModal();renderProducts();loadStats()}
+function editProduct(id){openForm(id)}function deleteProduct(id){if(confirm('Retire?')){sp(gp().filter(function(x){return x.id!==id}));renderProducts();loadStats()}}
+function renderOrders(){var o=getMyOrders();if(!o.length){document.getElementById('ordBody').innerHTML='';return}var labels={ann_atent:'An Atant',konfime:'Konfime',an_preparasyon:'An Preparasyon',prè:'Prè',an_wout:'An Wout',livre:'Livre'};var colors={ann_atent:'badge-warning',konfime:'badge-info',an_preparasyon:'badge-info',prè:'badge-success',an_wout:'badge-brand',livre:'badge-success'};document.getElementById('ordBody').innerHTML=o.map(function(ord){var btns='';if(ord.estat==='ann_atent')btns='<button class="btn btn-success btn-sm" onclick="confirmOrder(\''+ord.id+'\')">✅ Konfime</button>';else if(ord.estat==='konfime')btns='<button class="btn btn-primary btn-sm" onclick="startPreparing(\''+ord.id+'\')">👨‍🍳 Prepare</button>';else if(ord.estat==='an_preparasyon')btns='<button class="btn btn-success btn-sm" onclick="markReady(\''+ord.id+'\')">📦 Pare</button>';return'<tr><td><strong style="color:var(--brand)">'+ord.id+'</strong></td><td>'+ord.kliyan+'</td><td>'+((ord.atik||[]).map(function(a){return a.kantite+'x '+a.non}).join(', '))+'</td><td>'+fm(ord.total)+'</td><td><span class="badge '+(colors[ord.estat]||'badge-warning')+'">'+(labels[ord.estat]||ord.estat)+'</span></td><td>'+btns+'</td></tr>'}).join('')}
+function confirmOrder(id){if(!confirm('Konfime?'))return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat='konfime';localStorage.setItem('komandem-orders',JSON.stringify(o));renderOrders();loadStats()}}
+function startPreparing(id){if(!confirm('An preparasyon?'))return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat='an_preparasyon';localStorage.setItem('komandem-orders',JSON.stringify(o));renderOrders();loadStats()}}
+function markReady(id){if(!confirm('Pare?'))return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat='prè';localStorage.setItem('komandem-orders',JSON.stringify(o));var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');var avail=drivers.filter(function(d){return d.estat==='disponib'});var notifs=JSON.parse(localStorage.getItem('komandem-notifications')||'[]');avail.forEach(function(d){notifs.unshift({message:'📦 Kòmand #'+id+' PARE! 📍 '+(o[i].adrès_livrezon?.ri||''),time:new Date().toISOString(),type:'livrè',driver_id:d.id})});localStorage.setItem('komandem-notifications',JSON.stringify(notifs));renderOrders();loadStats();alert('✅ '+avail.length+' livrè notifye!')}}
 function playSound(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator();var g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=800;o.type='sine';g.gain.value=0.3;o.start();setTimeout(function(){o.frequency.value=1000},150);setTimeout(function(){o.stop()},350)}catch(e){}}
-function checkNewOrders(){var o=getMyOrders();var pending=o.filter(function(x){return x.estat==='ann_atent'});if(pending.length>lastPendingCount){var latest=pending[0];playSound();var d=document.createElement('div');d.className='order-alert';d.style.cssText='background:linear-gradient(135deg,#FF6B35,#E55A2B);color:white;padding:1.5rem 2rem;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.5);text-align:center;cursor:pointer';d.innerHTML='<div style="font-size:2rem">🔔</div><h3>🛒 Nouvo Kòmand!</h3><p style="font-size:1.2rem;font-weight:700">#'+latest.id+'</p><p>👤 '+latest.kliyan+' • 💰 '+fm(latest.total)+'</p><p style="font-size:0.8rem;opacity:0.7;margin-top:0.5rem">Klike pou wè</p>';d.onclick=function(){d.remove();showTab('orders')};document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.remove()},12000);showToast('🛒 Nouvo kòmand #'+latest.id+'!','order')}lastPendingCount=pending.length}
+function checkNewOrders(){var o=getMyOrders();var pending=o.filter(function(x){return x.estat==='ann_atent'});if(pending.length>lastPendingCount){playSound();var latest=pending[0];var d=document.createElement('div');d.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF6B35,#E55A2B);color:white;padding:1.5rem;border-radius:20px;z-index:9999;text-align:center;cursor:pointer';d.innerHTML='<div style="font-size:2rem">🔔</div><h3>🛒 Nouvo Kòmand!</h3><p style="font-size:1.2rem;font-weight:700">#'+latest.id+'</p><p>👤 '+latest.kliyan+' • 💰 '+fm(latest.total)+'</p>';d.onclick=function(){d.remove();showTab('orders')};document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.remove()},12000)}lastPendingCount=pending.length}
 setInterval(function(){checkNewOrders();loadStats()},8000);setTimeout(checkNewOrders,2000);
-
 function logout(){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
 </script>
 </body>

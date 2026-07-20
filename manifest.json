@@ -1,0 +1,23 @@
+{
+    "name": "KòmandeM - Manje w, pi pre w",
+    "short_name": "KòmandeM",
+    "description": "Premye platfòm kòmand manje ak livrezon nan Gonayiv, Ayiti",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#0A0A1A",
+    "theme_color": "#FF6B35",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "assets/images/logo-komndem.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/logo-komndem.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "lang": "ht"
+}

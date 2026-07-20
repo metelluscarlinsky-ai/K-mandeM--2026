@@ -3,34 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF6B35">
     <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <title>Admin - KòmandeM</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-komndem.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{background:#0A0A1A;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:20px}
         .card{background:#1E293B;border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:2.5rem;width:100%;max-width:440px;box-shadow:0 25px 80px rgba(0,0,0,0.5);color:white}
-        .icon{width:60px;height:60px;background:#FF6B35;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem}
-        h1{text-align:center;font-size:1.3rem;font-weight:800;margin-bottom:0.25rem}h1 span{color:#FF6B35}
-        .sub{text-align:center;color:#94A3B8;font-size:0.85rem;margin-bottom:1.5rem}
-        
+        .logo-box{text-align:center;margin-bottom:1.5rem}
+        .logo-box img{height:55px;border-radius:14px;margin-bottom:0.5rem}
+        .logo-box h1{font-size:1.4rem;font-weight:800}.logo-box h1 span{color:#FF6B35}
+        .logo-box p{color:#94A3B8;font-size:0.85rem}
         .roles{display:flex;gap:0.5rem;margin-bottom:1.5rem}
-        .role-btn{flex:1;padding:0.5rem 0.2rem;border:2px solid rgba(255,255,255,0.1);border-radius:12px;background:transparent;cursor:pointer;font-weight:600;font-size:0.7rem;text-align:center;font-family:inherit;color:#94A3B8;transition:all 0.3s}
+        .role-btn{flex:1;padding:0.5rem 0.2rem;border:2px solid rgba(255,255,255,0.1);border-radius:12px;background:transparent;cursor:pointer;font-weight:600;font-size:0.7rem;text-align:center;font-family:inherit;color:#94A3B8}
         .role-btn i{display:block;font-size:1rem;margin-bottom:0.2rem}
         .role-btn.active{border-color:#FF6B35;background:rgba(255,107,53,0.1);color:#FF6B35}
-        
         .fg{margin-bottom:1rem}.fg label{display:block;font-weight:600;font-size:0.85rem;color:#E2E8F0;margin-bottom:0.4rem}
         .inp{width:100%;padding:0.8rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:0.95rem;outline:none;font-family:inherit;color:white;box-sizing:border-box}
         .inp:focus{border-color:#FF6B35}
-        
         .code-box{background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.15);border-radius:12px;padding:0.8rem;margin-bottom:1.5rem}
         .code-box label{display:block;font-size:0.8rem;font-weight:700;color:#FF6B35;margin-bottom:0.5rem}
         .code-inputs{display:flex;gap:0.4rem;justify-content:center}
         .code-inputs input{width:40px;height:46px;text-align:center;font-size:1.2rem;font-weight:700;border:1px solid rgba(255,255,255,0.1);border-radius:10px;outline:none;background:rgba(255,255,255,0.03);color:white}
         .code-inputs input:focus{border-color:#FF6B35}
-        
         .err{background:rgba(239,68,68,0.1);color:#EF4444;padding:0.75rem;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;display:none}
         .err.show{display:block}
-        
         .btn{width:100%;padding:0.9rem;background:#FF6B35;color:white;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
         .btn:disabled{background:#475569}
         .back{text-align:center;margin-top:1rem}.back a{color:#64748B;text-decoration:none;font-size:0.85rem}
@@ -38,150 +39,52 @@
 </head>
 <body>
 <div class="card">
-    <div class="icon">🛡️</div>
-    <h1>Kòmande<span>M</span></h1>
-    <p class="sub">Aksè Admin • Zòn Sekirize</p>
-    
+    <div class="logo-box">
+        <img src="assets/images/logo-komndem.png" alt="KòmandeM" onerror="this.style.display='none'">
+        <h1>Kòmande<span>M</span></h1>
+        <p>Panèl Admin • Zòn Sekirize</p>
+    </div>
     <div class="roles">
         <button class="role-btn active" onclick="setRole('superadmin',this)"><i class="fas fa-crown"></i>Super Admin</button>
         <button class="role-btn" onclick="setRole('machann',this)"><i class="fas fa-store"></i>Machann</button>
         <button class="role-btn" onclick="setRole('livrè',this)"><i class="fas fa-motorcycle"></i>Livrè</button>
     </div>
-    
     <div class="err" id="errBox"></div>
-    
     <form onsubmit="return handleLogin(event)">
-        <div class="fg"><label>Imèl oswa Telefòn</label><input type="text" id="email" class="inp" placeholder="Antre idantifyan ou" required autocomplete="off"></div>
+        <div class="fg"><label>Imèl oswa Telefòn</label><input type="text" id="email" class="inp" placeholder="Antre idantifyan ou" required></div>
         <div class="fg"><label>Mòdepas</label><input type="password" id="pass" class="inp" placeholder="••••••••" required></div>
-        
-        <div class="code-box">
-            <label>🔐 Kòd Sekirite 6 Chif</label>
-            <div class="code-inputs">
-                <input type="text" id="c1" maxlength="1" oninput="document.getElementById('c2').focus()">
-                <input type="text" id="c2" maxlength="1" oninput="document.getElementById('c3').focus()">
-                <input type="text" id="c3" maxlength="1" oninput="document.getElementById('c4').focus()">
-                <input type="text" id="c4" maxlength="1" oninput="document.getElementById('c5').focus()">
-                <input type="text" id="c5" maxlength="1" oninput="document.getElementById('c6').focus()">
-                <input type="text" id="c6" maxlength="1">
-            </div>
-        </div>
-        
+        <div class="code-box"><label>🔐 Kòd Sekirite 6 Chif</label><div class="code-inputs">
+            <input type="text" id="c1" maxlength="1" oninput="document.getElementById('c2').focus()">
+            <input type="text" id="c2" maxlength="1" oninput="document.getElementById('c3').focus()">
+            <input type="text" id="c3" maxlength="1" oninput="document.getElementById('c4').focus()">
+            <input type="text" id="c4" maxlength="1" oninput="document.getElementById('c5').focus()">
+            <input type="text" id="c5" maxlength="1" oninput="document.getElementById('c6').focus()">
+            <input type="text" id="c6" maxlength="1">
+        </div></div>
         <button type="submit" class="btn" id="loginBtn">🔒 Akse Panèl</button>
     </form>
     <p class="back"><a href="index.html">← Retounen</a></p>
 </div>
-
+<script src="js/security.js"></script>
 <script>
-// 🔔 SISTÈM TOAST NOTIFICATION BÈL
-function showToast(message, type) {
-    // Kreye eleman toast
-    var toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    
-    // Koulè selon tip
-    var colors = {
-        success: { bg: '#22C55E', icon: '✅' },
-        error: { bg: '#EF4444', icon: '❌' },
-        warning: { bg: '#F59E0B', icon: '⚠️' },
-        info: { bg: '#3B82F6', icon: 'ℹ️' },
-        order: { bg: '#FF6B35', icon: '🛒' }
-    };
-    
-    var c = colors[type] || colors.info;
-    
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${c.bg};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 16px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        z-index: 9999;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-        animation: slideInRight 0.3s ease;
-        max-width: 350px;
-        font-family: system-ui, sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-    `;
-    
-    toast.innerHTML = c.icon + ' ' + message;
-    toast.onclick = function() { toast.remove(); };
-    
-    document.body.appendChild(toast);
-    
-    // Oto-kache apre 4 segond
-    setTimeout(function() {
-        if (toast) {
-            toast.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(function() { if (toast) toast.remove(); }, 300);
-        }
-    }, 4000);
-}
-
-// Ajoute animasyon CSS
-var toastStyle = document.createElement('style');
-toastStyle.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(toastStyle);var role='superadmin',CODE='739184';
+var role='superadmin',CODE='739184';
 function setRole(r,btn){role=r;document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active')}
 function getCode(){var c='';for(var i=1;i<=6;i++)c+=document.getElementById('c'+i).value;return c}
-
 function handleLogin(e){
-    e.preventDefault();
-    var email=document.getElementById('email').value.trim();
-    var pass=document.getElementById('pass').value;
-    var code=getCode();
-    var err=document.getElementById('errBox');
-    err.classList.remove('show');
+    e.preventDefault();var email=document.getElementById('email').value.trim(),pass=document.getElementById('pass').value,code=getCode(),err=document.getElementById('errBox');err.classList.remove('show');
     if(!email||!pass){err.textContent='Ranpli tout chan';err.classList.add('show');return false}
     if(code!==CODE){err.textContent='Kòd pa kòrèk!';err.classList.add('show');return false}
-    
-    document.getElementById('loginBtn').disabled=true;
-    document.getElementById('loginBtn').textContent='Verifikasyon...';
-    
+    document.getElementById('loginBtn').disabled=true;document.getElementById('loginBtn').textContent='Verifikasyon...';
     setTimeout(function(){
         var user=null;
-        
-        if(role==='superadmin'&&email==='metelluscarlinsky@gmail.com'&&pass==='OGPLUG45'){
-            user={id:'sa001',non:'Administratè',email:'metelluscarlinsky@gmail.com',role:'superadmin'};
-        }
-        else if(role==='machann'){
-            var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
-            user=merchants.find(function(m){return(m.email===email||m.telefòn===email)&&m.password===pass});
-            if(user)user={id:user.id,non:user.non_biznis,role:'merchant',merchantId:user.id};
-        }
-        else if(role==='livrè'){
-            var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');
-            user=drivers.find(function(d){return(d.email===email||d.telefòn===email)&&d.password===pass});
-            if(user)user={id:user.id,non:user.non,role:'driver',driverId:user.id};
-        }
-        
+        if(role==='superadmin'&&email==='metelluscarlinsky@gmail.com'&&pass==='OGPLUG45'){user={id:'sa001',non:'Administratè',email:'metelluscarlinsky@gmail.com',role:'superadmin'}}
+        else if(role==='machann'){var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');user=merchants.find(function(m){return(m.email===email||m.telefòn===email)&&m.password===pass});if(user)user={id:user.id,non:user.non_biznis,role:'merchant',merchantId:user.id}}
+        else if(role==='livrè'){var drivers=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');user=drivers.find(function(d){return(d.email===email||d.telefòn===email)&&d.password===pass});if(user)user={id:user.id,non:user.non,role:'driver',driverId:user.id}}
         if(!user){err.textContent='Imèl oswa mòdepas pa kòrèk!';err.classList.add('show');document.getElementById('loginBtn').disabled=false;document.getElementById('loginBtn').textContent='🔒 Akse Panèl';return}
-        
         localStorage.setItem('komandem-admin-session',JSON.stringify({user:user,token:'adm_'+Date.now().toString(36),expires:Date.now()+(12*60*60*1000)}));
-        
-        if(user.role==='merchant')window.location.href='merchant-panel.html';
-        else if(user.role==='driver')window.location.href='driver-panel.html';
-        else window.location.href='dashboard.html';
-    },500);
-    return false;
+        if(user.role==='merchant')window.location.href='merchant-panel.html';else if(user.role==='driver')window.location.href='driver-panel.html';else window.location.href='dashboard.html';
+    },500);return false;
 }
 </script>
 </body>
 </html>
-
-

@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panèl Livrè - KòmandeM 2026</title>
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
+    <title>Panèl Livrè - KòmandeM</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-komndem.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--danger:#EF4444;--warning:#F59E0B;--radius:14px;--radius-lg:20px}
@@ -11,11 +16,11 @@
         body{background:var(--dark);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
         .topbar{background:var(--card);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:1rem}
         .topbar h1{font-size:1.2rem;font-weight:800}.topbar h1 span{color:var(--brand)}
+        .topbar-logo{display:flex;align-items:center;gap:0.5rem}
+        .topbar-logo img{height:35px;border-radius:8px}
         .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:var(--radius);font-weight:600;font-size:0.85rem;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
-        .btn-primary{background:var(--brand);color:white}.btn-primary:hover{background:#E55A2B}
-        .btn-success{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.2)}
-        .btn-danger{background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.2)}
-        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
+        .btn-primary{background:var(--brand);color:white}.btn-success{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.2)}
+        .btn-danger{background:rgba(239,68,68,0.1);color:var(--danger)}.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
         .btn-sm{padding:0.35rem 0.75rem;font-size:0.78rem}
         .container{max-width:800px;margin:0 auto;padding:1.5rem}
         .status-banner{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem}
@@ -25,13 +30,11 @@
         .toggle{position:relative;width:52px;height:28px}.toggle input{opacity:0;width:0;height:0}
         .toggle .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.1);transition:0.3s;border-radius:28px}
         .toggle .slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:white;transition:0.3s;border-radius:50%}
-        .toggle input:checked+.slider{background:var(--success)}
-        .toggle input:checked+.slider:before{transform:translateX(24px)}
+        .toggle input:checked+.slider{background:var(--success)}.toggle input:checked+.slider:before{transform:translateX(24px)}
         .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1rem}
         .card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700;display:flex;align-items:center;gap:0.5rem}
         .card-body{padding:1.25rem}
         .map-box{height:250px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.1);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;text-align:center;margin-bottom:1rem}
-        .map-box.active{border-color:var(--success);border-style:solid}
         .loc-dot{width:16px;height:16px;background:var(--brand);border:3px solid white;border-radius:50%;display:inline-block;animation:pulse 2s infinite;margin-bottom:0.5rem}
         .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem}
         .loc-item{background:rgba(255,255,255,0.02);border-radius:var(--radius);padding:0.75rem;text-align:center}
@@ -41,195 +44,58 @@
         .order-actions{display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap}
         .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
         .badge-brand{background:rgba(255,107,53,0.1);color:var(--brand)}.badge-success{background:rgba(34,197,94,0.1);color:var(--success)}
-        .badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
         .empty{text-align:center;padding:3rem;color:var(--muted)}.empty i{font-size:3rem;display:block;margin-bottom:1rem;opacity:0.3}
-        .toast-notification{position:fixed;top:20px;right:-400px;color:white;padding:1rem 1.5rem;border-radius:20px;font-weight:600;font-size:0.9rem;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.5);max-width:380px;cursor:pointer;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
-        .order-alert{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;animation:slideDown 0.5s ease;cursor:pointer;max-width:420px;width:90%}
-        @keyframes slideDown{from{transform:translateX(-50%) translateY(-100px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
         @media(max-width:600px){.container{padding:1rem}.topbar{padding:1rem}}
     </style>
 </head>
 <body>
 
 <div class="topbar">
-    <h1>🏍️ <span id="dName">Livrè</span></h1>
+    <div class="topbar-logo">
+        <img src="assets/images/logo-komndem.png" alt="KòmandeM" onerror="this.style.display='none'">
+        <h1>🏍️ <span id="dName">Livrè</span></h1>
+    </div>
     <div style="display:flex;gap:0.5rem;align-items:center">
-        <span id="statusDot" style="color:var(--success)">🟢</span>
-        <span id="statusText">Disponib</span>
+        <span id="statusDot" style="color:var(--success)">🟢</span><span id="statusText">Disponib</span>
         <button class="btn btn-danger btn-sm" onclick="logout()">Dekonekte</button>
     </div>
 </div>
 
 <div class="container">
-
-    <!-- STATUS -->
     <div class="status-banner">
         <h2 style="color:white;margin-bottom:0.5rem"><span class="pulse"></span>Estat Livrè</h2>
         <p style="color:var(--muted)">Aktive w pou resevwa kòmand</p>
-        <div class="toggle-row">
-            <span style="color:var(--danger)">🛑 Offline</span>
-            <label class="toggle"><input type="checkbox" id="activeToggle" onchange="toggleActive()" checked><span class="slider"></span></label>
-            <span style="color:var(--success)">🟢 Online</span>
-        </div>
+        <div class="toggle-row"><span style="color:var(--danger)">🛑 Offline</span><label class="toggle"><input type="checkbox" id="activeToggle" onchange="toggleActive()" checked><span class="slider"></span></label><span style="color:var(--success)">🟢 Online</span></div>
     </div>
-
-    <!-- GPS -->
-    <div class="card">
-        <div class="card-header"><i class="fas fa-map-marker-alt" style="color:var(--brand)"></i>Lokalisasyon GPS</div>
-        <div class="card-body">
-            <div class="map-box" id="mapBox"><div><div class="loc-dot"></div><p style="color:var(--muted)">Chèche pozisyon...</p></div></div>
-            <div class="loc-grid" id="locInfo" style="display:none">
-                <div class="loc-item"><small>Latitid</small><strong id="latVal">--</strong></div>
-                <div class="loc-item"><small>Lonjitid</small><strong id="lngVal">--</strong></div>
-                <div class="loc-item"><small>Presizyon</small><strong id="accVal">--</strong></div>
-                <div class="loc-item"><small>Update</small><strong id="timeVal">--</strong></div>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.75rem"><i class="fas fa-satellite"></i>Aktive GPS</button>
-        </div>
-    </div>
-
-    <!-- LIVREZON -->
-    <div class="card">
-        <div class="card-header"><i class="fas fa-box" style="color:var(--brand)"></i>Livrezon</div>
-        <div class="card-body" id="deliveryList"><div class="empty"><i class="fas fa-inbox"></i><p>Pa gen livrezon</p></div></div>
-    </div>
-
+    <div class="card"><div class="card-header"><i class="fas fa-map-marker-alt" style="color:var(--brand)"></i>GPS</div>
+    <div class="card-body"><div class="map-box" id="mapBox"><div><div class="loc-dot"></div><p style="color:var(--muted)">Chèche pozisyon...</p></div></div>
+    <div class="loc-grid" id="locInfo" style="display:none"><div class="loc-item"><small>Latitid</small><strong id="latVal">--</strong></div><div class="loc-item"><small>Lonjitid</small><strong id="lngVal">--</strong></div></div>
+    <button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.75rem"><i class="fas fa-satellite"></i>Aktive GPS</button></div></div>
+    <div class="card"><div class="card-header"><i class="fas fa-box" style="color:var(--brand)"></i>Livrezon</div>
+    <div class="card-body" id="deliveryList"><div class="empty"><i class="fas fa-inbox"></i><p>Pa gen livrezon</p></div></div></div>
 </div>
 
+<script src="js/security.js"></script>
 <script>
 var session=JSON.parse(localStorage.getItem('komandem-admin-session')||'null');
 if(!session||session.expires<Date.now()||(session.user.role!=='driver'&&session.user.role!=='superadmin')){localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
-var driverId=session.user.driverId||session.user.id;
-var driverName=session.user.non||'Livrè';
+var driverId=session.user.driverId||session.user.id,driverName=session.user.non||'Livrè';
 document.getElementById('dName').textContent=driverName;
 var lastNotifCount=0,audioCtx=null,watchId=null;
-
 function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
 function go(){return JSON.parse(localStorage.getItem('komandem-orders')||'[]')}
 function so(d){localStorage.setItem('komandem-orders',JSON.stringify(d))}
-function gd(){return JSON.parse(localStorage.getItem('komandem-drivers')||'[]')}
-function sd(d){localStorage.setItem('komandem-drivers',JSON.stringify(d))}
-
-function showToast(msg,type){
-    var colors={success:'#22C55E',error:'#EF4444',warning:'#F59E0B',info:'#3B82F6',order:'#FF6B35'};
-    var icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️',order:'🛵'};
-    var t=document.createElement('div');t.className='toast-notification';t.style.background=colors[type]||colors.info;
-    t.innerHTML=icons[type]+' '+msg;t.onclick=function(){t.remove()};document.body.appendChild(t);
-    setTimeout(function(){t.style.right='20px'},50);
-    setTimeout(function(){t.style.right='-400px';t.style.opacity='0';setTimeout(function(){if(t.parentNode)t.remove()},400)},4000);
-}
-
-function toggleActive(){
-    var a=document.getElementById('activeToggle').checked;
-    document.getElementById('statusDot').textContent=a?'🟢':'🔴';
-    document.getElementById('statusText').textContent=a?'Disponib':'Nan Repo';
-    var d=gd();var dr=d.find(function(x){return x.id===driverId});
-    if(dr){dr.estat=a?'disponib':'nan_repo';sd(d)}
-}
-
-// ===== GPS =====
-function getLocation(){
-    if(!navigator.geolocation){showToast('GPS pa sipòte','error');return}
-    document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--brand)">Ap chèche satelit...</p></div>';
-    navigator.geolocation.getCurrentPosition(function(pos){
-        document.getElementById('mapBox').classList.add('active');
-        document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--success);font-weight:600">✅ GPS Aktive!</p><p style="color:var(--muted);font-size:0.8rem">Presizyon: '+Math.round(pos.coords.accuracy)+'m</p></div>';
-        document.getElementById('locInfo').style.display='grid';
-        document.getElementById('latVal').textContent=pos.coords.latitude.toFixed(6);
-        document.getElementById('lngVal').textContent=pos.coords.longitude.toFixed(6);
-        document.getElementById('accVal').textContent=Math.round(pos.coords.accuracy)+'m';
-        document.getElementById('timeVal').textContent=new Date().toLocaleTimeString('ht-HT');
-        var loc={lat:pos.coords.latitude,lng:pos.coords.longitude,accuracy:pos.coords.accuracy,timestamp:new Date().toISOString(),driverId:driverId};
-        localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify(loc));
-        if(watchId)navigator.geolocation.clearWatch(watchId);
-        watchId=navigator.geolocation.watchPosition(function(p){
-            localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify({lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy,timestamp:new Date().toISOString(),driverId:driverId}));
-        },function(){},{enableHighAccuracy:true,maximumAge:5000});
-        showToast('📍 GPS aktive!','success');
-    },function(err){
-        var msg=err.code===1?'Pèmisyon refize!':err.code===2?'Siyal pa disponib':'Tan ekspire';
-        document.getElementById('mapBox').innerHTML='<div><p style="color:var(--danger)">❌ '+msg+'</p><button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.5rem">Eseye Ankò</button></div>';
-    },{enableHighAccuracy:true,timeout:15000});
-}
-
-// ===== LIVREZON =====
-function loadDeliveries(){
-    var orders=go();var today=new Date().toDateString();
-    var myOrders=orders.filter(function(o){return o.livrè_id===driverId});
-    var availableOrders=orders.filter(function(o){return(o.estat==='prè'||o.estat==='an_wout')&&!o.livrè_id});
-    var allOrders=myOrders.concat(availableOrders).filter(function(o,i,a){return a.findIndex(function(x){return x.id===o.id})===i});
-    
-    if(!allOrders.length){document.getElementById('deliveryList').innerHTML='<div class="empty"><i class="fas fa-inbox"></i><p>Pa gen livrezon</p></div>';return}
-    
-    document.getElementById('deliveryList').innerHTML=allOrders.map(function(o){
-        var isMine=o.livrè_id===driverId;
-        var statusColor=o.estat==='prè'?'var(--warning)':o.estat==='an_wout'?'var(--brand)':o.estat==='livre'?'var(--success)':'var(--muted)';
-        return'<div class="order-item">'+
-            '<div style="display:flex;justify-content:space-between;align-items:start">'+
-                '<div><h4>🚚 '+(o.id||'KMD')+'</h4>'+
-                '<p><i class="fas fa-user"></i> '+(o.kliyan||'N/A')+' | 📞 '+(o.kliyan_tel||'N/A')+'</p>'+
-                '<p><i class="fas fa-map-marker-alt"></i> '+(o.adrès_livrezon?.ri||'Gonayiv')+(o.adrès_livrezon?.nòt?' • ℹ️ '+o.adrès_livrezon.nòt:'')+'</p>'+
-                '<p><i class="fas fa-box"></i> '+((o.atik||[]).map(function(a){return a.kantite+'x '+a.non}).join(', '))+'</p>'+
-                '<p><i class="fas fa-money-bill"></i> '+fm(o.total)+' | 💳 '+(o.metòd_peman||'NatCash')+'</p></div>'+
-                '<span class="badge" style="background:'+statusColor+'15;color:'+statusColor+'">'+(o.estat==='prè'?'Prè':o.estat==='an_wout'?'An Wout':o.estat==='livre'?'Livre':o.estat)+'</span>'+
-            '</div>'+
-            '<div class="order-actions">'+
-                (o.estat==='prè'&&!o.livrè_id?'<button class="btn btn-success btn-sm" onclick="acceptDelivery(\''+o.id+'\')"><i class="fas fa-check"></i>Aksepte</button>':'')+
-                (o.estat==='an_wout'&&isMine?'<button class="btn btn-success btn-sm" onclick="confirmDelivered(\''+o.id+'\')"><i class="fas fa-flag-checkered"></i>🏁 Konfime Livre</button>':'')+
-                '<button class="btn btn-outline btn-sm" onclick="openMap(\''+(o.adrès_livrezon?.ri||'Gonayiv')+'\')"><i class="fas fa-map"></i>Kat</button>'+
-                '<button class="btn btn-outline btn-sm" onclick="callCustomer(\''+(o.kliyan_tel||'')+'\')"><i class="fas fa-phone"></i>Rele</button>'+
-            '</div>'+
-        '</div>';
-    }).join('');
-}
-
-// ✅ AKSEPTE LIVREZON
-function acceptDelivery(orderId){
-    if(!confirm('Aksepte livrezon #'+orderId+'?'))return;
-    var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});
-    if(idx>=0){orders[idx].estat='an_wout';orders[idx].livrè_id=driverId;orders[idx].livrè=driverName;so(orders);loadDeliveries();showToast('✅ Livrezon aksepte!','success')}
-}
-
-// 🏁 KONFIME LIVRE
-function confirmDelivered(orderId){
-    if(!confirm('🏁 Konfime kòmand #'+orderId+' livre?'))return;
-    var orders=go();var idx=orders.findIndex(function(o){return o.id===orderId});
-    if(idx>=0){
-        orders[idx].estat='livre';orders[idx].dat_livrezon=new Date().toISOString();
-        so(orders);
-        var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');
-        var merchant=merchants.find(function(m){return m.id===orders[idx].machann_id});
-        if(merchant){var commission=Math.round(orders[idx].total*(merchant.tax||10)/100);merchant.balans=(merchant.balans||0)+(orders[idx].total-commission);localStorage.setItem('komandem-merchants',JSON.stringify(merchants))}
-        loadDeliveries();
-        showToast('🏁 Kòmand #'+orderId+' livre!','success');
-    }
-}
-
-function openMap(addr){window.open('https://www.google.com/maps?q='+encodeURIComponent(addr+' Gonayiv'),'_blank')}
-function callCustomer(tel){if(tel)window.open('tel:'+tel)}
-
-// ===== NOTIFIKASYON SON =====
+function toggleActive(){var a=document.getElementById('activeToggle').checked;document.getElementById('statusDot').textContent=a?'🟢':'🔴';document.getElementById('statusText').textContent=a?'Disponib':'Nan Repo';var d=JSON.parse(localStorage.getItem('komandem-drivers')||'[]');var dr=d.find(function(x){return x.id===driverId});if(dr){dr.estat=a?'disponib':'nan_repo';localStorage.setItem('komandem-drivers',JSON.stringify(d))}}
+function getLocation(){if(!navigator.geolocation){alert('GPS pa sipòte');return}document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--brand)">Ap chèche...</p></div>';navigator.geolocation.getCurrentPosition(function(pos){document.getElementById('mapBox').innerHTML='<div><div class="loc-dot"></div><p style="color:var(--success);font-weight:600">✅ GPS Aktive!</p></div>';document.getElementById('locInfo').style.display='grid';document.getElementById('latVal').textContent=pos.coords.latitude.toFixed(6);document.getElementById('lngVal').textContent=pos.coords.longitude.toFixed(6);localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify({lat:pos.coords.latitude,lng:pos.coords.longitude,timestamp:new Date().toISOString()}));if(watchId)navigator.geolocation.clearWatch(watchId);watchId=navigator.geolocation.watchPosition(function(p){localStorage.setItem('komandem-driver-location-'+driverId,JSON.stringify({lat:p.coords.latitude,lng:p.coords.longitude,timestamp:new Date().toISOString()}))},function(){},{enableHighAccuracy:true})},function(){document.getElementById('mapBox').innerHTML='<div><p style="color:var(--danger)">❌ Pa ka jwenn GPS</p><button class="btn btn-primary btn-sm" onclick="getLocation()" style="margin-top:0.5rem">Eseye Ankò</button></div>'},{enableHighAccuracy:true,timeout:15000})}
+function loadDeliveries(){var orders=go();var myOrders=orders.filter(function(o){return o.livrè_id===driverId});var available=orders.filter(function(o){return(o.estat==='prè'||o.estat==='an_wout')&&!o.livrè_id});var all=myOrders.concat(available).filter(function(o,i,a){return a.findIndex(function(x){return x.id===o.id})===i});if(!all.length){document.getElementById('deliveryList').innerHTML='<div class="empty"><i class="fas fa-inbox"></i><p>Pa gen livrezon</p></div>';return}document.getElementById('deliveryList').innerHTML=all.map(function(o){var isMine=o.livrè_id===driverId;return'<div class="order-item"><div style="display:flex;justify-content:space-between"><h4>🚚 '+o.id+'</h4><span class="badge '+(o.estat==='prè'?'badge-warning':'badge-brand')+'">'+(o.estat==='prè'?'Prè':'An Wout')+'</span></div><p>👤 '+o.kliyan+' | 📞 '+o.kliyan_tel+'</p><p>📍 '+(o.adrès_livrezon?.ri||'')+' | 🏘️ '+(o.zone||'')+'</p><p>💰 '+fm(o.total)+'</p><div class="order-actions">'+(o.estat==='prè'&&!o.livrè_id?'<button class="btn btn-success btn-sm" onclick="accept(\''+o.id+'\')">✅ Aksepte</button>':'')+(o.estat==='an_wout'&&isMine?'<button class="btn btn-success btn-sm" onclick="deliver(\''+o.id+'\')">🏁 Konfime Livre</button>':'')+'<button class="btn btn-outline btn-sm" onclick="openMap(\''+(o.adrès_livrezon?.ri||'')+'\')">🗺️ Kat</button><button class="btn btn-outline btn-sm" onclick="call(\''+o.kliyan_tel+'\')">📞 Rele</button></div></div>'}).join('')}
+function accept(id){if(!confirm('Aksepte?'))return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat='an_wout';o[i].livrè_id=driverId;so(o);loadDeliveries();alert('✅ Aksepte!')}}
+function deliver(id){if(!confirm('🏁 Konfime livrezon?'))return;var o=go();var i=o.findIndex(function(x){return x.id===id});if(i>=0){o[i].estat='livre';o[i].dat_livrezon=new Date().toISOString();so(o);var merchants=JSON.parse(localStorage.getItem('komandem-merchants')||'[]');var mer=merchants.find(function(m){return m.id===o[i].machann_id});if(mer){var comm=Math.round(o[i].total*(mer.tax||10)/100);mer.balans=(mer.balans||0)+(o[i].total-comm);localStorage.setItem('komandem-merchants',JSON.stringify(merchants))}loadDeliveries();alert('🏁 Livre!')}}
+function openMap(a){window.open('https://www.google.com/maps?q='+encodeURIComponent(a+' Gonayiv'),'_blank')}
+function call(t){if(t)window.open('tel:'+t)}
 function playSound(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator();var g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=600;o.type='triangle';g.gain.value=0.4;o.start();setTimeout(function(){o.frequency.value=900},100);setTimeout(function(){o.frequency.value=1200},200);setTimeout(function(){o.stop()},500)}catch(e){}}
-
-function checkNotifications(){
-    var notifs=JSON.parse(localStorage.getItem('komandem-notifications')||'[]');
-    var myNotifs=notifs.filter(function(n){return n.type==='livrè'&&n.driver_id===driverId&&!n.read});
-    if(myNotifs.length>lastNotifCount){
-        var latest=myNotifs[0];playSound();
-        var d=document.createElement('div');d.className='order-alert';
-        d.style.cssText='background:linear-gradient(135deg,#FF6B35,#E55A2B);color:white;padding:1.5rem 2rem;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.5);text-align:center;cursor:pointer';
-        d.innerHTML='<div style="font-size:2rem">🛵</div><h3>Nouvo Livrezon!</h3><p style="font-size:1rem">'+latest.message+'</p>'+(latest.address?'<p>📍 '+latest.address+'</p>':'')+(latest.phone?'<p>📞 '+latest.phone+'</p>':'')+'<p style="font-size:0.8rem;opacity:0.7;margin-top:0.5rem">Klike pou wè</p>';
-        d.onclick=function(){d.remove();loadDeliveries()};document.body.appendChild(d);
-        setTimeout(function(){if(d.parentNode)d.remove()},15000);
-    }
-    lastNotifCount=myNotifs.length;
-}
-
+function checkNotifs(){var notifs=JSON.parse(localStorage.getItem('komandem-notifications')||'[]');var my=notifs.filter(function(n){return n.type==='livrè'&&n.driver_id===driverId&&!n.read});if(my.length>lastNotifCount){playSound();var latest=my[0];var d=document.createElement('div');d.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF6B35,#E55A2B);color:white;padding:1.5rem;border-radius:20px;z-index:9999;text-align:center;cursor:pointer';d.innerHTML='<div style="font-size:2rem">🛵</div><h3>Nouvo Livrezon!</h3><p>'+latest.message+'</p>';d.onclick=function(){d.remove();loadDeliveries()};document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.remove()},15000)}lastNotifCount=my.length}
 function logout(){if(watchId)navigator.geolocation.clearWatch(watchId);localStorage.removeItem('komandem-admin-session');window.location.href='admin-login.html'}
-
-getLocation();loadDeliveries();
-setInterval(function(){loadDeliveries();checkNotifications()},8000);
-setTimeout(checkNotifications,2000);
+getLocation();loadDeliveries();setInterval(function(){loadDeliveries();checkNotifs()},8000);setTimeout(checkNotifs,2000);
 </script>
 </body>
 </html>

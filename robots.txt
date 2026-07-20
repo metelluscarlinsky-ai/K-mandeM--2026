@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin-login.html
+Disallow: /dashboard.html
+Disallow: /merchant-panel.html
+Disallow: /driver-panel.html
+Disallow: /database/
+Disallow: /assets/images/
+Sitemap: https://komandem.onrender.com/sitemap.xml

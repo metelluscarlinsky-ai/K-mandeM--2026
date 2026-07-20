@@ -1,0 +1,42 @@
+# ============================================
+# KÒMANDEM - SEKIRITE AVANSE
+# ============================================
+
+# Bloke aksè dirèk nan dosye sansib
+<FilesMatch "\.(env|json|lock|md|log|sql|db|ini|bak|config)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloke listaj dosye
+Options -Indexes
+
+# Pwoteje kont XSS ak clickjacking
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(self), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# Bloke aksè pa IP (si w vle restrenn)
+# Deny from all
+# Allow from 192.168.1.0/24
+
+# Pwoteje kont injection
+RewriteEngine On
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule .* - [F,L]
+
+# Cache kontwòl
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType text/javascript "access plus 1 week"
+</IfModule>

@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF6B35">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
     <title>Dashboard Kliyan - KòmandeM</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-komndem.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root{--brand:#FF6B35;--dark:#0A0A1A;--card:#1E293B;--border:rgba(255,255,255,0.06);--text:#E2E8F0;--muted:#94A3B8;--success:#22C55E;--danger:#EF4444;--warning:#F59E0B;--radius:14px;--radius-lg:20px}
@@ -10,80 +15,57 @@
         body{background:var(--dark);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
         .topbar{background:var(--card);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:0.75rem}
         .topbar h1{font-size:1.2rem;font-weight:800}.topbar h1 span{color:var(--brand)}
+        .topbar-logo{display:flex;align-items:center;gap:0.5rem}
+        .topbar-logo img{height:35px;border-radius:8px}
         .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:var(--radius);font-weight:600;font-size:0.85rem;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s}
-        .btn-primary{background:var(--brand);color:white}.btn-primary:hover{background:#E55A2B;transform:translateY(-1px)}
-        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
-        .btn-danger{background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.2)}
-        .btn-success{background:rgba(34,197,94,0.1);color:var(--success)}
+        .btn-primary{background:var(--brand);color:white}.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:white}
+        .btn-danger{background:rgba(239,68,68,0.1);color:var(--danger)}.btn-success{background:rgba(34,197,94,0.1);color:var(--success)}
         .btn-sm{padding:0.35rem 0.75rem;font-size:0.78rem}
         .container{max-width:1000px;margin:0 auto;padding:1.5rem}
         .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
-        .tab{padding:0.7rem 1.5rem;border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:0.9rem;background:rgba(255,255,255,0.03);color:var(--muted);border:none;font-family:inherit;transition:all 0.3s}
-        .tab:hover{background:rgba(255,255,255,0.06);color:white}
-        .tab.active{background:var(--brand);color:white;box-shadow:0 4px 15px rgba(255,107,53,0.3)}
+        .tab{padding:0.7rem 1.5rem;border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:0.9rem;background:rgba(255,255,255,0.03);color:var(--muted);border:none;font-family:inherit}
+        .tab.active{background:var(--brand);color:white}
         .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1.5rem;overflow:hidden}
-        .card-header{padding:1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-        .card-header h3{font-weight:700;font-size:1rem}.card-body{padding:1.25rem}
-        .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+        .card-header{padding:1rem;border-bottom:1px solid var(--border)}.card-header h3{font-weight:700;font-size:0.95rem}
+        .card-body{padding:1rem}
+        .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
         .product-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:all 0.3s}
-        .product-card:hover{border-color:var(--brand);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
-        .product-img{height:150px;background:rgba(255,107,53,0.05);display:flex;align-items:center;justify-content:center;font-size:3rem}
+        .product-card:hover{border-color:var(--brand);transform:translateY(-3px)}
+        .product-img{height:140px;background:rgba(255,107,53,0.05);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
         .product-img img{width:100%;height:100%;object-fit:cover}
-        .product-info{padding:1rem}.product-info h4{font-size:0.9rem;margin-bottom:0.25rem}
-        .product-info .price{font-size:1.1rem;font-weight:700;color:var(--brand)}
-        .product-info .merchant{font-size:0.75rem;color:var(--muted)}
-        .badge{display:inline-flex;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:600}
+        .product-info{padding:0.85rem}.product-info h4{font-size:0.85rem;margin-bottom:0.2rem}
+        .product-info .price{font-size:1rem;font-weight:700;color:var(--brand)}
+        .badge{display:inline-flex;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.65rem;font-weight:600}
         .badge-brand{background:rgba(255,107,53,0.1);color:var(--brand)}.badge-success{background:rgba(34,197,94,0.1);color:var(--success)}
-        .badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}.badge-info{background:rgba(59,130,246,0.1);color:#3B82F6}
-        .badge-purple{background:rgba(168,85,247,0.1);color:#A855F7}
+        .badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
         .page{display:none}.page.active{display:block}
-        .cart-item{display:flex;align-items:center;gap:1rem;padding:1rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:var(--radius-lg);margin-bottom:0.5rem;transition:all 0.3s}
-        .cart-item:hover{background:rgba(255,255,255,0.04);border-color:rgba(255,107,53,0.2)}
-        .cart-item-img{width:55px;height:55px;background:linear-gradient(135deg,rgba(255,107,53,0.15),rgba(255,107,53,0.05));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-        .cart-item-details{flex:1;min-width:0}.cart-item-details h4{font-size:0.9rem;font-weight:700;color:white}
-        .cart-item-details .meta{font-size:0.75rem;color:var(--muted)}.cart-item-details .unit-price{font-size:0.78rem;color:var(--brand);font-weight:600}
-        .cart-item-actions{display:flex;align-items:center;gap:0.75rem}
-        .qty-selector{display:flex;align-items:center;background:rgba(255,255,255,0.04);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}
-        .qty-btn{width:30px;height:30px;border:none;background:transparent;color:white;cursor:pointer;font-size:1rem;font-weight:600;display:flex;align-items:center;justify-content:center}
-        .qty-btn.minus:hover{background:rgba(239,68,68,0.15);color:#EF4444}.qty-btn.plus:hover{background:rgba(34,197,94,0.15);color:#22C55E}
-        .qty-value{width:35px;text-align:center;font-weight:700;font-size:0.9rem;color:white}
-        .cart-item-total{font-size:1rem;font-weight:800;color:white;min-width:70px;text-align:right}
-        .remove-btn{width:30px;height:30px;border-radius:8px;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.05);color:#EF4444;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
-        .remove-btn:hover{background:rgba(239,68,68,0.2)}
-        .cart-summary{background:linear-gradient(135deg,rgba(255,107,53,0.08),rgba(255,107,53,0.02));border:1px solid rgba(255,107,53,0.15);border-radius:var(--radius-lg);padding:1.25rem;margin-top:1rem}
-        .summary-line{display:flex;justify-content:space-between;padding:0.4rem 0;font-size:0.85rem;color:var(--muted)}
-        .summary-line.total{font-size:1.2rem;font-weight:800;color:white;padding-top:0.75rem;margin-top:0.5rem;border-top:2px solid rgba(255,255,255,0.1)}
-        .summary-line.total .amount{color:var(--brand);font-size:1.4rem}
-        .checkout-btn{width:100%;padding:0.9rem;background:linear-gradient(135deg,var(--brand),#E55A2B);color:white;border:none;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 15px rgba(255,107,53,0.3);display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.75rem}
-        .checkout-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,107,53,0.4)}
-        .empty-cart{text-align:center;padding:2rem}.empty-cart-icon{font-size:3rem;margin-bottom:1rem;opacity:0.3}
-        .empty-cart h3{color:white;font-size:1.1rem}.empty-cart p{color:var(--muted);font-size:0.85rem}
-        .form-group{margin-bottom:0.85rem}.form-group label{display:block;font-weight:600;font-size:0.8rem;color:var(--text);margin-bottom:0.3rem}
-        .form-input{width:100%;padding:0.7rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);color:white;font-size:0.9rem;outline:none;font-family:inherit;box-sizing:border-box}
-        .form-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,107,53,0.1)}
-        textarea.form-input{resize:vertical;min-height:50px}
-        .location-box{background:rgba(34,197,94,0.03);border:1px solid rgba(34,197,94,0.15);border-radius:var(--radius);padding:0.75rem;margin:0.75rem 0}
-        .image-upload-box{background:rgba(255,255,255,0.02);border:2px dashed var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center;cursor:pointer;transition:all 0.3s}
-        .image-upload-box:hover{border-color:var(--brand);background:rgba(255,107,53,0.03)}
-        .image-upload-box i{font-size:1.8rem;color:var(--muted);display:block;margin-bottom:0.4rem}
-        .image-upload-box.success{border-color:var(--success);border-style:solid;background:rgba(34,197,94,0.03)}
-        .image-preview{max-width:100%;max-height:180px;border-radius:var(--radius);margin-top:0.5rem}
-        .order-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:0.5rem}
-        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
-        .modal.show{display:flex}
-        .modal-content{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:500px;max-height:85vh;overflow-y:auto;box-shadow:0 25px 80px rgba(0,0,0,0.5)}
-        .modal-header{padding:1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-        .modal-close{background:none;border:none;color:#64748B;font-size:1.3rem;cursor:pointer}.modal-body{padding:1rem}
-        .cart-fab{position:fixed;bottom:20px;right:20px;background:var(--brand);color:white;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 8px 25px rgba(255,107,53,0.4);cursor:pointer;z-index:100;transition:all 0.3s}
-        .cart-fab:hover{transform:scale(1.1)}.cart-count{position:absolute;top:-5px;right:-5px;background:var(--danger);color:white;width:22px;height:22px;border-radius:50%;font-size:0.65rem;display:flex;align-items:center;justify-content:center;font-weight:700}
-        .toast-notification{position:fixed;top:20px;right:-400px;color:white;padding:1rem 1.25rem;border-radius:18px;font-weight:600;font-size:0.85rem;z-index:9999;box-shadow:0 15px 50px rgba(0,0,0,0.5);max-width:350px;font-family:system-ui,sans-serif;cursor:pointer;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15)}
-        @media(max-width:768px){.topbar{padding:1rem}.container{padding:1rem}.product-grid{grid-template-columns:1fr 1fr}.cart-item{flex-wrap:wrap}}
+        .cart-item{display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:0.5rem}
+        .cart-item-img{width:50px;height:50px;background:rgba(255,107,53,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+        .cart-item-info{flex:1}.cart-item-info h4{font-size:0.85rem;color:white}.cart-item-info span{font-size:0.7rem;color:var(--muted)}
+        .cart-item-price{font-weight:700;font-size:0.9rem}
+        .cart-summary{background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.1);border-radius:var(--radius-lg);padding:1rem;margin-top:1rem}
+        .summary-line{display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.85rem;color:var(--muted)}
+        .summary-line.total{font-size:1.1rem;font-weight:700;color:white;border-top:1px solid var(--border);padding-top:0.5rem;margin-top:0.3rem}
+        .form-group{margin-bottom:0.75rem}.form-group label{display:block;font-weight:600;font-size:0.8rem;color:var(--text);margin-bottom:0.3rem}
+        .form-input{width:100%;padding:0.65rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);color:white;font-size:0.85rem;outline:none;font-family:inherit;box-sizing:border-box}
+        .form-input:focus{border-color:var(--brand)}
+        .order-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius-lg);padding:0.85rem;margin-bottom:0.5rem}
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
+        .modal.show{display:flex}.modal-content{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
+        .modal-header{padding:1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+        .modal-close{background:none;border:none;color:#64748B;font-size:1.2rem;cursor:pointer}.modal-body{padding:1rem}
+        .cart-fab{position:fixed;bottom:20px;right:20px;background:var(--brand);color:white;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 8px 25px rgba(255,107,53,0.4);cursor:pointer;z-index:100}
+        .cart-count{position:absolute;top:-5px;right:-5px;background:var(--danger);color:white;width:22px;height:22px;border-radius:50%;font-size:0.65rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+        @media(max-width:768px){.topbar{padding:1rem}.container{padding:1rem}.product-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
 
 <div class="topbar">
-    <h1>👤 <span id="kliyanName">Kliyan</span></h1>
+    <div class="topbar-logo">
+        <img src="assets/images/logo-komndem.png" alt="KòmandeM" onerror="this.style.display='none'">
+        <h1>👤 <span id="kliyanName">Kliyan</span></h1>
+    </div>
     <div style="display:flex;gap:0.5rem">
         <a href="index.html" class="btn btn-outline btn-sm">🏠 Akèy</a>
         <button class="btn btn-danger btn-sm" onclick="logout()">Dekonekte</button>
@@ -96,262 +78,46 @@
         <button class="tab" onclick="showTab('cart')">🛒 Panye <span id="cartBadge" style="background:var(--brand);color:white;padding:0.1rem 0.4rem;border-radius:999px;font-size:0.7rem;margin-left:0.25rem">0</span></button>
         <button class="tab" onclick="showTab('orders')">📦 Kòmand</button>
     </div>
-
-    <div class="page active" id="pageMenu">
-        <div class="card"><div class="card-header"><h3>🍽️ Menu Disponib</h3></div>
-        <div class="card-body"><div class="product-grid" id="menuGrid"></div><p id="noMenu" style="display:none;text-align:center;color:var(--muted);padding:2rem">Pa gen pwodui disponib</p></div></div>
-    </div>
-
-    <div class="page" id="pageCart">
-        <div class="card"><div class="card-header"><h3>🛒 Panye w</h3></div>
-        <div class="card-body">
-            <div id="cartItems"></div>
-            <div id="emptyCart" class="empty-cart" style="display:none"><div class="empty-cart-icon">🛒</div><h3>Panye vid</h3><p>Ajoute pwodui nan Menu</p><button class="btn btn-primary btn-sm" onclick="showTab('menu')">🍽️ Ale nan Menu</button></div>
-            <div id="cartSummary" class="cart-summary" style="display:none">
-                <div class="summary-line"><span>Sou-Total</span><span id="sumSub">0 GDS</span></div>
-                <div class="summary-line"><span>Tax (10%)</span><span id="sumTax">0 GDS</span></div>
-                <div class="summary-line"><span>Frè Sèvis</span><span>25 GDS</span></div>
-                <div class="summary-line"><span>Frè Livrezon</span><span>50 GDS</span></div>
-                <div class="summary-line total"><span>Total</span><span class="amount" id="sumTotal">0 GDS</span></div>
-                <button class="checkout-btn" onclick="showCheckout()"><i class="fas fa-lock"></i> Ale nan Peman</button>
-            </div>
-        </div></div>
-    </div>
-
-    <div class="page" id="pageOrders">
-        <div class="card"><div class="card-header"><h3>📦 Kòmand mwen yo</h3></div><div class="card-body" id="ordersList"></div></div>
-    </div>
+    <div class="page active" id="pageMenu"><div class="card"><div class="card-header"><h3>🍽️ Menu Disponib</h3></div><div class="card-body"><div class="product-grid" id="menuGrid"></div><p id="noMenu" style="display:none;text-align:center;color:var(--muted);padding:2rem">Pa gen pwodui</p></div></div></div>
+    <div class="page" id="pageCart"><div class="card"><div class="card-header"><h3>🛒 Panye</h3></div><div class="card-body"><div id="cartItems"></div><div id="emptyCart" style="text-align:center;color:var(--muted);padding:2rem;display:none">🛒 Panye vid</div><div id="cartSummary" class="cart-summary" style="display:none"><div class="summary-line"><span>Sou-Total</span><span id="sumSub">0 GDS</span></div><div class="summary-line"><span>Tax (10%)</span><span id="sumTax">0 GDS</span></div><div class="summary-line"><span>Frè Sèvis</span><span>25 GDS</span></div><div class="summary-line"><span>Frè Livrezon</span><span id="sumDelivery">50 GDS</span></div><div class="summary-line total"><span>Total</span><span id="sumTotal">0 GDS</span></div><button class="btn btn-primary" style="width:100%;margin-top:0.5rem" onclick="showCheckout()">💳 Ale nan Peman</button></div></div></div></div>
+    <div class="page" id="pageOrders"><div class="card"><div class="card-header"><h3>📦 Kòmand</h3></div><div class="card-body" id="ordersList"></div></div></div>
 </div>
 
-<div class="modal" id="checkoutModal">
-    <div class="modal-content">
-        <div class="modal-header"><h3>📋 Konfime Kòmand</h3><button class="modal-close" onclick="closeCheckout()">&times;</button></div>
-        <div class="modal-body">
-            <div class="form-group"><label>Non *</label><input type="text" id="coName" class="form-input" required></div>
-            <div class="form-group"><label>Telefòn *</label><input type="tel" id="coPhone" class="form-input" required></div>
-            <div class="form-group"><label>Adrès *</label><textarea id="coAddr" class="form-input" rows="2" required></textarea></div>
-            <div class="location-box"><strong>📍 Lokalisasyon</strong> <button class="btn btn-outline btn-sm" onclick="getLocation()" style="margin-left:0.5rem"><i class="fas fa-map-marker-alt"></i> Aktive</button><p id="locStatus" style="font-size:0.75rem;margin-top:0.3rem;display:none"></p></div>
-            <div style="background:rgba(255,107,53,0.05);padding:0.75rem;border-radius:var(--radius);margin:0.75rem 0"><strong style="color:var(--brand)">💳 NatCash: 32924776</strong> | Non: KòmandeM</div>
-            <div class="form-group"><label>📸 Screenshot Depo</label>
-                <div class="image-upload-box" onclick="document.getElementById('ssInput').click()" id="ssBox"><i class="fas fa-cloud-upload-alt"></i><p style="color:var(--muted);font-size:0.85rem">Klike pou telechaje screenshot</p></div>
-                <input type="file" id="ssInput" accept="image/*" onchange="handleSS(event)" style="display:none">
-                <img id="ssPreview" class="image-preview" style="display:none">
-                <button type="button" class="btn btn-outline btn-sm" id="removeSS" style="display:none;margin-top:0.3rem" onclick="removeSS()">Retire</button>
-            </div>
-            <p style="font-weight:700;margin:0.75rem 0">Total: <span id="coTotal" style="color:var(--brand);font-size:1.2rem">0 GDS</span></p>
-            <div style="display:flex;gap:0.5rem"><button class="btn btn-outline" style="flex:1" onclick="closeCheckout()">Anile</button><button class="btn btn-primary" style="flex:1" onclick="placeOrder()">✅ Konfime</button></div>
-        </div>
-    </div>
-</div>
+<div class="modal" id="checkoutModal"><div class="modal-content"><div class="modal-header"><h3>📋 Konfime Kòmand</h3><button class="modal-close" onclick="closeCheckout()">&times;</button></div>
+<div class="modal-body">
+    <div class="form-group"><label>Non *</label><input type="text" id="coName" class="form-input" required></div>
+    <div class="form-group"><label>Telefòn *</label><input type="tel" id="coPhone" class="form-input" required></div>
+    <div class="form-group"><label>📍 Zòn Livrezon *</label><select id="coZone" class="form-input" onchange="updateFee()" required><option value="">-- Chwazi Zòn --</option><optgroup label="50 GDS"><option value="gastro">Gatro</option><option value="kaf_turenne">Kaf Turenne</option><option value="rout_basen">Rout Basen</option></optgroup><optgroup label="75 GDS"><option value="oporto">Oporto</option><option value="mapou">Mapou</option><option value="kafou_gro_morne">Kafou Gro Morne</option><option value="k_soley">K-Soley</option><option value="byennak">Byennak</option></optgroup><optgroup label="100 GDS"><option value="broidhomme">Broïdhomme</option><option value="pravil">Pravil</option><option value="centre_ville">Centre Ville</option></optgroup><optgroup label="150 GDS"><option value="dechaos">Dechaos</option><option value="bigo">Bigo</option></optgroup></select></div>
+    <div class="form-group"><label>Adrès *</label><textarea id="coAddr" class="form-input" rows="2" required></textarea></div>
+    <div style="background:rgba(255,107,53,0.05);padding:0.75rem;border-radius:var(--radius);margin:0.75rem 0"><strong style="color:var(--brand)">💳 NatCash: 32924776</strong> | Non: KòmandeM</div>
+    <p style="font-weight:700">Total: <span id="coTotal" style="color:var(--brand);font-size:1.2rem">0 GDS</span></p>
+    <div style="display:flex;gap:0.5rem"><button class="btn btn-outline" style="flex:1" onclick="closeCheckout()">Anile</button><button class="btn btn-primary" style="flex:1" onclick="placeOrder()">✅ Konfime</button></div>
+</div></div></div>
 
 <div class="cart-fab" onclick="showTab('cart')"><i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartFabCount" style="display:none">0</span></div>
 
+<script src="js/security.js"></script>
 <script>
-var cart = JSON.parse(localStorage.getItem('komandem-panye-temp') || '[]');
-var session = JSON.parse(localStorage.getItem('komandem-kliyan-session') || 'null');
-var kliyan = session?.user || { non: 'Kliyan' };
-document.getElementById('kliyanName').textContent = kliyan.non || 'Kliyan';
-var userLocation = null, paymentSS = null;
-
-function fm(m) { return (m || 0).toLocaleString('ht-HT') + ' GDS'; }
-
-// ===== TOAST BÈL =====
-function showToast(msg, type) {
-    var styles = {
-        success: { bg: 'linear-gradient(135deg,#22C55E,#16A34A)', emoji: '🎉', title: 'Siksè!' },
-        error: { bg: 'linear-gradient(135deg,#EF4444,#DC2626)', emoji: '❌', title: 'Erè' },
-        warning: { bg: 'linear-gradient(135deg,#F59E0B,#D97706)', emoji: '⚠️', title: 'Atansyon' },
-        info: { bg: 'linear-gradient(135deg,#3B82F6,#2563EB)', emoji: '💡', title: 'Info' },
-        order: { bg: 'linear-gradient(135deg,#FF6B35,#E55A2B)', emoji: '🎊', title: 'Kòmand' },
-        cart: { bg: 'linear-gradient(135deg,#8B5CF6,#7C3AED)', emoji: '🛍️', title: 'Panye' }
-    };
-    var s = styles[type] || styles.info;
-    var t = document.createElement('div'); t.className = 'toast-notification'; t.style.background = s.bg;
-    t.innerHTML = '<div style="display:flex;align-items:flex-start;gap:0.6rem"><div style="font-size:1.6rem;flex-shrink:0;animation:bounce 0.6s ease">' + s.emoji + '</div><div style="flex:1"><div style="font-weight:800;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.85;margin-bottom:0.15rem">' + s.title + '</div><div style="font-size:0.85rem;line-height:1.3">' + msg + '</div></div><button onclick="this.parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:0.7rem;flex-shrink:0">✕</button></div><div style="height:3px;background:rgba(255,255,255,0.3);border-radius:0 0 18px 18px;margin:0.5rem -1.25rem -1rem -1.25rem;overflow:hidden"><div style="height:100%;background:rgba(255,255,255,0.6);animation:progress 4s linear"></div></div>';
-    document.body.appendChild(t); setTimeout(function() { t.style.right = '20px'; }, 50);
-    setTimeout(function() { t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); }, 4000);
-    t.onclick = function(e) { if (e.target.tagName === 'BUTTON') return; t.style.right = '-400px'; t.style.opacity = '0'; setTimeout(function() { if (t.parentNode) t.remove(); }, 400); };
-}
-var ts = document.createElement('style'); ts.textContent = '@keyframes progress{from{width:100%}to{width:0%}}@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}'; document.head.appendChild(ts);
-
-// ===== NAVIGATION =====
-function showTab(tab) {
-    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-    event.target.classList.add('active');
-    document.getElementById('page' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
-    if (tab === 'menu') loadMenu();
-    if (tab === 'cart') renderCart();
-    if (tab === 'orders') loadOrders();
-}
-
-// ===== MENU =====
-function loadMenu() {
-    try {
-        var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
-        var menuDuJour = JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]');
-        var available = menuDuJour.length ? menuDuJour.filter(function(m) { return m.disponib !== false; }) : products.filter(function(p) { return p.disponib !== false; });
-        
-        if (!available.length) { document.getElementById('menuGrid').innerHTML = ''; document.getElementById('noMenu').style.display = 'block'; return; }
-        document.getElementById('noMenu').style.display = 'none';
-        
-        document.getElementById('menuGrid').innerHTML = available.map(function(p) {
-            var pid = p.pwodui_id || p.id;
-            var imgHtml = (p.imaj && p.imaj.length > 5) ? '<img src="' + p.imaj + '" alt="' + p.non + '" onerror="this.innerHTML=\'🍽️\'">' : '🍽️';
-            return '<div class="product-card" onclick="addToCart(\'' + pid + '\')"><div class="product-img">' + imgHtml + '</div><div class="product-info"><span class="badge badge-brand">' + (p.kategori || '') + '</span><h4>' + p.non + '</h4><div class="merchant">🏪 ' + (p.machann_non || p.machann || 'Machann') + '</div><div class="price">' + fm(p.pri) + '</div></div></div>';
-        }).join('');
-    } catch (e) { document.getElementById('noMenu').style.display = 'block'; }
-}
-
-// ===== AJOUTE NAN PANYE =====
-function addToCart(pid) {
-    var products = JSON.parse(localStorage.getItem('komandem-products') || '[]');
-    var menuDuJour = JSON.parse(localStorage.getItem('komandem-menu-du-jour') || '[]');
-    var allProducts = products.concat(menuDuJour);
-    
-    var p = allProducts.find(function(x) { return x.id === pid || x.pwodui_id === pid; });
-    if (!p) { showToast('Pwodui pa disponib!', 'error'); return; }
-    if (!cart) cart = [];
-    
-    var existing = cart.find(function(i) { return i.pwodui_id === pid || i.pwodui_id === p.id; });
-    if (existing) { existing.kantite++; existing.pri_total = existing.kantite * existing.pri_inite; }
-    else { cart.push({ pwodui_id: p.id || pid, non: p.non, pri_inite: p.pri || 0, kantite: 1, pri_total: p.pri || 0, machann_id: p.machann_id || '', machann_non: p.machann_non || p.machann || 'Machann' }); }
-    
-    localStorage.setItem('komandem-panye-temp', JSON.stringify(cart));
-    updateBadges();
-    showToast(p.non + ' ajoute! 🛒', 'cart');
-}
-
-// ===== PANYE =====
-function renderCart() {
-    if (!cart.length) { document.getElementById('cartItems').innerHTML = ''; document.getElementById('emptyCart').style.display = 'block'; document.getElementById('cartSummary').style.display = 'none'; return; }
-    document.getElementById('emptyCart').style.display = 'none'; document.getElementById('cartSummary').style.display = 'block';
-    
-    document.getElementById('cartItems').innerHTML = cart.map(function(item, idx) {
-        return '<div class="cart-item"><div class="cart-item-img">🍽️</div><div class="cart-item-details"><h4>' + item.non + '</h4><div class="meta">🏪 ' + (item.machann_non || 'Machann') + '</div><div class="unit-price">' + fm(item.pri_inite) + ' / chak</div></div><div class="cart-item-actions"><div class="qty-selector"><button class="qty-btn minus" onclick="updateQty(' + idx + ',-1)">−</button><div class="qty-value">' + item.kantite + '</div><button class="qty-btn plus" onclick="updateQty(' + idx + ',1)">+</button></div><div class="cart-item-total">' + fm(item.pri_total) + '</div><button class="remove-btn" onclick="removeItem(' + idx + ')">✕</button></div></div>';
-    }).join('');
-    
-    var sub = cart.reduce(function(s, i) { return s + i.pri_total; }, 0);
-    var tax = Math.round(sub * 0.1);
-    document.getElementById('sumSub').textContent = fm(sub);
-    document.getElementById('sumTax').textContent = fm(tax);
-    document.getElementById('sumTotal').textContent = fm(sub + tax + 25 + 50);
-}
-
-function updateQty(idx, delta) {
-    cart[idx].kantite += delta;
-    if (cart[idx].kantite < 1) cart[idx].kantite = 1;
-    if (cart[idx].kantite > 20) cart[idx].kantite = 20;
-    cart[idx].pri_total = cart[idx].kantite * cart[idx].pri_inite;
-    localStorage.setItem('komandem-panye-temp', JSON.stringify(cart));
-    renderCart(); updateBadges();
-}
-
-function removeItem(idx) {
-    var n = cart[idx].non;
-    cart.splice(idx, 1);
-    localStorage.setItem('komandem-panye-temp', JSON.stringify(cart));
-    renderCart(); updateBadges();
-    showToast(n + ' retire ✕', 'warning');
-}
-
-// ===== CHECKOUT =====
-function showCheckout() {
-    if (!cart.length) { showToast('Panye vid!', 'warning'); return; }
-    document.getElementById('coName').value = kliyan.non || '';
-    document.getElementById('coPhone').value = kliyan.telefòn || '';
-    document.getElementById('coAddr').value = kliyan.adrès || '';
-    document.getElementById('coTotal').textContent = fm(cart.reduce(function(s, i) { return s + i.pri_total; }, 0) + Math.round(cart.reduce(function(s, i) { return s + i.pri_total; }, 0) * 0.1) + 25 + 50);
-    document.getElementById('checkoutModal').classList.add('show');
-}
-
-function closeCheckout() { document.getElementById('checkoutModal').classList.remove('show'); }
-
-// ===== LOKALISASYON =====
-function getLocation() {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-        function(pos) { userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude }; document.getElementById('locStatus').style.display = 'block'; document.getElementById('locStatus').innerHTML = '<span style="color:#22C55E">✅ GPS aktive!</span>'; showToast('📍 Lokalisasyon aktive!', 'info'); },
-        function() { document.getElementById('locStatus').style.display = 'block'; document.getElementById('locStatus').innerHTML = '<span style="color:#EF4444">❌ Pa ka jwenn GPS</span>'; }
-    );
-}
-
-// ===== SCREENSHOT =====
-function handleSS(event) {
-    var f = event.target.files[0]; if (!f) return;
-    var r = new FileReader();
-    r.onload = function(e) {
-        paymentSS = e.target.result;
-        document.getElementById('ssPreview').src = paymentSS;
-        document.getElementById('ssPreview').style.display = 'block';
-        document.getElementById('removeSS').style.display = 'inline-flex';
-        document.getElementById('ssBox').classList.add('success');
-        document.getElementById('ssBox').innerHTML = '<i class="fas fa-check-circle" style="color:#22C55E"></i><p style="color:#22C55E">✅ Screenshot telechaje!</p>';
-    };
-    r.readAsDataURL(f);
-}
-
-function removeSS() {
-    paymentSS = null;
-    document.getElementById('ssPreview').style.display = 'none';
-    document.getElementById('removeSS').style.display = 'none';
-    document.getElementById('ssBox').classList.remove('success');
-    document.getElementById('ssBox').innerHTML = '<i class="fas fa-cloud-upload-alt"></i><p style="color:var(--muted);font-size:0.85rem">Klike pou telechaje screenshot</p>';
-    document.getElementById('ssInput').value = '';
-}
-
-// ===== PLACE ORDER =====
-function placeOrder() {
-    var name = document.getElementById('coName').value.trim();
-    var phone = document.getElementById('coPhone').value.trim();
-    var addr = document.getElementById('coAddr').value.trim();
-    if (!name || !phone || !addr) { showToast('Ranpli tout chan!', 'warning'); return; }
-    if (!paymentSS) { showToast('📸 Telechaje screenshot depo NatCash!', 'warning'); return; }
-    
-    var sub = cart.reduce(function(s, i) { return s + i.pri_total; }, 0);
-    var tax = Math.round(sub * 0.1);
-    var total = sub + tax + 25 + 50;
-    
-    var order = { id: 'KMD-' + Date.now().toString(36).toUpperCase(), kliyan: name, kliyan_tel: phone, kliyan_id: kliyan.id || 'anonymous', atik: cart, sou_total: sub, tax: tax, frè_sèvis: 25, frè_livrezon: 50, total: total, estat: 'ann_atent', metòd_peman: 'natcash', adrès_livrezon: { ri: addr }, location: userLocation, screenshot: paymentSS, dat: new Date().toISOString() };
-    
-    var orders = JSON.parse(localStorage.getItem('komandem-orders') || '[]'); orders.unshift(order);
-    localStorage.setItem('komandem-orders', JSON.stringify(orders));
-    localStorage.setItem('komandem-panye-temp', '[]'); cart = []; paymentSS = null;
-    
-    var notifs = JSON.parse(localStorage.getItem('komandem-notifications') || '[]');
-    notifs.unshift({ message: '🛒 Nouvo kòmand #' + order.id + ' - ' + fm(total), time: new Date().toISOString(), type: 'machann', machann_id: order.atik[0]?.machann_id });
-    localStorage.setItem('komandem-notifications', JSON.stringify(notifs));
-    
-    closeCheckout(); updateBadges(); showTab('orders');
-    showToast('🎉 Kòmand #' + order.id + ' konfime! 📸', 'order');
-}
-
-// ===== KÒMAND =====
-function loadOrders() {
-    var orders = JSON.parse(localStorage.getItem('komandem-orders') || '[]');
-    var my = orders.filter(function(o) { return o.kliyan_tel === kliyan.telefòn || o.kliyan_id === kliyan.id; });
-    var labels = { ann_atent: '⏳ An Atant', konfime: '✅ Konfime', an_preparasyon: '👨‍🍳 An Preparasyon', an_wout: '🛵 An Wout', livre: '🏁 Livre' };
-    var colors = { ann_atent: 'badge-warning', konfime: 'badge-info', an_preparasyon: 'badge-purple', an_wout: 'badge-brand', livre: 'badge-success' };
-    document.getElementById('ordersList').innerHTML = my.length ? my.map(function(o) {
-        return '<div class="order-card"><div style="display:flex;justify-content:space-between"><strong style="color:var(--brand)">#' + o.id + '</strong><span class="badge ' + (colors[o.estat] || 'badge-warning') + '">' + (labels[o.estat] || o.estat) + '</span></div><p style="color:var(--muted);font-size:0.8rem;margin-top:0.2rem">' + ((o.atik || []).map(function(a) { return a.kantite + 'x ' + a.non; }).join(', ')) + '</p><p style="font-weight:600;margin-top:0.2rem">' + fm(o.total) + '</p>' + (o.screenshot ? '<p style="color:var(--success);font-size:0.7rem">📸 Screenshot enkli</p>' : '') + '</div>';
-    }).join('') : '<p style="text-align:center;color:var(--muted);padding:2rem">Ou poko gen kòmand</p>';
-}
-
-// ===== BADGES =====
-function updateBadges() {
-    var c = cart.reduce(function(s, i) { return s + i.kantite; }, 0);
-    document.getElementById('cartBadge').textContent = c;
-    document.getElementById('cartBadge').style.display = c > 0 ? 'inline' : 'none';
-    document.getElementById('cartFabCount').textContent = c;
-    document.getElementById('cartFabCount').style.display = c > 0 ? 'flex' : 'none';
-}
-
-// ===== LOGOUT =====
-function logout() { localStorage.removeItem('komandem-kliyan-session'); window.location.href = 'index.html'; }
-
-// ===== INIT =====
-loadMenu(); updateBadges();
-
+var cart=JSON.parse(localStorage.getItem('komandem-panye-temp')||'[]');
+var session=JSON.parse(localStorage.getItem('komandem-kliyan-session')||'null');
+if(!session||session.expires<Date.now()){session={user:{id:'invite_'+Date.now(),non:'Kliyan',telefòn:'',email:''},loginTime:new Date().toISOString(),expires:Date.now()+(24*60*60*1000)};localStorage.setItem('komandem-kliyan-session',JSON.stringify(session))}
+var kliyan=session.user;document.getElementById('kliyanName').textContent=kliyan.non||'Kliyan';
+var ZON={gastro:{non:'Gatro',pri:50},kaf_turenne:{non:'Kaf Turenne',pri:50},rout_basen:{non:'Rout Basen',pri:50},oporto:{non:'Oporto',pri:75},mapou:{non:'Mapou',pri:75},kafou_gro_morne:{non:'Kafou Gro Morne',pri:75},k_soley:{non:'K-Soley',pri:75},byennak:{non:'Byennak',pri:75},broidhomme:{non:'Broïdhomme',pri:100},pravil:{non:'Pravil',pri:100},centre_ville:{non:'Centre Ville',pri:100},dechaos:{non:'Dechaos',pri:150},bigo:{non:'Bigo',pri:150}};
+var selZone=null,deliveryFee=50;
+function fm(m){return(m||0).toLocaleString('ht-HT')+' GDS'}
+function showTab(tab){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});event.target.classList.add('active');document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');if(tab==='menu')loadMenu();if(tab==='cart')renderCart();if(tab==='orders')loadOrders()}
+function loadMenu(){var p=JSON.parse(localStorage.getItem('komandem-products')||'[]');var m=JSON.parse(localStorage.getItem('komandem-menu-du-jour')||'[]');var today=new Date().toDateString();var tm=m.filter(function(x){return x.dat===today&&x.disponib!==false});var avail=tm.length?tm:p.filter(function(x){return x.disponib!==false});if(!avail.length){document.getElementById('menuGrid').innerHTML='';document.getElementById('noMenu').style.display='block';return}document.getElementById('noMenu').style.display='none';document.getElementById('menuGrid').innerHTML=avail.map(function(pr){var img=pr.imaj&&pr.imaj.length>5?'<img src="'+pr.imaj+'" alt="'+pr.non+'" style="width:100%;height:100%;object-fit:cover">':'<div>🍽️</div>';return'<div class="product-card" onclick="addToCart(\''+pr.id+'\')"><div class="product-img">'+img+'</div><div class="product-info"><span class="badge badge-brand">'+(pr.kategori||'')+'</span><h4>'+pr.non+'</h4><div class="price">'+fm(pr.pri)+'</div></div></div>'}).join('')}
+function addToCart(pid){var p=JSON.parse(localStorage.getItem('komandem-products')||'[]');var pr=p.find(function(x){return x.id===pid});if(!pr)return;var ex=cart.find(function(i){return i.pwodui_id===pid});if(ex){ex.kantite++;ex.pri_total=ex.kantite*ex.pri_inite}else{cart.push({pwodui_id:pr.id,non:pr.non,pri_inite:pr.pri,kantite:1,pri_total:pr.pri,machann_id:pr.machann_id,machann_non:pr.machann_non})}localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));updateBadges()}
+function renderCart(){if(!cart.length){document.getElementById('cartItems').innerHTML='';document.getElementById('emptyCart').style.display='block';document.getElementById('cartSummary').style.display='none';return}document.getElementById('emptyCart').style.display='none';document.getElementById('cartSummary').style.display='block';document.getElementById('cartItems').innerHTML=cart.map(function(item,idx){return'<div class="cart-item"><div class="cart-item-img">🍽️</div><div class="cart-item-info"><h4>'+item.non+'</h4><span>'+item.kantite+'x • '+fm(item.pri_inite)+'/chak</span></div><div class="cart-item-price">'+fm(item.pri_total)+'</div><button class="btn btn-danger btn-sm" onclick="removeItem('+idx+')" style="padding:0.2rem 0.5rem">✕</button></div>'}).join('');var sub=cart.reduce(function(s,i){return s+i.pri_total},0),tax=Math.round(sub*0.1);document.getElementById('sumSub').textContent=fm(sub);document.getElementById('sumTax').textContent=fm(tax);document.getElementById('sumDelivery').textContent=fm(deliveryFee);document.getElementById('sumTotal').textContent=fm(sub+tax+25+deliveryFee)}
+function removeItem(idx){cart.splice(idx,1);localStorage.setItem('komandem-panye-temp',JSON.stringify(cart));renderCart();updateBadges()}
+function updateFee(){var z=document.getElementById('coZone').value;selZone=z;deliveryFee=z?ZON[z].pri:50;var sub=cart.reduce(function(s,i){return s+i.pri_total},0),tax=Math.round(sub*0.1);document.getElementById('coTotal').textContent=fm(sub+tax+25+deliveryFee)}
+function showCheckout(){if(!cart.length){alert('Panye vid!');return}document.getElementById('coName').value=kliyan.non||'';document.getElementById('coPhone').value=kliyan.telefòn||'';updateFee();document.getElementById('checkoutModal').classList.add('show')}
+function closeCheckout(){document.getElementById('checkoutModal').classList.remove('show')}
+function placeOrder(){var n=document.getElementById('coName').value.trim(),p=document.getElementById('coPhone').value.trim(),a=document.getElementById('coAddr').value.trim(),z=document.getElementById('coZone').value;if(!n||!p||!a||!z){alert('Ranpli tout chan!');return}var zn=ZON[z];var sub=cart.reduce(function(s,i){return s+i.pri_total},0),tax=Math.round(sub*0.1),tot=sub+tax+25+zn.pri;var ord={id:'KMD-'+Date.now().toString(36).toUpperCase(),kliyan:n,kliyan_tel:p,kliyan_id:kliyan.id,atik:cart,sou_total:sub,tax:tax,frè_sèvis:25,frè_livrezon:zn.pri,total:tot,estat:'ann_atent',adrès_livrezon:{ri:a},zone:zn.non,dat:new Date().toISOString()};var orders=JSON.parse(localStorage.getItem('komandem-orders')||'[]');orders.unshift(ord);localStorage.setItem('komandem-orders',JSON.stringify(orders));localStorage.setItem('komandem-panye-temp','[]');cart=[];var notifs=JSON.parse(localStorage.getItem('komandem-notifications')||'[]');notifs.unshift({message:'🛒 Nouvo kòmand #'+ord.id+' - '+fm(tot)+' | 📍 '+zn.non,time:new Date().toISOString(),type:'machann',machann_id:ord.atik[0]?.machann_id});localStorage.setItem('komandem-notifications',JSON.stringify(notifs));closeCheckout();updateBadges();showTab('orders');alert('✅ Kòmand #'+ord.id+' konfime!\n📍 '+zn.non+' • 💰 '+fm(tot))}
+function loadOrders(){var o=JSON.parse(localStorage.getItem('komandem-orders')||'[]');var my=o.filter(function(x){return x.kliyan_tel===kliyan.telefòn||x.kliyan_id===kliyan.id});var labels={ann_atent:'⏳ An Atant',konfime:'✅ Konfime',an_preparasyon:'👨‍🍳 Prepare',an_wout:'🛵 An Wout',livre:'🏁 Livre'};var colors={ann_atent:'badge-warning',konfime:'badge-info',an_preparasyon:'badge-info',an_wout:'badge-brand',livre:'badge-success'};document.getElementById('ordersList').innerHTML=my.length?my.map(function(x){return'<div class="order-card"><div style="display:flex;justify-content:space-between"><strong style="color:var(--brand)">#'+x.id+'</strong><span class="badge '+(colors[x.estat]||'badge-warning')+'">'+(labels[x.estat]||x.estat)+'</span></div><p style="color:var(--muted);font-size:0.8rem">'+((x.atik||[]).map(function(a){return a.kantite+'x '+a.non}).join(', '))+'</p><p style="font-weight:600">'+fm(x.total)+' | 📍 '+(x.zone||'')+'</p></div>'}).join(''):'<p style="text-align:center;color:var(--muted);padding:2rem">Pa gen kòmand</p>'}
+function updateBadges(){var c=cart.reduce(function(s,i){return s+i.kantite},0);document.getElementById('cartBadge').textContent=c;document.getElementById('cartBadge').style.display=c>0?'inline':'none';document.getElementById('cartFabCount').textContent=c;document.getElementById('cartFabCount').style.display=c>0?'flex':'none'}
+function logout(){localStorage.removeItem('komandem-kliyan-session');window.location.href='index.html'}
+loadMenu();updateBadges();
 </script>
 </body>
 </html>
