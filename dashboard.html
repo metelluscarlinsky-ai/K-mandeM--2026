@@ -74,6 +74,19 @@
     <button class="btn btn-danger" style="width:100%;margin-top:2rem" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Dekonekte</button>
 </aside>
 
+<!-- AFFILIÉS -->
+<div class="page" id="pageAffiliates">
+    <div class="topbar"><h1>🤝 Jere Affilié</h1><button class="btn btn-primary" onclick="addAffiliate()"><i class="fas fa-plus"></i>Ajoute Affilié</button></div>
+    
+    <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value" id="affCount">0</div><div class="stat-label">Total Affilié</div></div>
+        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-value" id="affRevenue">0 GDS</div><div class="stat-label">Komisyon Total</div></div>
+        <div class="stat-card"><div class="stat-icon">🛒</div><div class="stat-value" id="affOrders">0</div><div class="stat-label">Kòmand Affilié</div></div>
+    </div>
+    
+    <div class="card"><div class="card-header"><h3>Lis Affilié</h3></div>
+    <div class="card-body"><div style="overflow-x:auto"><table><thead><tr><th>Affilié</th><th>Kòd Promo</th><th>Komisyon/1000</th><th>Kòmand</th><th>Revni</th><th>Komisyon</th><th>Estas</th><th>Aksyon</th></tr></thead><tbody id="affBody"></tbody></table></div></div></div>
+</div>
 <main class="main">
     <div class="page active" id="pageDash">
         <div class="topbar"><h1>📊 Tablo Kontwòl</h1><span id="time" style="color:var(--muted)"></span></div>
@@ -121,6 +134,80 @@ function showPage(p){
     if(p==='dash')loadDash();if(p==='orders')renderOrders();if(p==='merchants')renderMerchants();
     if(p==='products')renderProducts();if(p==='drivers')renderDrivers();if(p==='menudujour')renderMenu();if(p==='natcash')renderNatCash();
 }
+// ===== SISTÈM AFFILIÉ KONPLÈ =====
+function gaf() { return JSON.parse(localStorage.getItem('komandem-affiliates') || '[]'); }
+function saf(d) { localStorage.setItem('komandem-affiliates', JSON.stringify(d)); }
+
+function addAffiliate() {
+    var nom = prompt('Non Affilié:');
+    if (!nom) return;
+    var code = prompt('Kòd Promo (ex: AFFJOHN):', 'AFF' + nom.substring(0,4).toUpperCase());
+    if (!code) return;
+    var commission = parseInt(prompt('Komisyon pou chak 1000 GDS (GDS):', '250'));
+    if (!commission) return;
+    var password = prompt('Mòdepas pou affilié:', 'aff' + Date.now().toString(36).substr(0,4));
+    
+    var affiliates = gaf();
+    if (affiliates.find(function(a) { return a.code === code; })) {
+        alert('Kòd sa a deja itilize!');
+        return;
+    }
+    
+    affiliates.push({
+        id: 'aff_' + Date.now(),
+        non: nom, code: code.toUpperCase(), commission: commission,
+        password: password, aktif: true, totalOrders: 0,
+        totalRevenue: 0, totalCommission: 0, date: new Date().toISOString()
+    });
+    saf(affiliates); renderAffiliates();
+    alert('✅ Affilié ' + nom + ' ajoute!\nKòd: ' + code.toUpperCase() + '\nKomisyon: ' + commission + ' GDS/1000\nMòdepas: ' + password);
+}
+
+function editAffiliate(id) {
+    var affiliates = gaf();
+    var aff = affiliates.find(function(a) { return a.id === id; });
+    if (!aff) return;
+    var commission = parseInt(prompt('Nouvo komisyon pou chak 1000 GDS:', aff.commission));
+    if (commission && commission > 0) {
+        aff.commission = commission;
+        var pass = prompt('Nouvo mòdepas (lage vid si pa vle chanje):');
+        if (pass) aff.password = pass;
+        saf(affiliates); renderAffiliates();
+        alert('✅ Affilié mizajou!');
+    }
+}
+
+function renderAffiliates() {
+    var affiliates = gaf();
+    var orders = go();
+    affiliates.forEach(function(aff) {
+        var affOrders = orders.filter(function(o) { return o.kòd_promo === aff.code || o.affiliate_code === aff.code; });
+        aff.totalOrders = affOrders.length;
+        aff.totalRevenue = affOrders.reduce(function(s, o) { return s + (o.total || 0); }, 0);
+        aff.totalCommission = Math.floor(aff.totalRevenue / 1000) * aff.commission;
+    });
+    saf(affiliates);
+    document.getElementById('affCount').textContent = affiliates.length;
+    document.getElementById('affRevenue').textContent = fm(affiliates.reduce(function(s, a) { return s + a.totalCommission; }, 0));
+    document.getElementById('affOrders').textContent = affiliates.reduce(function(s, a) { return s + a.totalOrders; }, 0);
+    document.getElementById('affBody').innerHTML = affiliates.length ? affiliates.map(function(a) {
+        return '<tr><td><strong>' + a.non + '</strong></td><td><span style="background:rgba(255,107,53,0.1);color:#FF6B35;padding:0.2rem 0.6rem;border-radius:999px;font-weight:700">' + a.code + '</span></td><td>' + fm(a.commission) + '</td><td>' + a.totalOrders + '</td><td>' + fm(a.totalRevenue) + '</td><td style="color:var(--success);font-weight:700">' + fm(a.totalCommission) + '</td><td><span class="badge ' + (a.aktif ? 'badge-success' : 'badge-warning') + '">' + (a.aktif ? 'Aktif' : 'Inaktif') + '</span></td><td><button class="btn btn-outline btn-sm" onclick="editAffiliate(\'' + a.id + '\')"><i class="fas fa-edit"></i></button> <button class="btn btn-outline btn-sm" onclick="toggleAffiliate(\'' + a.id + '\')"><i class="fas fa-power-off"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteAffiliate(\'' + a.id + '\')"><i class="fas fa-trash"></i></button></td></tr>';
+    }).join('') : '<tr><td colspan="8">Pa gen affilié</td></tr>';
+}
+
+function toggleAffiliate(id) {
+    var affiliates = gaf();
+    var idx = affiliates.findIndex(function(a) { return a.id === id; });
+    if (idx >= 0) { affiliates[idx].aktif = !affiliates[idx].aktif; saf(affiliates); renderAffiliates(); }
+}
+
+function deleteAffiliate(id) {
+    if (confirm('Retire affilié sa a?')) {
+        saf(gaf().filter(function(a) { return a.id !== id; }));
+        renderAffiliates();
+    }
+}
+
 function loadDash(){
     var o=go(),m=gm();var today=new Date().toDateString();
     var to=o.filter(function(x){return x.dat&&new Date(x.dat).toDateString()===today});
