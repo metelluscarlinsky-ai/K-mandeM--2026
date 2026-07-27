@@ -59,7 +59,7 @@
         .stat-item{text-align:center;padding:0.6rem 1rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius)}.stat-item .nb{font-size:1.2rem;font-weight:800}.stat-item .lb{font-size:0.7rem;color:var(--muted)}
         .easter-hint{margin-top:0.75rem;font-size:0.65rem;color:rgba(255,255,255,0.06)}
         
-        .menu-section{padding:1.5rem 1.5rem 5rem}.menu-header{text-align:center;margin-bottom:2rem}
+        .menu-section{padding:1.5rem 1.5rem 1rem}.menu-header{text-align:center;margin-bottom:2rem}
         .status-badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 1rem;border-radius:999px;font-size:0.8rem;font-weight:700;margin-bottom:0.75rem}
         .status-badge.live{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.2)}.status-badge .dot{width:7px;height:7px;background:var(--success);border-radius:50%;animation:pulse 1.5s infinite}
         .menu-header h2{font-size:1.8rem;font-weight:800}.menu-header h2 span{color:var(--brand)}.menu-header p{color:var(--muted);font-size:0.9rem;margin-top:0.4rem}
@@ -78,8 +78,14 @@
         .order-btn{background:var(--brand);color:white;border:none;padding:0.55rem 1.1rem;border-radius:10px;font-weight:600;font-size:0.8rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:0.3rem;text-decoration:none}
         .order-btn:hover{background:#E55A2B;transform:scale(1.05)}
         
+        .qr-section{text-align:center;padding:1.5rem;max-width:400px;margin:0 auto 2rem}
+        .qr-box{background:white;padding:1rem;border-radius:24px;display:inline-block;box-shadow:0 10px 30px rgba(255,107,53,0.2)}
+        .qr-box img{width:160px;height:160px;border-radius:12px}
+        
         .cta{background:linear-gradient(135deg,var(--brand),var(--brand2));text-align:center;padding:2rem}.cta h3{color:white;font-size:1.2rem;font-weight:800}.cta p{color:rgba(255,255,255,0.85);font-size:0.8rem;margin-top:0.3rem}
-        footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}footer i{color:var(--danger);font-size:0.7rem;animation:heartbeat 1.5s infinite}
+        footer{text-align:center;padding:2rem;background:#050510;color:#64748B;font-size:0.8rem}
+        footer a{color:var(--brand);text-decoration:none;font-weight:600}
+        footer i{color:var(--danger);font-size:0.7rem;animation:heartbeat 1.5s infinite}
         @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
         .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center}
         .overlay.show{display:flex}.overlay div{text-align:center;color:white;animation:fadeInUp 0.5s ease}.overlay .big{font-size:5rem;margin-bottom:1rem}.overlay h2{color:var(--brand);font-size:2rem;margin-bottom:1rem}
@@ -88,40 +94,22 @@
 </head>
 <body>
 
-<!-- 🎉 ANONS SPESYAL OUT 2026 AK FOTO REYÈL -->
 <div class="promo-banner">
     <div class="promo-container">
-        <!-- Pen A Ze -->
         <div class="promo-product">
-            <div class="promo-img">
-                <img src="https://i.postimg.cc/8zhNFJ0b/1003074257.png" alt="Pen A Ze" onerror="this.innerHTML='🥖'">
-            </div>
-            <p>Pen A Ze</p>
-            <p class="promo-price">150 GDS</p>
-            <p class="promo-old">200 GDS</p>
+            <div class="promo-img"><img src="https://i.postimg.cc/8zhNFJ0b/1003074257.png" alt="Pen A Ze"></div>
+            <p>Pen A Ze</p><p class="promo-price">150 GDS</p><p class="promo-old">200 GDS</p>
         </div>
-        
-        <!-- Enfòmasyon Promo -->
         <div class="promo-info">
             <div class="promo-badge">⚡ SPESYAL OUT 2026 ⚡</div>
-            <h3>🎉 Lansman Ofisyèl!</h3>
-            <p class="date">📅 1 Out - 10 Out 2026</p>
+            <h3>🎉 Lansman Ofisyèl!</h3><p class="date">📅 1 Out - 10 Out 2026</p>
             <div class="promo-code">AOUT2026</div>
-            <div class="promo-benefits">
-                <span>🚚 Livrezon <strong>GRATIS</strong></span>
-                <span>🛍️ Frè Sèvis <strong>GRATIS</strong></span>
-            </div>
+            <div class="promo-benefits"><span>🚚 Livrezon <strong>GRATIS</strong></span><span>🛍️ Frè Sèvis <strong>GRATIS</strong></span></div>
             <a href="kliyan-dashboard.html" class="promo-btn">🛒 Pwofite Kounye A!</a>
         </div>
-        
-        <!-- Spaghetti -->
         <div class="promo-product">
-            <div class="promo-img">
-                <img src="https://i.postimg.cc/wMGTkCXh/1003074240.png" alt="Spaghetti" onerror="this.innerHTML='🍝'">
-            </div>
-            <p>Spaghetti Bolognese</p>
-            <p class="promo-price">350 GDS</p>
-            <p class="promo-old">500 GDS</p>
+            <div class="promo-img"><img src="https://i.postimg.cc/wMGTkCXh/1003074240.png" alt="Spaghetti"></div>
+            <p>Spaghetti Bolognese</p><p class="promo-price">350 GDS</p><p class="promo-old">500 GDS</p>
         </div>
     </div>
 </div>
@@ -129,8 +117,7 @@
 <header class="header">
     <a href="index.html" class="logo-link">
         <img src="assets/images/logo-komndem.png" alt="KòmandeM" class="logo-img" onerror="this.style.display='none'">
-        <span class="logo-text">Kòmande<span>M</span></span>
-        <span class="logo-dot"></span>
+        <span class="logo-text">Kòmande<span>M</span></span><span class="logo-dot"></span>
     </a>
     <div style="display:flex;gap:0.6rem">
         <a href="login-kliyan.html" class="btn btn-outline">🔓 Konekte</a>
@@ -160,14 +147,23 @@
         <p id="menuDesc"><i class="fas fa-utensils"></i> Tout bon manje ki disponib pou livrezon rapid</p>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p id="noMenu" style="text-align:center;color:var(--muted);padding:3rem;display:none">
-        <i class="fas fa-utensils" style="font-size:4rem;display:block;margin-bottom:1rem;opacity:0.2"></i>
-        <strong style="color:white">Pa gen manje disponib kounye a</strong><br><small>Revini pita!</small>
-    </p>
+    <p id="noMenu" style="text-align:center;color:var(--muted);padding:3rem;display:none"><i class="fas fa-utensils" style="font-size:4rem;display:block;margin-bottom:1rem;opacity:0.2"></i><strong style="color:white">Pa gen manje disponib kounye a</strong><br><small>Revini pita!</small></p>
 </section>
 
+<div class="qr-section">
+    <div class="qr-box"><img src="assets/images/qr-komandem.png" alt="Kòd QR KòmandeM" onerror="this.style.display='none'"></div>
+    <p style="color:white;font-weight:700;margin-top:1rem;font-size:1.1rem">📱 Eskane pou Kòmande!</p>
+    <p style="color:#94A3B8;font-size:0.85rem">Ouvri kamera w epi eskane kòd la</p>
+</div>
+
 <section class="cta"><h3>📱 Telechaje App KòmandeM</h3><p>Disponib sou Android — pi rapid, pi fasil!</p></section>
-<footer><p>&copy; 2026 KòmandeM | Fèt ak <i class="fas fa-heart"></i> nan Gonayiv, Ayiti</p></footer>
+<footer>
+    <p>&copy; 2026 KòmandeM | Fèt ak <i class="fas fa-heart"></i> nan Gonayiv, Ayiti</p>
+    <p style="margin-top:0.5rem;font-size:0.75rem">
+        <a href="affiliate-login.html">🤝 Espas Affilié</a> | 
+        <a href="admin-login.html" style="opacity:0.3">•</a>
+    </p>
+</footer>
 <div class="overlay" id="overlay"><div><div class="big">🔐</div><h2>Aksè Admin Detekte!</h2><p style="color:#94A3B8">W ap redireje...</p></div></div>
 
 <script src="js/security.js"></script>
@@ -204,8 +200,3 @@ if('serviceWorker'in navigator){window.addEventListener('load',function(){naviga
 </script>
 </body>
 </html>
-
-
-
-
-
